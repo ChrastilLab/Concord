@@ -1,14 +1,18 @@
-import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
+import { Box, Flex, Text, Spacer, Container } from "@chakra-ui/react";
 
 function FramedBox(props) {
-  let title1 = props.title1;
-  title1 = "Team Members"; // test value
-  let title2 = props.title2;
-  title2 = "Right Title";
+  let { title1, title2, children } = props;
   return (
-    <Flex bg="cyan" padding="10px" direction="column" h="100%">
-      <Box bg="green">
-        <Flex bg="purple">
+    <Flex
+      border="1px"
+      padding="10px"
+      direction="column"
+      h="100%"
+      w="100%"
+      bg="paleturquoise"
+    >
+      <Box border="1px">
+        <Flex>
           <Text as="b" fontSize="3xl">
             {title1}
           </Text>
@@ -18,6 +22,8 @@ function FramedBox(props) {
           </Text>
         </Flex>
       </Box>
+
+      {children}
     </Flex>
   );
 }
