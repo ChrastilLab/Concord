@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Text, Center } from "@chakra-ui/react";
 import UserControls from "./components/UserControls";
 
 function Navbar(props) {
@@ -9,13 +9,13 @@ function Navbar(props) {
 
   return (
     <div>
-      <Box zIndex="10" bg="blackAlpha 300" boxShadow="md">
+      <Box zIndex="10" boxShadow="md">
         <Flex>
-          <Box p={5}>
-            <Text as="b" fontSize="4xl">
+          <Center>
+            <Text as="b" fontSize="4xl" marginLeft={5} marginRight={5}>
               {navTitle}
             </Text>
-          </Box>
+          </Center>
           <Spacer />
           <UserControls />
         </Flex>

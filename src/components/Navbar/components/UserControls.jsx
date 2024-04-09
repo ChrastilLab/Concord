@@ -4,7 +4,7 @@ import { Avatar, Flex, Button, Center } from "@chakra-ui/react";
 function UserControls() {
   return (
     <div>
-      <Flex bg="cyan" p={5}>
+      <Flex p={5}>
         <Center>
           <Avatar />
           <Button size="md" ml={5}>
