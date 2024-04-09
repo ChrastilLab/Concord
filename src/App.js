@@ -1,14 +1,19 @@
 import './App.css';
 import * as React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Landing from "./pages/Landing";
+import Project from "./pages/Project";
 
 function App() {
   return (
-    <ChakraProvider>  
-      <div className="App">
-        <h1>Hello World</h1>
-        <h1>Concord App</h1>
-      </div>
+    <ChakraProvider>
+      <Router>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/project" element={<Project />} />  
+          </Routes>
+        </Router>
     </ChakraProvider>
   );
 }
