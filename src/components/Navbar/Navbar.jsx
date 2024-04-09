@@ -1,14 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Flex,
-  Spacer,
-  Avatar,
-  Text,
-  Square,
-  Button,
-  Center,
-} from "@chakra-ui/react";
+import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
+import UserControls from "./components/UserControls";
 
 function Navbar(props) {
   const navigate = useNavigate();
@@ -25,12 +17,7 @@ function Navbar(props) {
             </Text>
           </Box>
           <Spacer />
-          <Square p={5}>
-            <Avatar />
-          </Square>
-          <Center pr={5}>
-            <Button size="md">Logout</Button>
-          </Center>
+          <UserControls />
         </Flex>
       </Box>
     </div>
