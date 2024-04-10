@@ -9,10 +9,10 @@ function FramedBox(props) {
       direction="column"
       h="100%"
       w="100%"
-      bg="paleturquoise"
+      bg="#bbbbbb"
     >
-      <Box border="1px">
-        <Flex>
+      <Box>
+        <Flex marginBottom="10px">
           <Text as="b" fontSize="3xl">
             {title1}
           </Text>

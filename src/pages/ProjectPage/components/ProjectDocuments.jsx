@@ -4,7 +4,7 @@ import FramedBox from "../../../components/FramedBox/FramedBox";
 function ProjectDocuments() {
   return (
     <FramedBox title1="Project Documents">
-      <Box h="100%" w="100%" bg="green">
+      <Box h="100%" w="100%" bg="#eeeeee">
         <Text></Text>
       </Box>
     </FramedBox>

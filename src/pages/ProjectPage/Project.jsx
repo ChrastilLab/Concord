@@ -16,19 +16,19 @@ function Project() {
       <Box padding="20px" h="85vh">
         <Flex w="100%" h="100%">
           <Flex direction="column" flex={1} mr="10px" h="100%" w="100%">
-            <Box bg="cyan" paddingBottom="20px" h="50%" w="100%">
+            <Box paddingBottom="20px" h="50%" w="100%">
               <TeamMembers />
             </Box>
             <Box h="50%">
               <Tasks />
             </Box>
           </Flex>
-          <Flex bg="cyan" direction="column" flex={1} ml="10px" h="100%">
+          <Flex direction="column" flex={1} ml="10px" h="100%">
             <Box h="20%">
               <ProjectDetails />
             </Box>
             <Flex justifyContent="center" alignItems="center" h="10%">
-              <Button w="100%" size="sm">
+              <Button w="100%" size="sm" bg="#bbbbbb">
                 Slack Channel
               </Button>
             </Flex>
