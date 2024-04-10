@@ -1,8 +1,11 @@
 import Navbar from "../../components/Navbar/Navbar";
 import FramedBox from "../../components/FramedBox/FramedBox";
 import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 
 function ProjectDetails() {
+  let { projectId } = useParams();
+  console.log(projectId);
   return (
     <>
       <Navbar navTitle="Project 1" />

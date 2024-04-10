@@ -8,7 +8,7 @@ import TeamMembers from "./components/TeamMembers";
 import Navbar from "../../components/Navbar/Navbar";
 
 function Project() {
-  let { projectId } = useParams;
+  let { projectId } = useParams();
   console.log(projectId);
   return (
     <>
