@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 
 function ProjectDetails() {
   let { projectId } = useParams();
-  console.log(projectId);
   return (
     <>
       <Navbar navTitle="Project 1" />

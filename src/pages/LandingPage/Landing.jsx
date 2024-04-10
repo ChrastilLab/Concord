@@ -25,6 +25,7 @@ function Landing() {
               <ProjectCard
                 projectTitle={project.projectName}
                 projectLeader={project.projectLead}
+                projectId={project.projectId}
               />
             </WrapItem>
           ))}

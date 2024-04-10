@@ -29,7 +29,7 @@ let testData = [
         startDate: "04-20-2021",
         endDate: "06-09-2022",
         projectLead: "Peter Canteater"
-    },
+    }
 ];
 
 export default testData;

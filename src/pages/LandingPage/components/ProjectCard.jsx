@@ -1,8 +1,17 @@
 import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 function ProjectCard(props) {
   let projectTitle = props.projectTitle;
   let projectLeader = props.projectLeader;
+  let projectId = props.projectId;
+
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate(`/project/${projectId}/details`);
+  }
+
   return (
     <>
       <Flex
@@ -12,6 +21,7 @@ function ProjectCard(props) {
         borderRadius={10}
         overflow="hidden"
         direction="column"
+        onClick={handleClick}
       >
         <Box h="20%" bg="cyan"></Box>
         <Spacer />
