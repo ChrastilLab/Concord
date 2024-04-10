@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Button, Text, Spacer } from "@chakra-ui/react";
-import FramedBox from "../../components/FramedBox/FramedBox";
+import { useParams } from "react-router-dom";
+import { Box, Flex, Button } from "@chakra-ui/react";
 import ProjectDetails from "./components/ProjectDetails";
 import ProjectDocuments from "./components/ProjectDocuments";
 import Tasks from "./components/Tasks";
@@ -8,6 +8,8 @@ import TeamMembers from "./components/TeamMembers";
 import Navbar from "../../components/Navbar/Navbar";
 
 function Project() {
+  let { projectId } = useParams;
+  console.log(projectId);
   return (
     <>
       <Navbar navTitle="Project 1" />

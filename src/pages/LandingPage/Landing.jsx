@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import ProjectCard from "../../components/ProjectCard/ProjectCard";
+import ProjectCard from "./components/ProjectCard";
 import { Wrap, WrapItem, Box } from "@chakra-ui/react";
 
 function Landing() {

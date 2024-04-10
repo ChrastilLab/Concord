@@ -11,7 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/project" element={<Project />} />
+          <Route path="/project/:projectId" element={<Project />} />
         </Routes>
       </Router>
     </ChakraProvider>
