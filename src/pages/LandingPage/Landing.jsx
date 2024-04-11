@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import ProjectCard from "./components/ProjectCard";
 import { Wrap, WrapItem, Box } from "@chakra-ui/react";
-import testData from "../../config/testData";
+import { testProjects } from "../../config/testData";
 
 function Landing() {
-  let projects = testData;
+  let projects = testProjects;
+  console.log(projects);
 
   return (
     <div>

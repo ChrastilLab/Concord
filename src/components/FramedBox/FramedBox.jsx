@@ -14,7 +14,7 @@ function FramedBox(props) {
       onClick={onClick}
     >
       <Box>
-        <Flex marginBottom="10px">
+        <Flex marginBottom="5px">
           <Text as="b" fontSize="3xl">
             {title1}
           </Text>

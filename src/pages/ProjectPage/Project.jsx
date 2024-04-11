@@ -6,27 +6,37 @@ import ProjectDocuments from "./components/ProjectDocuments";
 import Tasks from "./components/Tasks";
 import TeamMembers from "./components/TeamMembers";
 import Navbar from "../../components/Navbar/Navbar";
+import { testProjects } from "../../config/testData";
 
 function Project() {
   let { projectId } = useParams();
-  // console.log(projectId);
   const navigate = useNavigate();
+
+  function getProjectData(testData) {
+    for (let i = 0; i < testData.length; i++) {
+      if (testData[i].projectId == projectId) {
+        return testData[i];
+      }
+    }
+  }
 
   function goToDetails() {
     navigate(`/project/${projectId}/details`);
   }
 
+  const projectData = getProjectData(testProjects);
+
   return (
     <>
-      <Navbar navTitle="Project 1" />
+      <Navbar navTitle={projectData.projectName} />
       <Box padding="20px" h="85vh">
         <Flex w="100%" h="100%">
           <Flex direction="column" flex={1} mr="10px" h="100%" w="100%">
             <Box paddingBottom="20px" h="50%" w="100%">
-              <TeamMembers />
+              <TeamMembers members={projectData.teamMembers} />
             </Box>
             <Box h="50%">
-              <Tasks />
+              <Tasks tasks={projectData.tasks} />
             </Box>
           </Flex>
           <Flex direction="column" flex={1} ml="10px" h="100%">
