@@ -1,9 +1,12 @@
 import { Box, Text } from "@chakra-ui/react";
+// import { useParams } from "react-router-dom";
 import FramedBox from "../../../components/FramedBox/FramedBox";
 
-function ProjectDetails() {
+function ProjectDetails(props) {
+  const navigateDetails = props.navigateDetails;
+
   return (
-    <FramedBox title1="Project Details">
+    <FramedBox title1="Project Details" onClick={navigateDetails}>
       <Box h="100%" w="100%" bg="#eeeeee">
         <Text></Text>
       </Box>

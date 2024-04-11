@@ -1,7 +1,8 @@
 import { Box, Flex, Text, Spacer, Container } from "@chakra-ui/react";
 
 function FramedBox(props) {
-  let { title1, title2, children } = props;
+  let { title1, title2, children, onClick } = props;
+
   return (
     <Flex
       border="1px"
@@ -10,6 +11,7 @@ function FramedBox(props) {
       h="100%"
       w="100%"
       bg="#bbbbbb"
+      onClick={onClick}
     >
       <Box>
         <Flex marginBottom="10px">

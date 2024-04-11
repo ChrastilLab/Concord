@@ -8,7 +8,6 @@ let testData = [
         startDate: "09-01-2024",
         endDate: "",
         projectLead: "Peter Anteater"
-        
     },
     {
         projectId: 2,

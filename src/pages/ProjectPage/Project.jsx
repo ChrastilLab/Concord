@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Box, Flex, Button } from "@chakra-ui/react";
 import ProjectDetails from "./components/ProjectDetails";
 import ProjectDocuments from "./components/ProjectDocuments";
@@ -9,7 +9,13 @@ import Navbar from "../../components/Navbar/Navbar";
 
 function Project() {
   let { projectId } = useParams();
-  console.log(projectId);
+  // console.log(projectId);
+  const navigate = useNavigate();
+
+  function goToDetails() {
+    navigate(`/project/${projectId}/details`);
+  }
+
   return (
     <>
       <Navbar navTitle="Project 1" />
@@ -25,7 +31,7 @@ function Project() {
           </Flex>
           <Flex direction="column" flex={1} ml="10px" h="100%">
             <Box h="20%">
-              <ProjectDetails />
+              <ProjectDetails navigateDetails={goToDetails} />
             </Box>
             <Flex justifyContent="center" alignItems="center" h="10%">
               <Button w="100%" size="sm" bg="#bbbbbb">

@@ -9,7 +9,7 @@ function ProjectCard(props) {
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate(`/project/${projectId}/details`);
+    navigate(`/project/${projectId}`);
   }
 
   return (

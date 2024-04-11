@@ -5,15 +5,7 @@ import { Wrap, WrapItem, Box } from "@chakra-ui/react";
 import testData from "../../config/testData";
 
 function Landing() {
-  // let projects = [
-  //   { projectTitle: "Project 1", projectLeader: "Leader 1" },
-  //   { projectTitle: "Project 2", projectLeader: "Leader 2" },
-  //   { projectTitle: "Project 3", projectLeader: "Leader 3" },
-  // ];
-
   let projects = testData;
-
-  console.log(projects);
 
   return (
     <div>
