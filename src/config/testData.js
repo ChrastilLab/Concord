@@ -52,4 +52,3 @@ export const testRAs = [
     },
 ];
 
-// export default {testProjects, testRAs};

@@ -3,10 +3,11 @@ import { Box, Text, List, ListItem } from "@chakra-ui/react";
 import FramedBox from "../../../components/FramedBox/FramedBox";
 
 function TeamMembers(props) {
-  let members = props.members;
+  const members = props.members;
+  const navigateRAs = props.navigateRAs;
 
   return (
-    <FramedBox title1="Team Members">
+    <FramedBox title1="Team Members" onClick={navigateRAs}>
       <Box h="100%" w="100%" bg="#eeeeee" padding="5px" overflowY="auto">
         <List>
           {members.map((member, index) => (

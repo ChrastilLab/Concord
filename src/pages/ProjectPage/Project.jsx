@@ -24,6 +24,10 @@ function Project() {
     navigate(`/project/${projectId}/details`);
   }
 
+  function goToRAs() {
+    navigate(`/project/${projectId}/members`);
+  }
+
   const projectData = getProjectData(testProjects);
 
   return (
@@ -33,7 +37,10 @@ function Project() {
         <Flex w="100%" h="100%">
           <Flex direction="column" flex={1} mr="10px" h="100%" w="100%">
             <Box paddingBottom="20px" h="50%" w="100%">
-              <TeamMembers members={projectData.teamMembers} />
+              <TeamMembers
+                members={projectData.teamMembers}
+                navigateRAs={goToRAs}
+              />
             </Box>
             <Box h="50%">
               <Tasks tasks={projectData.tasks} />
