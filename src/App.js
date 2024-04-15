@@ -6,6 +6,8 @@ import Landing from "./pages/LandingPage/Landing";
 import Project from "./pages/ProjectPage/Project";
 import Details from "./pages/ProjectDetailsPage/Details";
 import Members from "./pages/RAOverviewPage/Members";
+import { Login } from "./pages/LoginPage/Login";
+import { Signup } from "./pages/SignupPage/Signup";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/project/:projectId" element={<Project />} />
           <Route path="/project/:projectId/details" element={<Details />} />
           <Route path="/project/:projectId/members" element={<Members />} />
