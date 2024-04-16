@@ -4,6 +4,9 @@ import UserControls from "./components/UserControls";
 
 function Navbar(props) {
   const navigate = useNavigate();
+  // const navigateHome = () => {
+  //   navigate(`/`);
+  // };
 
   let navTitle = props.navTitle;
 

@@ -1,6 +1,6 @@
 // Components don't need to be this complicated but this is just an example of separation of concerns
 import React, { useState, useEffect } from "react";
-import { Avatar, Flex, Button, Center, useToast } from "@chakra-ui/react";
+import { Avatar, Flex, Button, Center, useToast, Text } from "@chakra-ui/react";
 import { auth } from "../../../config/firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -41,12 +41,23 @@ function UserControls() {
     navigate(`/login`);
   };
 
+  const navigateHome = () => {
+    navigate(`/`);
+  };
+
   return (
     <div>
       <Flex p={5}>
         <Center>
+          <Text onClick={navigateHome} marginRight={5}>
+            Home
+          </Text>
           <Avatar />
-          <Button onClick={user ? handleLogout : handleLogin} size="md" ml={5}>
+          <Button
+            onClick={user ? handleLogout : handleLogin}
+            size="md"
+            marginLeft={5}
+          >
             {user ? "Logout" : "Login"}
           </Button>
         </Center>
