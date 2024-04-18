@@ -8,6 +8,7 @@ import Details from "./pages/ProjectDetailsPage/Details";
 import Members from "./pages/RAOverviewPage/Members";
 import { Login } from "./pages/LoginPage/Login";
 import { Signup } from "./pages/SignupPage/Signup";
+import { AddTask } from "./pages/AddTask/AddTask";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/addtask" element={<AddTask />} />
           <Route path="/project/:projectId" element={<Project />} />
           <Route path="/project/:projectId/details" element={<Details />} />
           <Route path="/project/:projectId/members" element={<Members />} />
