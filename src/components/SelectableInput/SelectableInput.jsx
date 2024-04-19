@@ -4,8 +4,22 @@ import { Input, Box, Text } from "@chakra-ui/react";
 export const SelectableInput = (props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const containerRef = useRef(null);
-  const selectList = ["Hello", "Test", "Select", "List"];
+  const selectList = [
+    "",
+    "Hello",
+    "Test",
+    "Select",
+    "List",
+    "RA 1",
+    "RA 2",
+    "RA 3",
+    "RA 4",
+    "abc",
+    "abcd",
+    "abcde",
+    "abcdef",
+    "abcdefg",
+  ];
 
   const handleShowDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -20,6 +34,21 @@ export const SelectableInput = (props) => {
     setInputValue(item);
   };
 
+  const renderText = (item) => {
+    if (inputValue === "" || (inputValue != "" && item.includes(inputValue))) {
+      return (
+        <Box
+          key={item}
+          _hover={{ bg: "gray.200" }}
+          onMouseDown={() => handleSelect(item)}
+          minHeight="1.5rem"
+        >
+          <Text paddingLeft="0.3rem">{item}</Text>
+        </Box>
+      );
+    }
+  };
+
   return (
     <>
       <Box position="relative">
@@ -28,6 +57,7 @@ export const SelectableInput = (props) => {
           onBlur={handleShowDropdown}
           value={inputValue}
           onChange={handleChange}
+          placeholder="Assigned RA"
         ></Input>
         {showDropdown && (
           <Box
@@ -41,15 +71,7 @@ export const SelectableInput = (props) => {
             padding="0.2rem"
             overflow="hidden"
           >
-            {selectList.map((item) => (
-              <Box
-                key={item}
-                _hover={{ bg: "gray.200" }}
-                onMouseDown={() => handleSelect(item)}
-              >
-                <Text paddingLeft="0.3rem">{item}</Text>
-              </Box>
-            ))}
+            {selectList.map(renderText)}
           </Box>
         )}
       </Box>
