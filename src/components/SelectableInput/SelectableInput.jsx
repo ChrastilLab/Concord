@@ -7,22 +7,8 @@ export const SelectableInput = (props) => {
   const containerRef = useRef(null);
   const selectList = ["Hello", "Test", "Select", "List"];
 
-  const handleFocus = () => {
-    // console.log("edit select");
-    setShowDropdown(true);
-  };
-
-  const handleBlur = (event) => {
-    // Delay hiding the dropdown to check if the new focused element is outside the component
-    console.log("blur");
-    setTimeout(() => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.relatedTarget)
-      ) {
-        setShowDropdown(false);
-      }
-    }, 0);
+  const handleShowDropdown = () => {
+    setShowDropdown(!showDropdown);
   };
 
   const handleChange = (event) => {
@@ -32,15 +18,14 @@ export const SelectableInput = (props) => {
   const handleSelect = (item) => {
     console.log(item);
     setInputValue(item);
-    setShowDropdown(false);
   };
 
   return (
     <>
       <Box position="relative">
         <Input
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          onFocus={handleShowDropdown}
+          onBlur={handleShowDropdown}
           value={inputValue}
           onChange={handleChange}
         ></Input>
@@ -60,7 +45,7 @@ export const SelectableInput = (props) => {
               <Box
                 key={item}
                 _hover={{ bg: "gray.200" }}
-                onClick={() => handleSelect(item)}
+                onMouseDown={() => handleSelect(item)}
               >
                 <Text paddingLeft="0.3rem">{item}</Text>
               </Box>
