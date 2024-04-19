@@ -15,7 +15,6 @@ export const SelectableInput = (props) => {
   };
 
   const handleSelect = (item) => {
-    console.log(item);
     setInputValue(item);
   };
 
@@ -41,7 +40,7 @@ export const SelectableInput = (props) => {
           onFocus={handleShowDropdown}
           onBlur={handleShowDropdown}
           value={inputValue}
-          onChange={handleChange}
+          onChange={(e) => setInputValue(e.target.value)}
           placeholder="Assigned RA"
         ></Input>
         {showDropdown && (
@@ -51,10 +50,11 @@ export const SelectableInput = (props) => {
             borderRadius={6}
             position="absolute"
             minHeight="1.5rem"
+            maxHeight="15rem"
             width="100%"
             zIndex={10}
             padding="0.2rem"
-            overflow="hidden"
+            overflow="auto"
           >
             {selectList.map(renderText)}
           </Box>
