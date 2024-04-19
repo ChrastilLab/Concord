@@ -24,6 +24,23 @@ export const AddTask = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
+
+  const testList = [
+    "",
+    "Hello",
+    "Test",
+    "Select",
+    "List",
+    "RA 1",
+    "RA 2",
+    "RA 3",
+    "RA 4",
+    "abc",
+    "abcd",
+    "abcde",
+    "abcdef",
+    "abcdefg",
+  ];
   // tags
 
   return (
@@ -55,7 +72,7 @@ export const AddTask = () => {
                 placeholder="Task Name"
                 onChange={(e) => setTaskName(e.target.value)}
               />
-              <SelectableInput></SelectableInput>
+              <SelectableInput list={testList}></SelectableInput>
 
               <Button
                 borderRadius={0}

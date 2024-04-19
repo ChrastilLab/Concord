@@ -4,22 +4,7 @@ import { Input, Box, Text } from "@chakra-ui/react";
 export const SelectableInput = (props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const selectList = [
-    "",
-    "Hello",
-    "Test",
-    "Select",
-    "List",
-    "RA 1",
-    "RA 2",
-    "RA 3",
-    "RA 4",
-    "abc",
-    "abcd",
-    "abcde",
-    "abcdef",
-    "abcdefg",
-  ];
+  const selectList = props.list;
 
   const handleShowDropdown = () => {
     setShowDropdown(!showDropdown);
