@@ -63,7 +63,9 @@ export const AddTask = () => {
                 variant="solid"
                 colorScheme="teal"
                 width="full"
-                // onClick={pass}
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
               >
                 Submit
               </Button>

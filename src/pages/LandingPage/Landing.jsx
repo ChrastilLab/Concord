@@ -4,9 +4,9 @@ import ProjectCard from "./components/ProjectCard";
 import { Wrap, WrapItem, Box } from "@chakra-ui/react";
 import { testProjects } from "../../config/testData";
 
-function Landing() {
-  let projects = testProjects;
-  console.log(projects);
+export const Landing = () => {
+  const projects = testProjects;
+  // console.log(projects);
 
   return (
     <div>
@@ -26,6 +26,4 @@ function Landing() {
       </Box>
     </div>
   );
-}
-
-export default Landing;
+};
