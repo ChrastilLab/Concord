@@ -1,4 +1,5 @@
 import {
+  Text,
   Flex,
   Heading,
   Input,
@@ -6,6 +7,7 @@ import {
   InputGroup,
   Stack,
   Box,
+  Spacer,
   Link,
   Avatar,
   FormControl,
@@ -15,8 +17,8 @@ import {
 } from "@chakra-ui/react";
 
 import { React, useState } from "react";
-
 import { SelectableInput } from "../../components/SelectableInput/SelectableInput";
+import { TimePicker } from "../../components/TimePicker/TimePicker";
 
 export const AddTask = () => {
   const [assignedRA, setAssignedRA] = useState("");
@@ -73,6 +75,33 @@ export const AddTask = () => {
                 onChange={(e) => setTaskName(e.target.value)}
               />
               <SelectableInput list={testList}></SelectableInput>
+              <Box
+                border="1px"
+                borderRadius={6}
+                borderColor="gray.200"
+                _hover={{ borderColor: "gray.300" }}
+                overflow="hidden"
+                paddingLeft="0.7rem"
+                paddingTop="0.35rem"
+                paddingBottom="0.35rem"
+                minHeight="2rem"
+              >
+                <input
+                  type="date"
+                  style={{ width: "100%" }}
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                  }}
+                ></input>
+              </Box>
+              <Flex alignItems="center" justifyContent="space-between">
+                <Box w="45%">
+                  <TimePicker label="Start" />
+                </Box>
+                <Box w="45%">
+                  <TimePicker label="End" />
+                </Box>
+              </Flex>
 
               <Button
                 borderRadius={0}

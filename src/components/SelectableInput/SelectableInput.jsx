@@ -10,10 +10,6 @@ export const SelectableInput = (props) => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
   const handleSelect = (item) => {
     setInputValue(item);
   };
@@ -56,6 +52,7 @@ export const SelectableInput = (props) => {
             padding="0.2rem"
             overflow="auto"
           >
+            {/* TODO: Fix right side corner border bug */}
             {selectList.map(renderText)}
           </Box>
         )}
