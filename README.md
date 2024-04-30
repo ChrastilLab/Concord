@@ -8,6 +8,7 @@
 ### Prerequisities
 
 npm install -D tailwindcss
+npx shadcn-ui@latest init
 npm install tailwindcss-animate class-variance-authority clsx tailwind-merge
 npm install lucide-react
 
