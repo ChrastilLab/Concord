@@ -9,7 +9,7 @@ function ProjectDetails(props) {
 
   function getProjectData(testData) {
     for (let i = 0; i < testData.length; i++) {
-      if (testData[i].projectId == projectId) {
+      if (testData[i].projectId === projectId) {
         return testData[i];
       }
     }

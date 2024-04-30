@@ -15,7 +15,7 @@ export const SelectableInput = (props) => {
   };
 
   const renderText = (item) => {
-    if (inputValue === "" || (inputValue != "" && item.includes(inputValue))) {
+    if (inputValue === "" || (inputValue !== "" && item.includes(inputValue))) {
       return (
         <Box
           key={item}
