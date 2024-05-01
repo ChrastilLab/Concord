@@ -1,0 +1,31 @@
+.home-nav-bar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;  /* Stick the navbar to the left */
+    top: 0; /* Start from the top of the viewport */
+    left: 0; /* Align to the left of the viewport */
+    width: 100px; /* Set a fixed width */
+    height: 100%; /* Extend to the full height of the viewport */
+    background-color: #f8f8f8; /* Light grey background */
+    border-right: 2px solid #ccc; /* Grey border on the right */
+    padding: 20px 10px; /* Padding around the links */
+}
+
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align items vertically to the center */
+    gap: 20px;  /* Adjust gap size for spacing between items */
+    height: 100%; /* Extend to take the remaining height */
+}
+
+.login-button {
+padding-left: 90%;
+padding-top: 30px;
+}
+
+.nav-button {
+width: 80px;
+background-color: grey;
+}

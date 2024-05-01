@@ -1,9 +1,8 @@
-import MenuBar from "./MenuBar";
+import HomeNavBar from "./HomeNavBar";
 function Home() {
   return (
     <div className="Home">
-      <h1>Home</h1>
-      <MenuBar></MenuBar>
+      <HomeNavBar></HomeNavBar>
     </div>
   );
 }
