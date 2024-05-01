@@ -1,0 +1,19 @@
+
+.main {
+    padding-top: 6%;
+    padding-left: 130px;
+}
+
+.project-navbar {
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 15px;
+    /* border: 0.5px solid #888; */
+    width: 200px;
+}
+
+.project-nav-button {
+    width: 150px;
+}

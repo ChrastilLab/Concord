@@ -1,11 +1,16 @@
 import MainNavBar from "../HomePage/MainNavBar";
+import ProjectNavBar from "./components/ProjectNavBar";
+import { Separator } from "../../components/ui/separator";
 
 function ProjectPage() {
   return (
-    <>
+    <div className="project-page">
       <MainNavBar></MainNavBar>
-      <div className="ProjectPage">Detail of Project</div>
-    </>
+      <div className="main">
+        <Separator></Separator>
+        <ProjectNavBar></ProjectNavBar>
+      </div>
+    </div>
   );
 }
 
