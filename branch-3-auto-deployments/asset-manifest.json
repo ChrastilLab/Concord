@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "https://chrastillab.github.io/Concord/branch-3-auto-deployments/static/css/main.f855e6bc.css",
+    "main.js": "https://chrastillab.github.io/Concord/branch-3-auto-deployments/static/js/main.bc816883.js",
+    "static/js/453.f4554710.chunk.js": "https://chrastillab.github.io/Concord/branch-3-auto-deployments/static/js/453.f4554710.chunk.js",
+    "index.html": "https://chrastillab.github.io/Concord/branch-3-auto-deployments/index.html",
+    "main.f855e6bc.css.map": "https://chrastillab.github.io/Concord/branch-3-auto-deployments/static/css/main.f855e6bc.css.map",
+    "main.bc816883.js.map": "https://chrastillab.github.io/Concord/branch-3-auto-deployments/static/js/main.bc816883.js.map",
+    "453.f4554710.chunk.js.map": "https://chrastillab.github.io/Concord/branch-3-auto-deployments/static/js/453.f4554710.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.bc816883.js"
+  ]
+}
