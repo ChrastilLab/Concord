@@ -35,22 +35,24 @@ jobs:
         REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
         REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
 
-    - name: Clear specific directory in gh-pages
-      uses: actions/checkout@v2
-      with:
-        ref: 'gh-pages'
-    - run: |
+    - name: Remove old files
+      run: |
         rm -rf ./branch-${{ github.ref_name }}/*
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git add .
-        git commit -m "Remove old files from branch-${{ github.ref_name }}"
-        git push
+        if [ -z "$(git status --porcelain)" ]; then
+        echo "No changes to commit."
+        else
+        git commit -am "Remove outdated files"
+        fi
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build 
-        publish_branch: gh-pages
-        destination_dir: branch-${{ github.ref_name }}
+    - name: Copy new build to directory
+      run: |
+        mkdir -p ./branch-${{ github.ref_name }}
+        cp -r ./build/* ./branch-${{ github.ref_name }}
+
+    - name: Commit and push changes
+      run: |
+        git add .
+        git commit -m "Deploy updates"
+        git push
