@@ -1,14 +1,10 @@
-.home-nav-bar {
-    display: flex;
-    flex-direction: column;
+.main-nav-bar {
     position: fixed;  /* Stick the navbar to the left */
-    top: 0; /* Start from the top of the viewport */
-    left: 0; /* Align to the left of the viewport */
-    width: 100px; /* Set a fixed width */
+    width: 130px; /* Set a fixed width */
     height: 100%; /* Extend to the full height of the viewport */
     background-color: #f8f8f8; /* Light grey background */
     border-right: 2px solid #ccc; /* Grey border on the right */
-    padding: 20px 10px; /* Padding around the links */
+    padding: 20px 12px; /* Padding around the links */
 }
 
 
@@ -17,15 +13,18 @@
     flex-direction: column;
     justify-content: center; /* Align items vertically to the center */
     gap: 20px;  /* Adjust gap size for spacing between items */
-    height: 100%; /* Extend to take the remaining height */
-}
-
-.login-button {
-padding-left: 90%;
-padding-top: 30px;
+    height: 100%;
 }
 
 .nav-button {
-width: 80px;
-background-color: grey;
+    color: black;
+    width: 100px;
+    font-size: 15px;
+    border: 1px solid #888;
 }
+
+.login-button-container {
+    position: absolute;
+    bottom: 20px;
+}
+  

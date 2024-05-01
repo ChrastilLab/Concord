@@ -1,12 +1,12 @@
 import MainNavBar from "../HomePage/MainNavBar";
 
-function PersonalPage() {
+function ProjectPage() {
   return (
     <>
       <MainNavBar></MainNavBar>
-      <div className="PersonalPage">Detail of Person</div>
+      <div className="ProjectPage">Detail of Project</div>
     </>
   );
 }
 
-export default PersonalPage;
+export default ProjectPage;
