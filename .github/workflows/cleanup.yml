@@ -1,0 +1,26 @@
+name: Cleanup GitHub Pages on Branch Deletion
+
+on:
+  delete:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    if: github.event.ref_type == 'branch'
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v2
+        with:
+          ref: 'gh-pages'
+
+      - name: Remove directory
+        run: |
+          DIRECTORY_NAME=branch-${{ github.event.ref }}
+          echo "Removing directory $DIRECTORY_NAME"
+          rm -rf $DIRECTORY_NAME
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Remove directory $DIRECTORY_NAME due to branch deletion"
+          git push
+

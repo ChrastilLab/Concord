@@ -35,6 +35,18 @@ jobs:
         REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
         REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
 
+    - name: Clear specific directory in gh-pages
+      uses: actions/checkout@v2
+      with:
+        ref: 'gh-pages'
+    - run: |
+        rm -rf ./branch-${{ github.ref_name }}/*
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add .
+        git commit -m "Remove old files from branch-${{ github.ref_name }}"
+        git push
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
