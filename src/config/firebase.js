@@ -23,6 +23,7 @@ import {
     signOut,
     signInWithPopup,
     signInWithEmailAndPassword,
+    signInWithCredential,
     createUserWithEmailAndPassword,
     setPersistence,
     browserLocalPersistence,
@@ -55,11 +56,12 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
+const googleAuthProvider = new GoogleAuthProvider();
 
 export {
   auth,
-  googleProvider,
+  googleAuthProvider,
+  signInWithCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
