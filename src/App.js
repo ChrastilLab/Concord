@@ -1,116 +1,111 @@
 import "./App.css";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+
 import { useEffect, useState } from "react";
+import {
+  useSession,
+  useSupabaseClient,
+  useSessionContext,
+} from "@supabase/auth-helpers-react";
 
-const loadScript = (src, onLoad) => {
-  const script = document.createElement('script');
-  script.src = src;
-  script.async = true;
-  script.defer = true;
-  script.onload = onLoad || (() => {});
-  document.body.appendChild(script);
-};
+import DateTimePicker from "react-datetime-picker";
 
-
-
-
-const appClientId = '18444685338-jisp0gmkpo09v0kdpvbc4bvml0sanks6.apps.googleusercontent.com'; 
-const apiKey = 'AIzaSyCGaJtazZxj7xwDJoa5uRh8QBit-2pfXRg';
-const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
-const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
-
-
+// const appClientId =
+//   "18444685338-jisp0gmkpo09v0kdpvbc4bvml0sanks6.apps.googleusercontent.com";
+// const DISCOVERY_DOC =
+//   "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
+// const SCOPES = "https://www.googleapis.com/auth/calendar";
 
 function App() {
- 
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [events, setEvents] = useState([]);
-  const [error, setError] = useState(null);
+  const session = useSession(); // tokens, when session exists, we have a user
+  const supabase = useSupabaseClient(); // talk to supabase
+  const { isLoading } = useSessionContext();
 
-  const loadScript = (src, onLoad) => {
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.defer = true;
-    script.onload = onLoad || (() => {});
-    document.body.appendChild(script);
-  };
+  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
 
-  const initClient = () => {
-    window.gapi.client.init({
-      apiKey: apiKey, 
-      clientId: appClientId,
-      discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-      scope: 'https://www.googleapis.com/auth/calendar.readonly',
-    })
-    // .then(() => {
-    //   console.log("Google API Client initialized.");
-    //   window.gapi.auth2.getAuthInstance().isSignedIn.listen(setIsSignedIn);
-    //   setIsSignedIn(window.gapi.auth2.getAuthInstance().isSignedIn.get());
-    //   if (isSignedIn) {
-    //     listUpcomingEvents();
-    //   }
-    // }).catch(error => {
-    //   console.error("Error initializing Google API Client: ", error);
-    //   setError(error);
-    // });
-  };
+  if (isLoading) {
+    return <></>;
+  }
 
-  useEffect(() => {
-    loadScript("https://apis.google.com/js/api.js", () => {
-      console.log("GAPI loaded");
-      window.gapi.load("client:auth2", initClient);
+  async function googleSignIn() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        scopes:
+          "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/docs",
+      },
     });
-  }, []);
 
-  const listUpcomingEvents = async () => {
-    try {
-      const response = await window.gapi.client.calendar.events.list({
-        calendarId: "primary",
-        timeMin: new Date().toISOString(),
-        showDeleted: false,
-        singleEvents: true,
-        maxResults: 10,
-        orderBy: "startTime",
-      });
-      console.log(response);  
-      setEvents(response.result.items);
-      if (response.result.items.length === 0) {
-        setError("No upcoming events found.");
-      }
-    } catch (err) {
-      console.error("Error fetching events: ", err);
-      setError(err.message);
+    if (error) {
+      console.error(error);
     }
-  };
+  }
 
-  const handleLoginSuccess = (response) => {
-    console.log("Login successful:", response);
-    jwtDecode(response.credential); // Optional: decode JWT token if needed
-    initClient();
-  };
+  async function signOut() {
+    await supabase.auth.signOut();
+  }
 
-  const handleLoginFailure = (response) => {
-    console.error("Login failed:", response);
-    setError("Failed to authenticate.");
-  };
+  async function createCalendarEvent() {
+    console.log("Creating Calendar Event");
 
+    const event = {
+      summary: "Test Calendar Event",
+      location: "1117 Sullivan, Irvine, CA 92614",
+      description: "A test event for SNL web dev",
+      start: {
+        dateTime: "2024-05-03T09:00:00-07:00",
+        timeZone: "America/Los_Angeles",
+      },
+      end: {
+        dateTime: "2024-05-03T12:00:00-07:00",
+        timeZone: "America/Los_Angeles",
+      },
+    };
+
+    await fetch(
+      "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + session.provider_token, // Access token for google
+        },
+        body: JSON.stringify(event),
+      }
+    )
+      .then((data) => {
+        return data.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
+  console.log(session);
 
   return (
     <div className="App">
       <header className="App-header"></header>
-      {isSignedIn ? (
-          <button onClick={() => window.gapi.auth2.getAuthInstance().signOut()}>Sign Out</button>
+      <div style={{ width: "400px", margin: "30px auto" }}>
+        {session ? (
+          <>
+            <h2>User Email: {session.user.email}</h2>
+            {/* <p>Start of Event</p>
+            <DateTimePicker onChange={setStart} value={start} />
+            <p>End of Event</p>
+            <DateTimePicker onChange={setEnd} value={end} /> */}
+
+            <button onClick={() => createCalendarEvent()}>
+              Create Calendar Event
+            </button>
+            <div />
+            <button onClick={() => signOut()}>Sign Out</button>
+          </>
         ) : (
-          <GoogleLogin
-            clientId={appClientId} // Your actual client ID
-            scope="https://www.googleapis.com/auth/calendar"
-            onSuccess={handleLoginSuccess}
-            onFailure={handleLoginFailure}
-          />
+          <>
+            <button onClick={() => googleSignIn()}>Sign In With Google</button>
+          </>
         )}
-        {error && <p>{error}</p>}
+      </div>
     </div>
   );
 }

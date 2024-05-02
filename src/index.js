@@ -4,13 +4,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { createClient } from "@supabase/supabase-js";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+
+const supabase = createClient(
+  "https://aexjskevzazxqxckpvjc.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFleGpza2V2emF6eHF4Y2twdmpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ2MzMwODAsImV4cCI6MjAzMDIwOTA4MH0.Y2oaedVchF65lqltBJf5PG6kPhI-ljMke5kjKQDzYHQ"
+);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="18444685338-jisp0gmkpo09v0kdpvbc4bvml0sanks6.apps.googleusercontent.com">
+    <SessionContextProvider supabaseClient={supabase}>
       <App />
-    </GoogleOAuthProvider>
+    </SessionContextProvider>
   </React.StrictMode>
 );
 
