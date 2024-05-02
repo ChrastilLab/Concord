@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
-import "./ProjectNavBar.css";
+import "../../PageNavBar.css";
 
 function ProjectNavBar() {
   let navigate = useNavigate();
@@ -10,37 +10,37 @@ function ProjectNavBar() {
   }
 
   return (
-    <nav className="project-navbar">
+    <nav className="individual-page-navbar">
       <Button
-        className="project-nav-button"
+        className="individual-page-nav-button"
         variant="ghost"
         onClick={() => handleNavigate("/project")}
       >
         Home
       </Button>
       <Button
-        className="project-nav-button"
+        className="individual-page-nav-button"
         variant="ghost"
         onClick={() => handleNavigate("/project/folder")}
       >
         Folder
       </Button>
       <Button
-        className="project-nav-button"
+        className="individual-page-nav-button"
         variant="ghost"
         onClick={() => handleNavigate("/project/schedule")}
       >
         Schedule
       </Button>
       <Button
-        className="project-nav-button"
+        className="individual-page-nav-button"
         variant="ghost"
         onClick={() => handleNavigate("/project/task")}
       >
         Task
       </Button>
       <Button
-        className="project-nav-button"
+        className="individual-page-nav-button"
         variant="ghost"
         onClick={() => handleNavigate("/project/setting")}
       >

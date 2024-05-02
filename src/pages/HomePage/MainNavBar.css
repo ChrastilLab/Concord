@@ -11,7 +11,7 @@
 .button-container {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Align items vertically to the center */
+    padding-top: 110px;
     gap: 20px;  /* Adjust gap size for spacing between items */
     height: 100%;
 }

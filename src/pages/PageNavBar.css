@@ -4,7 +4,7 @@
     padding-left: 130px;
 }
 
-.project-navbar {
+.individual-page-navbar {
     padding-top: 40px;
     display: flex;
     flex-direction: column;
@@ -14,6 +14,6 @@
     width: 200px;
 }
 
-.project-nav-button {
+.individual-page-nav-button {
     width: 150px;
 }
