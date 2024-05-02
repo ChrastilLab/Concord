@@ -1,5 +1,11 @@
+import MainNavBar from "../../HomePage/MainNavBar";
+
 function TaskCalendar() {
-  return <div>task calendar</div>;
+  return (
+    <div>
+      <MainNavBar></MainNavBar>
+    </div>
+  );
 }
 
 export default TaskCalendar;

@@ -1,6 +1,6 @@
 import "./MainNavBar.css";
 import { Button, buttonVariants } from "../../components/ui/button";
-import { LogInIcon, NetworkIcon } from "lucide-react";
+import { LogInIcon, NetworkIcon, UsersIcon } from "lucide-react";
 import { DashboardIcon, PersonIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
 
