@@ -53,13 +53,14 @@ function App() {
       location: "1117 Sullivan, Irvine, CA 92614",
       description: "A test event for SNL web dev",
       start: {
-        dateTime: "2024-05-03T09:00:00-07:00",
+        dateTime: "2024-05-17T09:00:00",
         timeZone: "America/Los_Angeles",
       },
       end: {
-        dateTime: "2024-05-03T12:00:00-07:00",
+        dateTime: "2024-05-17T12:00:00",
         timeZone: "America/Los_Angeles",
       },
+      attendees: [{'email' : 'rsima@uci.edu'}]
     };
 
     await fetch(
