@@ -1,5 +1,6 @@
 import "./MainNavBar.css";
 import { Button, buttonVariants } from "../ui/button";
+import { useToast } from "../ui/use-toast";
 import { LogInIcon, NetworkIcon, UsersIcon, LogOutIcon } from "lucide-react";
 import { DashboardIcon, PersonIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,8 @@ import {
 import { useEffect, useState } from "react";
 
 function MainNavBar() {
+  console.log("MainNavBar render");
+
   let navigate = useNavigate();
 
   const session = useSession(); // tokens, when session exists, we have a user
@@ -20,6 +23,8 @@ function MainNavBar() {
 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
+
+  const { toast } = useToast();
 
   function handleNavigate(path) {
     navigate(path);
@@ -40,7 +45,24 @@ function MainNavBar() {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    await supabase.auth
+      .signOut()
+      .then(
+        toast({
+          description: "Logged Out",
+        })
+      )
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Error logging out.",
+        });
+      });
+
+    toast({
+      description: "Logged Out",
+    });
   };
 
   const createCalendarEvent = async () => {
@@ -120,11 +142,11 @@ function MainNavBar() {
                 <Button
                   className="nav-button"
                   variant="outline"
-                  onClick={() => handleGoogleSignIn()}
+                  onClick={() => signOut()}
                 >
-                  <LogInIcon />
+                  <LogOutIcon />
                   &nbsp; &nbsp;
-                  <p>Login</p>
+                  <p>Logout</p>
                 </Button>
               </>
             ) : (
@@ -132,11 +154,11 @@ function MainNavBar() {
                 <Button
                   className="nav-button"
                   variant="outline"
-                  onClick={() => signOut()}
+                  onClick={() => handleGoogleSignIn()}
                 >
-                  <LogOutIcon />
+                  <LogInIcon />
                   &nbsp; &nbsp;
-                  <p>Logout</p>
+                  <p>Login</p>
                 </Button>
               </>
             )}
