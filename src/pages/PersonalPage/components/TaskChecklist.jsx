@@ -1,4 +1,4 @@
-import MainNavBar from "../../HomePage/MainNavBar";
+import MainNavBar from "../../../components/Navbar/MainNavBar";
 
 function TaskChecklist() {
   return (

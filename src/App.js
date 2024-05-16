@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 
 import ProjectPage from "./pages/ProjectPage/ProjectPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
 import Folder from "./pages/ProjectPage/components/Folder";
 import Schedule from "./pages/ProjectPage/components/Schedule";
 import Task from "./pages/ProjectPage/components/Task";
@@ -19,7 +18,7 @@ function App() {
     <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/project" element={<ProjectPage />} />
           <Route path="/project/folder" element={<Folder />} />
           <Route path="/project/schedule" element={<Schedule />} />

@@ -1,9 +1,9 @@
-import MainNavBar from "./MainNavBar";
+import MainNavBar from "../../components/Navbar/MainNavBar";
 
 function HomePage() {
   return (
     <div className="Home">
-      <MainNavBar></MainNavBar>
+      <MainNavBar />
     </div>
   );
 }
