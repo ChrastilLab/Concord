@@ -7,8 +7,8 @@ function ProjectPage() {
     <div className="project-page">
       <MainNavBar></MainNavBar>
       <div className="main">
-        <Separator></Separator>
         <ProjectNavBar></ProjectNavBar>
+        <Separator></Separator>
       </div>
     </div>
   );

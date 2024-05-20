@@ -9,6 +9,8 @@ function ProjectNavBar() {
     navigate(path);
   }
 
+  // TODO: Implement selected button highlight
+
   return (
     <nav className="individual-page-navbar">
       <Button

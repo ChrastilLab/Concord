@@ -47,6 +47,7 @@ function MainNavBar() {
   const signOut = async () => {
     await supabase.auth
       .signOut()
+      // the rest isn't working for some reason but dw abt it for now
       .then(
         toast({
           description: "Logged Out",
@@ -65,41 +66,41 @@ function MainNavBar() {
     });
   };
 
-  const createCalendarEvent = async () => {
-    console.log("Creating Calendar Event");
+  // const createCalendarEvent = async () => {
+  //   console.log("Creating Calendar Event");
 
-    const event = {
-      summary: "Test Calendar Event",
-      location: "1117 Sullivan, Irvine, CA 92614",
-      description: "A test event for SNL web dev",
-      start: {
-        dateTime: "2024-05-17T09:00:00",
-        timeZone: "America/Los_Angeles",
-      },
-      end: {
-        dateTime: "2024-05-17T12:00:00",
-        timeZone: "America/Los_Angeles",
-      },
-      attendees: [{ email: "rsima@uci.edu" }],
-    };
+  //   const event = {
+  //     summary: "Test Calendar Event",
+  //     location: "1117 Sullivan, Irvine, CA 92614",
+  //     description: "A test event for SNL web dev",
+  //     start: {
+  //       dateTime: "2024-05-17T09:00:00",
+  //       timeZone: "America/Los_Angeles",
+  //     },
+  //     end: {
+  //       dateTime: "2024-05-17T12:00:00",
+  //       timeZone: "America/Los_Angeles",
+  //     },
+  //     attendees: [{ email: "rsima@uci.edu" }],
+  //   };
 
-    await fetch(
-      "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-      {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + session.provider_token, // Access token for google
-        },
-        body: JSON.stringify(event),
-      }
-    )
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  };
+  //   await fetch(
+  //     "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: "Bearer " + session.provider_token, // Access token for google
+  //       },
+  //       body: JSON.stringify(event),
+  //     }
+  //   )
+  //     .then((data) => {
+  //       return data.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // };
 
   return (
     <>

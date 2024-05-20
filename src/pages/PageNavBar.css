@@ -1,19 +1,21 @@
-
 .main {
-    padding-top: 6%;
-    padding-left: 130px;
+  /* flex: 1; Takes up the remaining space after the navbar */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* padding: 20px; Adjust as needed */
+  margin-left: 130px;
 }
 
 .individual-page-navbar {
-    padding-top: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 15px;
-    /* border: 0.5px solid #888; */
-    width: 200px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  /* gap: 10px;/ */
+  padding-left: 15px;
+  /* border: 0.5px solid #888; */
+  width: 100%;
 }
 
 .individual-page-nav-button {
-    width: 150px;
+  width: 150px;
 }
