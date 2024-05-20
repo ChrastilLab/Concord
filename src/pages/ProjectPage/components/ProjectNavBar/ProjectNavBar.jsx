@@ -23,7 +23,7 @@ function ProjectNavBar() {
       <Button
         className="individual-page-nav-button"
         variant="ghost"
-        onClick={() => handleNavigate("/project/folder")}
+        // onClick={() => handleNavigate("/project/folder")}
       >
         Folder
       </Button>
