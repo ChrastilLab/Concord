@@ -1,4 +1,4 @@
-import MainNavBar from "../../../components/Navbar/MainNavBar";
+import MainNavBar from "../../../../components/Navbar/MainNavBar";
 
 function Folder() {
   return (
