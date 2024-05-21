@@ -1,7 +1,19 @@
-import MainNavBar from "../../../components/Navbar/MainNavBar";
-import ProjectNavBar from "../components/ProjectNavBar/ProjectNavBar";
-import { Separator } from "../../../components/ui/separator";
-import { Button } from "../../../components/ui/button";
+import MainNavBar from "../../../../components/Navbar/MainNavBar";
+import ProjectNavBar from "../ProjectNavBar/ProjectNavBar";
+import { Separator } from "../../../../components/ui/separator";
+import { Button } from "../../../../components/ui/button";
+import { Input } from "../../../../components/ui/input";
+import { Label } from "../../../../components/ui/label";
+import { Textarea } from "../../../../components/ui/textarea";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../../../../components/ui/card";
 
 import {
   useSession,
@@ -10,6 +22,8 @@ import {
 } from "@supabase/auth-helpers-react";
 
 import { useEffect, useState } from "react";
+
+import "./Schedule.css";
 
 function Schedule() {
   const session = useSession(); // tokens, when session exists, we have a user
@@ -57,7 +71,29 @@ function Schedule() {
       <div className="main">
         <ProjectNavBar></ProjectNavBar>
         <Separator></Separator>
-        <Button>Schedule</Button>
+
+        <div className="card-container">
+          <Card>
+            <CardHeader>
+              <CardTitle>Schedule A Task</CardTitle>
+              <CardDescription>Schedule a task for lab members</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form>
+                <Label htmlFor="taskName">Task Name</Label>
+                <Input id="taskName" placeholder="Task Name" />
+
+                <Label htmlFor="taskName">Task Description</Label>
+                <Textarea id="taskDescription" placeholder="Task Description" />
+              </form>
+            </CardContent>
+            <CardFooter>
+              <Button onClick={() => createCalendarEvent()}>
+                Schedule Task
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage/HomePage";
 
 import ProjectPage from "./pages/ProjectPage/ProjectPage";
 import Folder from "./pages/ProjectPage/components/Folder/Folder";
-import Schedule from "./pages/ProjectPage/Schedule/Schedule";
+import Schedule from "./pages/ProjectPage/components/Schedule/Schedule";
 import Task from "./pages/ProjectPage/components/Task/Task";
 import Setting from "./pages/ProjectPage/components/Settings/Setting";
 

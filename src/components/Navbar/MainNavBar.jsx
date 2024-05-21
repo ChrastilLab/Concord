@@ -21,8 +21,8 @@ function MainNavBar() {
   const supabase = useSupabaseClient(); // talk to supabase
   const { isLoading } = useSessionContext();
 
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
+  // const [start, setStart] = useState(new Date());
+  // const [end, setEnd] = useState(new Date());
 
   const { toast } = useToast();
 
