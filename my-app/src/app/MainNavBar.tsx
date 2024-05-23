@@ -25,19 +25,19 @@ export default function MainNavBar() {
           <span className="sr-only">Acme Inc</span>
         </Link>
         <Link
-          href="#"
+          href="/"
           className="text-foreground transition-colors hover:text-foreground"
         >
           Home
         </Link>
         <Link
-          href="#"
+          href="/Project"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
           Project
         </Link>
         <Link
-          href="#"
+          href="/Setting"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
           Settings

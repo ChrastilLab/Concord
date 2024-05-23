@@ -9,11 +9,11 @@ export default function HomeNavBar() {
       <Link href="/" className="font-semibold text-primary">
         General
       </Link>
-      <Link href="/home/announcements">Announcements</Link>
-      <Link href="/home/projects">Projects</Link>
-      <Link href="/home/posts">Posts</Link>
-      <Link href="/home/members">Members</Link>
-      <Link href="/home/settings">Settings</Link>
+      <Link href="/Home/announcements">Announcements</Link>
+      <Link href="/Home/projects">Projects</Link>
+      <Link href="/Home/posts">Posts</Link>
+      <Link href="/Home/members">Members</Link>
+      <Link href="/Home/settings">Settings</Link>
     </nav>
   );
 }
