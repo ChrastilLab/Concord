@@ -53,8 +53,9 @@ export default function MainNavBar() {
             >
               <Brain className="h-6 w-6" />
               <span className="sr-only">Acme Inc</span>
+              Concord
             </Link>
-            <Link href="/" className="hover:text-foreground">
+            {/* <Link href="/" className="hover:text-foreground">
               Home
             </Link>
             <Link
@@ -62,7 +63,7 @@ export default function MainNavBar() {
               className="text-muted-foreground hover:text-foreground"
             >
               Project
-            </Link>
+            </Link> */}
           </nav>
         </SheetContent>
       </Sheet>

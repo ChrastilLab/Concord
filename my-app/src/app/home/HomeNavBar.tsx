@@ -10,7 +10,6 @@ export default function HomeNavBar() {
         General
       </Link>
       <Link href="/home/announcements">Announcements</Link>
-      <Link href="/home/projects">Projects</Link>
       <Link href="/home/posts">Posts</Link>
       <Link href="/home/members">Members</Link>
       <Link href="/home/settings">Settings</Link>
