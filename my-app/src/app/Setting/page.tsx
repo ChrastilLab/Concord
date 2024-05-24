@@ -12,33 +12,35 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
-import { PencilRuler } from "lucide-react";
-import { useState, useRef } from "react";
+import ProfileAvatar from "./avatar";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
-const userInfo = { username: "concord", about: "hi, here is..." };
+const initialUserInfo = {
+  username: "concord",
+  about: "hi, here is...",
+};
 
 export default function SettingPage() {
-  const [profilePicture, setProfilePicture] = useState("");
+  const [userInfo, setUserInfo] = useState(initialUserInfo);
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { toast } = useToast();
+  const handleSave = () => {
+    toast({
+      title: "Successfully Saved!",
+      duration: 1500,
+    });
+  };
 
-  function handleAvatarClick() {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  }
-
-  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicture(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { id, value } = e.target;
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      [id]: value,
+    }));
   }
 
   return (
@@ -50,45 +52,37 @@ export default function SettingPage() {
         </div>
 
         <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-          <div></div>
+          <Link href="">Edit Profile</Link>
           <div>
             <Card>
               <CardHeader>
-                <CardTitle>{userInfo.username}'s profile</CardTitle>
+                <CardTitle>{userInfo.username}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid w-full items-center gap-4">
-                  <button className="w-20 h-20 flex flex-col space-y-1.5 relative group">
-                    <Avatar
-                      className="w-20 h-20 cursor-pointer group-hover:opacity-75 transition-opacity duration-100"
-                      onClick={handleAvatarClick}
-                    >
-                      <AvatarImage src={profilePicture} />
-                      <AvatarFallback>CN</AvatarFallback>
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-100">
-                        <PencilRuler color="white" />
-                      </div>
-                    </Avatar>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      className="hidden"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                    />
-                  </button>
+                  <ProfileAvatar></ProfileAvatar>
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Name</Label>
-                    <Input defaultValue={userInfo.username} />
+                    <Label htmlFor="username">Name</Label>
+                    <Input
+                      id="username"
+                      defaultValue={userInfo.username}
+                      onChange={handleChange}
+                    />
                   </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="about">About</Label>
-                    <Textarea id="about" defaultValue={userInfo.about} />
+                    <Textarea
+                      id="about"
+                      defaultValue={userInfo.about}
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
               </CardContent>
               <CardFooter className="flex justify-end">
-                <Button variant="outline">Save</Button>
+                <Button variant="outline" onClick={handleSave}>
+                  Save Change
+                </Button>
               </CardFooter>
             </Card>
           </div>
