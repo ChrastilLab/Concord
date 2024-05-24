@@ -13,7 +13,7 @@ function HomeNavBar() {
       <Link to="/projects">Projects</Link>
       <Link to="/posts">Posts</Link>
       <Link to="/members">Members</Link>
-      <Link to="/Setting">Settings</Link>
+      <Link to="/settings">Settings</Link>
     </nav>
   );
 }

@@ -39,7 +39,7 @@ function HomePage() {
                 <CardDescription>Project 1</CardDescription>
                 <CardTitle className="text-4xl">
                   <Link
-                    to="/Project"
+                    to="/project"
                     className="transition-colors hover:text-foreground"
                   >
                     Project 1 Name
@@ -58,7 +58,7 @@ function HomePage() {
                 <CardDescription>Project 2</CardDescription>
                 <CardTitle className="text-4xl">
                   <Link
-                    to="/Project"
+                    to="/project"
                     className="transition-colors hover:text-foreground"
                   >
                     Project 2 Name
