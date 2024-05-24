@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import MainNavBar from "./MainNavBar";
-import HomeNavBar from "./home/HomeNavBar";
+import HomeNavBar from "./Home/HomeNavBar";
 
 export default function Home() {
   return (
