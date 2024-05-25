@@ -14,11 +14,7 @@ import {
 import { Input } from "../ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 
-import {
-  useSession,
-  useSupabaseClient,
-  useSessionContext,
-} from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 function MainNavBar() {
   const session = useSession();
