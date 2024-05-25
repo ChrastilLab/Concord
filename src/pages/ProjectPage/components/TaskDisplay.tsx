@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,11 +12,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
-import { Button } from "src/components/ui/button"
-import { Checkbox } from "src/components/ui/checkbox"
+import { Button } from "src/components/ui/button";
+import { Checkbox } from "src/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -25,8 +25,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "src/components/ui/dropdown-menu"
-import { Input } from "src/components/ui/input"
+} from "src/components/ui/dropdown-menu";
+import { Input } from "src/components/ui/input";
 import {
   Table,
   TableBody,
@@ -34,9 +34,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "src/components/ui/table"
+} from "src/components/ui/table";
 
-const data: Payment[] = [
+const data: Task[] = [
   {
     id: "m5gr84i9",
     date: "2020-12-23",
@@ -67,16 +67,16 @@ const data: Payment[] = [
     status: "Finished",
     task: "TaskExample5",
   },
-]
+];
 
-export type Payment = {
-  id: string
-  date: string
-  status: string
-  task: string
-}
+export type Task = {
+  id: string;
+  date: string;
+  status: string;
+  task: string;
+};
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Task>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -117,7 +117,7 @@ export const columns: ColumnDef<Payment>[] = [
           Task
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue("task")}</div>,
   },
@@ -125,18 +125,16 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "date",
     header: () => <div className="text-right">Date</div>,
     cell: ({ row }) => {
-      const amount : string = (row.getValue("date"))
+      const date: string = row.getValue("date");
 
-      // Format the amount as a dollar amoun
-
-      return <div className="text-right font-medium">{amount}</div>
+      return <div className="text-right font-medium">{date}</div>;
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const Task = row.original;
 
       return (
         <DropdownMenu>
@@ -149,28 +147,28 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(Task.id)}
             >
-              Copy payment ID
+              Copy Task ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>View Task details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 export function TaskDisplay() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -189,7 +187,7 @@ export function TaskDisplay() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -224,7 +222,7 @@ export function TaskDisplay() {
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -244,7 +242,7 @@ export function TaskDisplay() {
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -304,5 +302,5 @@ export function TaskDisplay() {
         </div>
       </div>
     </div>
-  )
+  );
 }
