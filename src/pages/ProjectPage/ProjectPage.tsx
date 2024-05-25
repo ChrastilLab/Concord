@@ -20,7 +20,13 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 function ProjectPage() {
+  let { projectId } = useParams();
+  const navigate = useNavigate();
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <MainNavBar />
