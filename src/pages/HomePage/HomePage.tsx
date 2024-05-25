@@ -113,18 +113,14 @@ function HomePage() {
             </div>
           </>
         ) : (
-          <div className="flex flex-col flex-1 justify-around items-center p-2.5   h-full">
-            {/* <div className="flex justify-around items-center p-4 rounded gap-5">
-              
-            </div> */}
-            <div>Manage Your Lab like Never Before</div>
-            <div>Get Started Now</div>
-            <Button>Login</Button>
-            {/* I need to assign this click to handleGoogleSignIn() idk how to do that tho */}
-
-            {/* <div className="flex justify-around items-center bg-white p-4 shadow rounded gap-5 ">
-              
-            </div> */}
+          <div className="flex flex-col justify-around items-center p-2.5 h-full">
+            <div className="text-xl font-semibold mb-4">
+              Mange your lab seamlessly.
+            </div>
+            <div className="text-lg mb-6">Get Started Now</div>
+            <Button onClick={handleGoogleSignIn} type="button">
+              Login
+            </Button>
           </div>
         )}
       </main>
