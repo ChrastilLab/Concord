@@ -23,6 +23,7 @@ import {
 function MainNavBar() {
   const session = useSession();
   const supabase = useSupabaseClient();
+  const navigate = useNavigate();
 
   async function handleGoogleSignIn() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -39,7 +40,9 @@ function MainNavBar() {
   }
 
   async function signOut() {
-    await supabase.auth.signOut();
+    await supabase.auth.signOut().then(() => {
+      navigate("/");
+    });
   }
 
   return (
