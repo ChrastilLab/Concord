@@ -1,3 +1,6 @@
+import {TaskDisplay} from "./TaskDisplay"
+
+
 import {
   Card,
   CardContent,
@@ -15,12 +18,15 @@ function Tasks() {
         <CardTitle>Tasks</CardTitle>
         <CardDescription>Tasks Component Here</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-2">Task Component Content</CardContent>
+        <CardContent className="space-y-2"><TaskDisplay></TaskDisplay></CardContent>
       <CardFooter>
-        <Button>Idk</Button>
+        <Button>IDK</Button>
       </CardFooter>
     </Card>
   );
 }
 
+
 export default Tasks;
+
+
