@@ -11,7 +11,19 @@ import {
 import MainNavBar from "../../components/MainNavBar/MainNavBar";
 import HomeNavBar from "./components/HomeNavBar";
 
+import {
+  useSession,
+  useSupabaseClient,
+  useSessionContext,
+} from "@supabase/auth-helpers-react";
+
 function HomePage() {
+  const { isLoading } = useSessionContext();
+
+  if (isLoading) {
+    return <></>;
+  }
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <MainNavBar />
