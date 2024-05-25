@@ -53,9 +53,8 @@ function HomePage() {
             <div className="text-xl font-semibold mb-4">
               Mange your lab seamlessly.
             </div>
-            <div className="text-lg mb-6">Get Started Now</div>
             <Button onClick={handleGoogleSignIn} type="button">
-              Login
+              Get Started Now
             </Button>
           </div>
         )}
