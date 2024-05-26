@@ -1,6 +1,5 @@
 import MainNavBar from "../../components/MainNavBar/MainNavBar";
 // import ProjectNavBar from "./components/ProjectNavBar";
-import Folder from "./Folder";
 import Tasks from "./components/Tasks";
 import Folder from "./components/Folder";
 import Schedule from "./components/Schedule";
