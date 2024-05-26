@@ -26,7 +26,7 @@ function MainNavBar() {
       provider: "google",
       options: {
         scopes:
-          "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/docs",
+        "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/docs  https://www.googleapis.com/auth/spreadsheets",
       },
     });
 
