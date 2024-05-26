@@ -169,8 +169,23 @@ interface TaskDisplayProps {
   projectId: number;
 }
 
+function transformTaskData(rawTasks: any[]): Task[] {
+  return rawTasks.map((rawTask) => ({
+    projectId: rawTask.project_id,
+    taskId: rawTask.task_id,
+    status: rawTask.status as TaskStatus,
+    taskName: rawTask.task_name,
+    type: rawTask.task_type as TaskType,
+    endDate: new Date(rawTask.end_date),
+    startDate: rawTask.start_date ? new Date(rawTask.start_date) : undefined,
+    assignedDate: new Date(rawTask.assigned_at),
+    assignedBy: rawTask.assigned_by,
+    assignedTo: rawTask.assigned_to,
+  }));
+}
+
 export function TaskDisplay(props:TaskDisplayProps) {
-  console.log("props projectId",props.projectId);
+  // console.log("props projectId",props.projectId);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -184,15 +199,15 @@ export function TaskDisplay(props:TaskDisplayProps) {
   const supabase = useSupabaseClient();
   useEffect(() => {
     const fetchTasks = async () => {
-      const { data, error } = await supabase.from("Tasks").select("*").eq("project_id", 1);
+      const { data, error } = await supabase.from("Tasks").select("*").eq("project_id", props.projectId);
 
-      console.log("Supabase response:", { data, error });
+      // console.log("Supabase response:", { data, error });
 
       if (error) {
         console.error("Error fetching data:", error);
       } else {
-        console.log(data);
-        setTasks(data as Task[]);
+        // console.log(data);
+        setTasks(transformTaskData(data));
       }
       setLoading(false);
     };
@@ -200,8 +215,9 @@ export function TaskDisplay(props:TaskDisplayProps) {
     fetchTasks();
   }, []);
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<Task>({
+    // data,
+    data: tasks,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
