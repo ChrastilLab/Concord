@@ -16,6 +16,8 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
+import PersonalInfo from "../PersonalInfoPopover/PersonalInfo";
+
 function MainNavBar() {
   const session = useSession();
   const supabase = useSupabaseClient();
@@ -111,6 +113,7 @@ function MainNavBar() {
             )}
           </div>
         </form>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
@@ -146,6 +149,7 @@ function MainNavBar() {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
+        {/*<PersonalInfo/>*/}
       </div>
     </header>
   );
