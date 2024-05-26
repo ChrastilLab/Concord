@@ -194,9 +194,9 @@ export function TaskDisplay() {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter Task..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("task")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("task")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

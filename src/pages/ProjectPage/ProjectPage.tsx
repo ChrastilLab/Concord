@@ -5,17 +5,7 @@ import Folder from "./components/Folder";
 import Schedule from "./components/Schedule";
 import Settings from "./components/Settings";
 
-import { Button } from "../../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
+
 import {
   Tabs,
   TabsContent,
@@ -26,14 +16,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-interface Params {
-  projectId: string;
-}
-
 function ProjectPage() {
-  const navigate = useNavigate();
+  
 
   let { projectId } = useParams();
+
+  console.log("Project ID: ", projectId);
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -51,7 +39,7 @@ function ProjectPage() {
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
             <TabsContent value="tasks">
-              <Tasks />
+              <Tasks projectId={projectId} />
             </TabsContent>
             <TabsContent value="folder">
               <Folder />
