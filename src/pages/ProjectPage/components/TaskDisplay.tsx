@@ -2,166 +2,56 @@
 
 import * as React from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import {ChevronDown} from "lucide-react";
 
-import { Button } from "src/components/ui/button";
-import { Checkbox } from "src/components/ui/checkbox";
+import {Button} from "src/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "src/components/ui/dropdown-menu";
-import { Input } from "src/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "src/components/ui/table";
+import {Input} from "src/components/ui/input";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "src/components/ui/table";
+import Task from "../../../types/Task";
+import {TaskStatus, TaskType} from "../../../types/ProjectEnums";
+import {useEffect, useState} from "react";
+import {useSupabaseClient} from "@supabase/auth-helpers-react";
+import columns from "./TaskColumns";
 
-const data: Task[] = [
-  {
-    id: "m5gr84i9",
-    date: "2020-12-23",
-    status: "Finished",
-    task: "TaskExample1",
-  },
-  {
-    id: "3u1reuv4",
-    date: "2020-12-23",
-    status: "Not Start",
-    task: "TaskExample2",
-  },
-  {
-    id: "derv1ws0",
-    date: "2020-12-23",
-    status: "processing",
-    task: "TaskExample3",
-  },
-  {
-    id: "5kma53ae",
-    date: "2020-12-23",
-    status: "Finished",
-    task: "TaskExample4",
-  },
-  {
-    id: "bhqecj4p",
-    date: "2020-12-23",
-    status: "Finished",
-    task: "TaskExample5",
-  },
-];
 
-export type Task = {
-  id: string;
-  date: string;
-  status: string;
-  task: string;
-};
 
-export const columns: ColumnDef<Task>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "task",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Task
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("task")}</div>,
-  },
-  {
-    accessorKey: "date",
-    header: () => <div className="text-right">Date</div>,
-    cell: ({ row }) => {
-      const date: string = row.getValue("date");
+interface TaskDisplayProps {
+  projectId: number;
+}
 
-      return <div className="text-right font-medium">{date}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const Task = row.original;
+function transformTaskData(rawTasks: any[]): Task[] {
+  return rawTasks.map((rawTask) => ({
+    projectId: rawTask.project_id,
+    taskId: rawTask.task_id,
+    status: rawTask.status as TaskStatus,
+    taskName: rawTask.task_name,
+    type: rawTask.task_type as TaskType,
+    endDate: new Date(rawTask.end_date),
+    startDate: rawTask.start_date ? new Date(rawTask.start_date) : undefined,
+    assignedDate: new Date(rawTask.assigned_at),
+    assignedBy: rawTask.assigned_by,
+    assignedTo: rawTask.assigned_to,
+  }));
+}
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(Task.id)}
-            >
-              Copy Task ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View Task details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
-export function TaskDisplay() {
+export function TaskDisplay(props:TaskDisplayProps) {
+  // console.log("props projectId",props.projectId);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -170,8 +60,30 @@ export function TaskDisplay() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const table = useReactTable({
-    data,
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const supabase = useSupabaseClient();
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const { data, error } = await supabase.from("Tasks").select("*").eq("project_id", props.projectId);
+
+      // console.log("Supabase response:", { data, error });
+
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else {
+        // console.log(data);
+        setTasks(transformTaskData(data));
+      }
+      setLoading(false);
+    };
+
+    fetchTasks();
+  }, []);
+
+  const table = useReactTable<Task>({
+    // data,
+    data: tasks,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -194,9 +106,9 @@ export function TaskDisplay() {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter Task..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("taskName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("taskName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
