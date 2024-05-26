@@ -29,56 +29,23 @@ import {
 import {Input} from "src/components/ui/input";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "src/components/ui/table";
 import Task from "../../../types/Task";
-import {ProjectStatus, ProjectType} from "../../../types/ProjectEnums";
+import {TaskStatus, TaskType} from "../../../types/ProjectEnums";
+import {useEffect, useState} from "react";
+import Project from "@/src/types/Project";
+import {useSupabaseClient} from "@supabase/auth-helpers-react";
 
 const data: Task[] = [
   {
     projectId:1,
     taskId: 1,
-    status: ProjectStatus.Completed,
+    status: TaskStatus.Completed,
     taskName: "TaskExample1",
-    type: ProjectType.Deadline,
+    type: TaskType.Deadline,
     endDate: new Date("2024-06-15T09:00:00Z"),
-    assignedDate: new Date("2024-05-25T15:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 2,
-    status: ProjectStatus.NotStarted,
-    taskName: "Lab Session 1",
-    type: ProjectType.Scheduled,
-    startDate: new Date("2024-05-27T09:00:00Z"),
-    endDate: new Date("2024-05-27T11:00:00Z"),
-    assignedDate: new Date("2024-05-20T11:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 3,
-    status: ProjectStatus.NotStarted,
-    taskName: "Lab Session 2",
-    type: ProjectType.Scheduled,
-    startDate: new Date("2024-05-29T13:00:00Z"),
-    endDate: new Date("2024-05-29T15:00:00Z"),
-    assignedDate: new Date("2024-05-20T11:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 4,
-    status: ProjectStatus.InProgress,
-    taskName: "Write report",
-    type: ProjectType.Deadline,
-    endDate: new Date("2024-06-09T04:20:00Z"),
-    assignedDate: new Date("2024-04-20T11:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 5,
-    status: ProjectStatus.Completed,
-    taskName: "Analyze Data",
-    type: ProjectType.Deadline,
-    endDate: new Date("2024-04-13T03:30:00Z"),
-    assignedDate: new Date("2024-04-01T08:00:00Z")
-  },
+    assignedDate: new Date("2024-05-25T15:00:00Z"),
+    assignedBy: "1",
+    assignedTo: "2"
+  }
 ];
 
 
@@ -148,12 +115,12 @@ export const columns: ColumnDef<Task>[] = [
     accessorKey: "startDate",
     header: () => <div className="text-right">Start Date</div>,
     cell: ({ row }) => {
-      const type: ProjectType = row.getValue("type");
+      const type: TaskType = row.getValue("type");
       const startDate: Date | undefined = row.getValue("startDate");
 
       return (
           <div className="text-right font-medium">
-            {type === ProjectType.Deadline ? '-' : startDate?.toISOString().split('T')[0]}
+            {type === TaskType.Deadline ? '-' : startDate?.toISOString().split('T')[0]}
           </div>
       );
     },
@@ -198,7 +165,7 @@ export const columns: ColumnDef<Task>[] = [
   },
 ];
 
-export function TaskDisplay() {
+export function TaskDisplay(props:any) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -206,6 +173,27 @@ export function TaskDisplay() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const supabase = useSupabaseClient();
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const { data, error } = await supabase.from("Tasks").select("*").eq("projectId", parseInt(props.projectId));
+
+      console.log("Supabase response:", { data, error });
+
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else {
+        console.log(data);
+        setTasks(data as Task[]);
+      }
+      setLoading(false);
+    };
+
+    fetchTasks();
+  }, []);
 
   const table = useReactTable({
     data,
