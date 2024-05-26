@@ -1,5 +1,4 @@
-import {TaskDisplay} from "./TaskDisplay"
-
+import { TaskDisplay } from "./TaskDisplay";
 
 import {
   Card,
@@ -11,6 +10,11 @@ import {
 } from "../../../components/ui/card";
 
 import { Button } from "../../../components/ui/button";
+
+interface TasksProps {
+  projectId: number;
+}
+
 function Tasks() {
   return (
     <Card>
@@ -18,7 +22,9 @@ function Tasks() {
         <CardTitle>Tasks</CardTitle>
         <CardDescription>Tasks Component Here</CardDescription>
       </CardHeader>
-        <CardContent className="space-y-2"><TaskDisplay></TaskDisplay></CardContent>
+      <CardContent className="space-y-2">
+        <TaskDisplay />
+      </CardContent>
       <CardFooter>
         <Button>IDK</Button>
       </CardFooter>
@@ -26,7 +32,4 @@ function Tasks() {
   );
 }
 
-
 export default Tasks;
-
-
