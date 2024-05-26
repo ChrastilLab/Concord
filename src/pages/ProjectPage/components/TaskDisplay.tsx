@@ -4,19 +4,19 @@ import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import {ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react";
 
-import { Button } from "src/components/ui/button";
-import { Checkbox } from "src/components/ui/checkbox";
+import {Button} from "src/components/ui/button";
+import {Checkbox} from "src/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -26,75 +26,82 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "src/components/ui/dropdown-menu";
-import { Input } from "src/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "src/components/ui/table";
+import {Input} from "src/components/ui/input";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "src/components/ui/table";
+import Task from "../../../types/Task";
+import {ProjectStatus, ProjectType} from "../../../types/ProjectEnums";
 
 const data: Task[] = [
   {
-    id: "m5gr84i9",
-    date: "2020-12-23",
-    status: "Finished",
-    task: "TaskExample1",
+    projectId:1,
+    taskId: 1,
+    status: ProjectStatus.Completed,
+    taskName: "TaskExample1",
+    type: ProjectType.Deadline,
+    endDate: new Date("2024-06-15T09:00:00Z"),
+    assignedDate: new Date("2024-05-25T15:00:00Z")
   },
   {
-    id: "3u1reuv4",
-    date: "2020-12-23",
-    status: "Not Start",
-    task: "TaskExample2",
+    projectId:1,
+    taskId: 2,
+    status: ProjectStatus.NotStarted,
+    taskName: "Lab Session 1",
+    type: ProjectType.Scheduled,
+    startDate: new Date("2024-05-27T09:00:00Z"),
+    endDate: new Date("2024-05-27T11:00:00Z"),
+    assignedDate: new Date("2024-05-20T11:00:00Z")
   },
   {
-    id: "derv1ws0",
-    date: "2020-12-23",
-    status: "processing",
-    task: "TaskExample3",
+    projectId:1,
+    taskId: 3,
+    status: ProjectStatus.NotStarted,
+    taskName: "Lab Session 2",
+    type: ProjectType.Scheduled,
+    startDate: new Date("2024-05-29T13:00:00Z"),
+    endDate: new Date("2024-05-29T15:00:00Z"),
+    assignedDate: new Date("2024-05-20T11:00:00Z")
   },
   {
-    id: "5kma53ae",
-    date: "2020-12-23",
-    status: "Finished",
-    task: "TaskExample4",
+    projectId:1,
+    taskId: 4,
+    status: ProjectStatus.InProgress,
+    taskName: "Write report",
+    type: ProjectType.Deadline,
+    endDate: new Date("2024-06-09T04:20:00Z"),
+    assignedDate: new Date("2024-04-20T11:00:00Z")
   },
   {
-    id: "bhqecj4p",
-    date: "2020-12-23",
-    status: "Finished",
-    task: "TaskExample5",
+    projectId:1,
+    taskId: 5,
+    status: ProjectStatus.Completed,
+    taskName: "Analyze Data",
+    type: ProjectType.Deadline,
+    endDate: new Date("2024-04-13T03:30:00Z"),
+    assignedDate: new Date("2024-04-01T08:00:00Z")
   },
 ];
 
-export type Task = {
-  id: string;
-  date: string;
-  status: string;
-  task: string;
-};
+
 
 export const columns: ColumnDef<Task>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+        <Checkbox
+            checked={
+                table.getIsAllPageRowsSelected() ||
+                (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+        />
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+        <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+        />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -103,59 +110,89 @@ export const columns: ColumnDef<Task>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+        <div className="capitalize">{row.getValue("status")}</div>
     ),
   },
   {
-    accessorKey: "task",
+    accessorKey: "taskName",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Task
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          <Button
+              variant="ghost"
+              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Task
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("task")}</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("taskName")}</div>,
   },
   {
-    accessorKey: "date",
-    header: () => <div className="text-right">Date</div>,
+    accessorKey: "type",
+    header: () => <div className="text-right">Task Type</div>,
     cell: ({ row }) => {
-      const date: string = row.getValue("date");
+      const type: string = row.getValue("type");
+      return <div className="text-right font-medium">{type}</div>;
+    },
+  },
+  {
+    accessorKey: "assignedDate",
+    header: () => <div className="text-right">Assigned</div>,
+    cell: ({ row }) => {
+      const date: Date = row.getValue("assignedDate");
+      return <div className="text-right font-medium">{date.toISOString().split('T')[0]}</div>;
+    },
+  },
+  {
+    accessorKey: "startDate",
+    header: () => <div className="text-right">Start Date</div>,
+    cell: ({ row }) => {
+      const type: ProjectType = row.getValue("type");
+      const startDate: Date | undefined = row.getValue("startDate");
 
-      return <div className="text-right font-medium">{date}</div>;
+      return (
+          <div className="text-right font-medium">
+            {type === ProjectType.Deadline ? '-' : startDate?.toISOString().split('T')[0]}
+          </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "endDate",
+    header: () => <div className="text-right">End Date</div>,
+    cell: ({ row }) => {
+      const date: Date = row.getValue("endDate");
+      return <div className="text-right font-medium">{date.toISOString().split('T')[0]}</div>;
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const Task = row.original;
+      const task: Task = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(Task.id)}
-            >
-              Copy Task ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View Task details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                  onClick={() => navigator.clipboard.writeText(task.taskId.toString())}
+              >
+                Copy Task ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>View customer</DropdownMenuItem>
+              <DropdownMenuItem>View Task details</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
       );
     },
   },
@@ -194,9 +231,9 @@ export function TaskDisplay() {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter Task..."
-          value={(table.getColumn("task")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("taskName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("task")?.setFilterValue(event.target.value)
+            table.getColumn("taskName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
