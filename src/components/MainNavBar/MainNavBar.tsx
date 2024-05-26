@@ -54,18 +54,6 @@ function MainNavBar() {
           <span className="sr-only">Acme Inc</span>
           Concord
         </Link>
-        {/* <Link
-          href="/"
-          className="text-foreground transition-colors hover:text-foreground"
-        >
-          Home
-        </Link> */}
-        {/* <Link
-          href="/Project"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Project
-        </Link> */}
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -84,15 +72,6 @@ function MainNavBar() {
               <span className="sr-only">Acme Inc</span>
               Concord
             </Link>
-            {/* <Link href="/" className="hover:text-foreground">
-              Home
-            </Link>
-            <Link
-              href="/Project"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Project
-            </Link> */}
           </nav>
         </SheetContent>
       </Sheet>
@@ -149,7 +128,7 @@ function MainNavBar() {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-        {/*<PersonalInfo/>*/}
+        <PersonalInfo/>
       </div>
     </header>
   );
