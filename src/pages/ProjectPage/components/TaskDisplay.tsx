@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -13,17 +12,13 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import {ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react";
+import {ChevronDown} from "lucide-react";
 
 import {Button} from "src/components/ui/button";
-import {Checkbox} from "src/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "src/components/ui/dropdown-menu";
 import {Input} from "src/components/ui/input";
@@ -31,7 +26,6 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "sr
 import Task from "../../../types/Task";
 import {TaskStatus, TaskType} from "../../../types/ProjectEnums";
 import {useEffect, useState} from "react";
-import Project from "@/src/types/Project";
 import {useSupabaseClient} from "@supabase/auth-helpers-react";
 import columns from "./TaskColumns";
 
