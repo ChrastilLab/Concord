@@ -165,7 +165,12 @@ export const columns: ColumnDef<Task>[] = [
   },
 ];
 
-export function TaskDisplay(props:any) {
+interface TaskDisplayProps {
+  projectId: number;
+}
+
+export function TaskDisplay(props:TaskDisplayProps) {
+  console.log("props projectId",props.projectId);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -179,7 +184,7 @@ export function TaskDisplay(props:any) {
   const supabase = useSupabaseClient();
   useEffect(() => {
     const fetchTasks = async () => {
-      const { data, error } = await supabase.from("Tasks").select("*").eq("projectId", parseInt(props.projectId));
+      const { data, error } = await supabase.from("Tasks").select("*").eq("project_id", 1);
 
       console.log("Supabase response:", { data, error });
 
