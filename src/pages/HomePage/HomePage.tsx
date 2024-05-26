@@ -51,7 +51,7 @@ function HomePage() {
         ) : (
           <div className="flex flex-col justify-around items-center p-2.5 h-full">
             <div className="text-xl font-semibold mb-4">
-              Mange your lab seamlessly.
+              Manage your lab seamlessly.
             </div>
             <Button onClick={handleGoogleSignIn} type="button">
               Get Started Now
