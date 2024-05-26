@@ -1,12 +1,12 @@
-// React imports
+// React Imports
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
-// Backend imports
+// Backend Imports
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Project from "../../../types/Project";
 
-// Frontend imports
+// Frontend Imports
 import { Button } from "../../../components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../../../components/ui/card";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent} from "../../../components/ui/dropdown-menu";
