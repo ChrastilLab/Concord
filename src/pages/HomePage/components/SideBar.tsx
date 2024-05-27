@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 // Frontend Imports
 import { Button } from "../../../components/ui/button";
 
-function SideBarNav() {
+interface SideBarNavProps {
+  hidden: boolean;
+};
+
+function SideBarNav({ hidden }: SideBarNavProps) {
   return (
-    <nav className="flex grow flex-col pr-4">
+    <nav className={`flex flex-col grow md:flex pr-4${hidden ? " hidden" : ""}`}>
       <Button variant="secondary" className="justify-start">
         <Link to="/" className="text-primary"> Studies </Link>
       </Button>
@@ -22,6 +26,7 @@ function SideBarNav() {
       <Button variant="ghost" className="mt-auto justify-start">
         <Link to="/settings"> Settings </Link>
       </Button>
+      {/* TODO: Log-Out Functionality */}
       <Button variant="ghost" className="justify-start">
         <Link to="/"> Log Out </Link>
       </Button>

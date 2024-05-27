@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 // Frontend Imports
+import { CircleUser, Menu, Brain, Search } from "lucide-react";
+
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { CircleUser, Menu, Brain, Search } from "lucide-react";
+
+import SideBarNav from "../../pages/HomePage/components/SideBar"
 
 // Backend Imports
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -56,13 +59,16 @@ function MainNavBar() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
-          <nav className="flex items-center text-lg font-semibold">
-            <Link to="/" className="flex items-center gap-2">
-              <Brain className="h-6 w-6" />
-              <span className="sr-only"> Concord </span>
-              Concord
-            </Link>
-          </nav>
+          <div className="w-full h-full flex flex-col">
+            <nav className="h-16 flex items-center text-lg font-semibold">
+              <Link to="/" className="flex items-center gap-2">
+                <Brain className="h-6 w-6" />
+                <span className="sr-only"> Concord </span>
+                Concord
+              </Link>
+            </nav>
+            <SideBarNav hidden={false}></SideBarNav>
+          </div>
         </SheetContent>
       </Sheet>
       <div className="flex items-center gap-4 ml-auto">
@@ -107,12 +113,12 @@ function MainNavBar() {
               </DropdownMenuItem>
             <DropdownMenuSeparator />
             {session ? (
-              <DropdownMenuItem onClick={() => {signOut();}}>
+              <DropdownMenuItem onClick={signOut}>
                 Logout
               </DropdownMenuItem>
             ) : (
               // TODO: Remove border on the user button when the user menu is expanded.
-              <DropdownMenuItem onClick={() => {handleGoogleSignIn();}}>
+              <DropdownMenuItem onClick={handleGoogleSignIn}>
                 Login
               </DropdownMenuItem>
             )}

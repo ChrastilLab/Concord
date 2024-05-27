@@ -38,13 +38,13 @@ function HomePage() {
   }
 
   return (
-    <div className="flex h-screen w-full flex-col px-4 py-2 lg:px-6">
+    <div className="w-full h-screen flex flex-col px-4 py-2 lg:px-6">
       <MainNavBar />
       <main className="grow">
         {
           session ? (
             <div className="flex w-full h-full">
-              <SideBarNav></SideBarNav>
+              <SideBarNav hidden={true}></SideBarNav>
               <ProjectsDisplay></ProjectsDisplay>
             </div>
           ) : (
