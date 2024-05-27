@@ -1,0 +1,158 @@
+.triggerImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+}
+
+.personalContent{
+    background-color: #232428;
+    border-radius: 10px;
+    overflow: hidden;
+    color: white;
+    left: 30px;
+    height: 60vh;
+    width: 30vw;
+    min-width: 300px;
+}
+
+.contentHeader{
+    font-weight: bold;
+    background-color: #383ebc;
+    padding: 10px;
+    height: 10vh;
+    width: 30vw;
+    min-width: 300px;
+}
+
+.contentAvatar{
+    width: 12vh;
+    height: 12vh;
+    object-fit: cover;
+    border-radius: 100%;
+    border: #232428 solid 7px;
+    position:relative;
+    top: -6vh;
+    left: 2vw;
+}
+
+.status{
+    width: 4vh;
+    height: 4vh;
+    border-radius: 100%;
+    background-color: greenyellow;
+    border: #232428 solid 7px;
+    position: absolute;
+    top: 10vh;
+    left: 11vh;
+    z-index: 3;
+}
+
+.contentBody{
+    padding: 10px;
+    background-color: #232428;
+    width: 30vw;
+    height: 50vh;
+    min-width: 300px;
+}
+
+.mainContent{
+    position: absolute;
+    width: 26vw;
+    min-width: 270px;
+    height: 41vh;
+    background-color: #111214;
+    left: 2vw;
+    top: 16vh;
+    border-radius: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #1e1f21;
+}
+
+.userName{
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    left: 0;
+    line-height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.userEmail{
+    font-size: 12px;
+    color: white;
+    left: 0;
+}
+
+
+.quoteContent{
+    font-size: 12px;
+    color: grey;
+}
+
+.role{
+    margin-left: 20px;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #2f533f;
+    font-weight: bold;
+    background-color: #d0f5d7;
+}
+
+.blockMargin5{
+    margin-top: 5px;
+}
+
+.statusTooltip{
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #d0f5d7;
+    color: #2f533f;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.lastActiveTooltip{
+    font-size: 12px;
+    background-color: #d0f5d7;
+    color: #2f533f;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.lastActiveIcon{
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+}
+
+.taskItem{
+    background-color: #232428;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.mainContent::-webkit-scrollbar {
+    width: 4px;
+}
+.mainContent::-webkit-scrollbar-track {
+    background: #111214;
+    border-radius: 10px;
+}
+.mainContent::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+}
+.mainContent::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
