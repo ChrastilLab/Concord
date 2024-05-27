@@ -18,7 +18,15 @@ import {
 } from "src/components/ui/dropdown-menu";
 import Task from "../../../types/Task";
 import {TaskType} from "../../../types/ProjectEnums";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "src/components/ui/select";
 
 const columns: ColumnDef<Task>[] = [
     {
@@ -47,7 +55,16 @@ const columns: ColumnDef<Task>[] = [
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-          <div className="capitalize">{row.getValue("status")}</div>
+        <Select>
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder="Select Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value={row.getValue("status")}>{row.getValue("status")}</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       ),
     },
     {
