@@ -1,7 +1,10 @@
-import { Button } from "../../components/ui/button";
+// React Imports
+import { Link } from "react-router-dom";
 
+// Frontend Imports
+import { Button } from "../../components/ui/button";
 import MainNavBar from "../../components/MainNavBar/MainNavBar";
-import HomeNavBar from "./components/HomeNavBar";
+import SideBarNav from "./components/SideBar";
 import ProjectsDisplay from "./components/ProjectsDisplay";
 
 import {
@@ -11,6 +14,7 @@ import {
 } from "@supabase/auth-helpers-react";
 
 function HomePage() {
+  const googleSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8l9l3h0_MPRxbnGLX-9qfJ0zAfJGkx7OfQUdCSjURDcKZQtEkHGIWiYwzbbG_aRhEtFRS1Q7Nx9wO/pubhtml?widget=true&amp;headers=false&rm=minimal&zoomScale=89";
   const { isLoading } = useSessionContext();
 
   const session = useSession();
@@ -36,33 +40,41 @@ function HomePage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="w-full flex flex-col bg-muted/40">
       <MainNavBar />
-      <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
-        {session ? (
-          <>
-            <div className="mx-auto grid w-full max-w-6xl gap-2">
-              <h1 className="text-3xl font-semibold">Home</h1>
-            </div>
-            <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-              <HomeNavBar />
+      <main className="grow">
+        {
+          session ? (
+            <div className="flex w-full">
+              <SideBarNav hidden={true}></SideBarNav>
+              <div className="flex flex-col " >
+                <ProjectsDisplay></ProjectsDisplay>
+                <iframe className="w-full h-96" title="Google Spreadsheet" src={googleSheetURL} />
 
-
-              <ProjectsDisplay />
-              <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8l9l3h0_MPRxbnGLX-9qfJ0zAfJGkx7OfQUdCSjURDcKZQtEkHGIWiYwzbbG_aRhEtFRS1Q7Nx9wO/pubhtml?widget=true&amp;headers=false&rm=minimal&zoomScale=89" width="1000" height="500" title="Google Spreadsheet"></iframe>
+              </div>
 
             </div>
-          </>
-        ) : (
-          <div className="flex flex-col justify-around items-center p-2.5 h-full">
-            <div className="text-xl font-semibold mb-4">
-              Manage your lab seamlessly.
+          ) : (
+            <div className="flex flex-col w-full h-full justify-center items-center text-center">
+              <div className="text-lg md:text-2xl lg:text-4xl font-bold">
+                Your one-stop shop for lab productivity.
+              </div>
+              <div className="text-sm w-9/12 font-semibold pt-1 md:text-xl md:pt-1.5 lg:text-2xl lg: pt-2">
+                A research-focused administrative website designed to optimize the management of concurrent projects.
+              </div>
+              <div className="flex justify-center pt-2 space-x-2 md:pt-3 md:space-x-3 lg:pt-4 lg:space-x-4">
+                <Button type="button" variant = "outline" className="h-7.5 px-3 py-1.5 text-[0.625rem] font-semibold md:h-10 md:px-4 md:py-2 md:text-xs lg:text-sm">
+                  <Link to="/aboutus">
+                    About Us
+                  </Link>
+                </Button>
+                <Button onClick={handleGoogleSignIn} type="button" className="h-7.5 px-3 py-1.5 text-[0.625rem] font-semibold md:h-10 md:px-4 md:py-2 md:text-xs lg:text-sm">
+                  Log In
+                </Button>
+              </div>
             </div>
-            <Button onClick={handleGoogleSignIn} type="button">
-              Get Started Now
-            </Button>
-          </div>
-        )}
+          )
+        }
       </main>
     </div>
   );
