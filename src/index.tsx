@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Toaster } from "./components/ui/toaster";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 
-import supabase from "./config/supabase";
+import {supabase} from "./config/supabase";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

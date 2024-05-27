@@ -1,9 +1,9 @@
-import {CardContent, CardFooter, CardHeader, CardTitle} from "@/src/components/ui/card";
-import {Label} from "@/src/components/ui/label";
-import {Input} from "@/src/components/ui/input";
-import {Textarea} from "@/src/components/ui/textarea";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/src/components/ui/select";
-import {Button} from "@/src/components/ui/button";
+import {CardContent, CardFooter, CardHeader, CardTitle} from "../ui/card";
+import {Label} from "../ui/label";
+import {Input} from "../ui/input";
+import {Textarea} from "../ui/textarea";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../ui/select";
+import {Button} from "../ui/button";
 import React from "react";
 
 function CreateNewStudyCard() {

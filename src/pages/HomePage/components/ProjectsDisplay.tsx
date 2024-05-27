@@ -10,6 +10,7 @@ import Project from "../../../types/Project";
 import { Button } from "../../../components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../../../components/ui/card";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent} from "../../../components/ui/dropdown-menu";
+import CreateNewStudyCard from "../../../components/CreateNewStudyCard/CreateNewStudyCard";
 import { Input } from "../../../components/ui/input"
 import { Label } from "../../../components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
@@ -57,44 +58,7 @@ function ProjectsDisplay() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <CardHeader>
-                  <CardTitle> Create New Study </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="w-[350px]">
-                    <div className="grid w-full items-center gap-4">
-                      <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="studyname"> Study Name </Label>
-                        <Input id="studyname" placeholder="Study Name" />
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                        <Label id="studydescription"> Study Description </Label>
-                        <Textarea id="studydescription" placeholder="Study Description"></Textarea>
-                        <div className="flex flex-col space-y-1.5"></div>
-                        <Label htmlFor="studymembers"> Study Members </Label>
-                        <Select>
-                          <SelectTrigger id="studymembers">
-                            <SelectValue placeholder="Select Members" />
-                          </SelectTrigger>
-                          <SelectContent position="popper">
-                            <SelectItem value="member"> Member </SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <div className="flex flex-col space-y-1.5"></div>
-                        <Label htmlFor="studygoogledrivelink"> Study Google Drive Link </Label>
-                        <Input id="studygoogledrivelink" placeholder="Google Drive Link" />
-                      </div>
-                    </div>
-                  </form>                 
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline">
-                    Cancel
-                  </Button>
-                  <Button>
-                    Confirm 
-                  </Button>
-                </CardFooter>
+                <CreateNewStudyCard/>
               </DropdownMenuContent>
             </DropdownMenu>
           </CardFooter>
