@@ -6,7 +6,7 @@ import { Button } from "../../../components/ui/button";
 
 function SideBarNav() {
   return (
-    <nav className="flex grow flex-col px-4">
+    <nav className="flex grow flex-col pr-4">
       <Button variant="secondary" className="justify-start">
         <Link to="/" className="text-primary"> Studies </Link>
       </Button>

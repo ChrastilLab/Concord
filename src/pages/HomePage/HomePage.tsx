@@ -38,18 +38,17 @@ function HomePage() {
   }
 
   return (
-    <div className="flex h-screen w-full flex-col">
+    <div className="flex h-screen w-full flex-col px-4 py-2 lg:px-6">
       <MainNavBar />
-      {/* Check if flex needed. */}
       <main className="grow">
         {
           session ? (
-            <div className="flex w-full">
-              {/* <SideBarNav></SideBarNav>
-              <ProjectsDisplay></ProjectsDisplay> */}
+            <div className="flex w-full h-full">
+              <SideBarNav></SideBarNav>
+              <ProjectsDisplay></ProjectsDisplay>
             </div>
           ) : (
-            <div className="flex flex-col w-full h-full justify-center items-center px-4 text-center ">
+            <div className="flex flex-col w-full h-full justify-center items-center text-center">
               <div className="text-lg md:text-2xl lg:text-4xl font-bold">
                 Your one-stop shop for lab productivity.
               </div>
