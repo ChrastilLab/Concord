@@ -1,6 +1,6 @@
 "use client";
-import MainNavBar from "../MainNavBar";
-import Link from "next/link";
+import MainNavBar from "../../../components/MainNavBar/MainNavBar";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -8,18 +8,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from "../../../components/ui/card";
+import { Label } from "../../../components/ui/label";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Textarea } from "../../../components/ui/textarea";
 import ProfileAvatar from "./avatar";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "../../../components/ui/use-toast";
 
 const initialUserInfo = {
-  username: "concord",
-  about: "hi, here is...",
+  username: "username...",
+  about: "about...",
 };
 
 export default function SettingPage() {
@@ -52,7 +52,7 @@ export default function SettingPage() {
         </div>
 
         <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-          <Link href="">Edit Profile</Link>
+          <Link to="">Edit Profile</Link>
           <div>
             <Card>
               <CardHeader>

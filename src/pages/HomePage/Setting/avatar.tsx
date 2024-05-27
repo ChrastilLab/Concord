@@ -1,6 +1,10 @@
 import { Upload } from "lucide-react";
 import { useState, useRef } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../components/ui/avatar";
 
 export default function ProfileAvatar() {
   const [profilePicture, setProfilePicture] = useState("");
