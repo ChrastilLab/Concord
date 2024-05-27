@@ -14,6 +14,7 @@ import {
 } from "@supabase/auth-helpers-react";
 
 function HomePage() {
+  const googleSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8l9l3h0_MPRxbnGLX-9qfJ0zAfJGkx7OfQUdCSjURDcKZQtEkHGIWiYwzbbG_aRhEtFRS1Q7Nx9wO/pubhtml?widget=true&amp;headers=false&rm=minimal&zoomScale=89";
   const { isLoading } = useSessionContext();
 
   const session = useSession();
@@ -39,15 +40,19 @@ function HomePage() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col px-4 py-2 lg:px-6">
+    <div className="w-full flex flex-col bg-muted/40">
       <MainNavBar />
       <main className="grow">
         {
           session ? (
-            <div className="flex w-full h-full">
+            <div className="flex w-full">
               <SideBarNav hidden={true}></SideBarNav>
-              <ProjectsDisplay></ProjectsDisplay>
-              <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8l9l3h0_MPRxbnGLX-9qfJ0zAfJGkx7OfQUdCSjURDcKZQtEkHGIWiYwzbbG_aRhEtFRS1Q7Nx9wO/pubhtml?widget=true&amp;headers=false&rm=minimal&zoomScale=89" width="1000" height="500" title="Google Spreadsheet"></iframe>
+              <div className="flex flex-col " >
+                <ProjectsDisplay></ProjectsDisplay>
+                <iframe className="w-full h-96" title="Google Spreadsheet" src={googleSheetURL} />
+
+              </div>
+
             </div>
           ) : (
             <div className="flex flex-col w-full h-full justify-center items-center text-center">

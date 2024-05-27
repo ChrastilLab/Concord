@@ -44,7 +44,7 @@ function MainNavBar() {
   }
 
   return (
-    <header className="h-16 sticky flex items-center text-xs md:text-sm lg:text-lg font-semibold">
+    <header className=" mx-4 my-2 h-16 sticky flex items-center text-xs md:text-sm lg:text-lg font-semibold bg-white">
       <nav className="hidden md:flex md:items-center">
         <Link to="/" className="flex items-center gap-2 ">
           <Brain className="h-6 w-6" />

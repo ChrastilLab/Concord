@@ -79,7 +79,7 @@ export function TaskDisplay(props:TaskDisplayProps) {
     };
 
     fetchTasks();
-  }, []);
+  });
 
   const table = useReactTable<Task>({
     // data,

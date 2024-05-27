@@ -6,11 +6,11 @@ import { Button } from "../../../components/ui/button";
 
 interface SideBarNavProps {
   hidden: boolean;
-};
+}
 
 function SideBarNav({ hidden }: SideBarNavProps) {
   return (
-    <nav className={`flex flex-col grow md:flex pr-4${hidden ? " hidden" : ""}`}>
+    <nav className={`flex flex-col grow md:flex max-w-xs max-h-screen pr-4${hidden ? " hidden" : ""}`}>
       <Button variant="secondary" className="justify-start">
         <Link to="/" className="text-primary"> Studies </Link>
       </Button>
