@@ -1,7 +1,0 @@
-{
-  "/Setting/page": "app/Setting/page.js",
-  "/page": "app/page.js",
-  "/Project/page": "app/Project/page.js",
-  "/Home/posts/page": "app/Home/posts/page.js",
-  "/Project/task/page": "app/Project/task/page.js"
-}
