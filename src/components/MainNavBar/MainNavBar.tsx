@@ -1,6 +1,5 @@
 // React Imports
 import React from "react";
-import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 // Frontend Imports
@@ -11,31 +10,19 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Input } from "../ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 
-import SideBarNav from "../../pages/HomePage/components/SideBar"
+import SideBarNav from "../SideNavBar/SideBar";
 
 // Backend Imports
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import PersonalInfo from "../PersonalInfoPopover/PersonalInfo";
 
+import {handleGoogleSignIn} from "../../config/supabase";
+
 function MainNavBar() {
   const session = useSession();
   const supabase = useSupabaseClient();
   const navigate = useNavigate();
-
-  async function handleGoogleSignIn() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        scopes:
-        "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/docs  https://www.googleapis.com/auth/spreadsheets",
-      },
-    });
-
-    if (error) {
-      console.error(error);
-    }
-  }
 
   async function signOut() {
     await supabase.auth.signOut().then(() => {

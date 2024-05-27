@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 // Frontend Imports
-import { Button } from "../../../components/ui/button";
+import { Button } from "../ui/button";
 
 interface SideBarNavProps {
   hidden: boolean;

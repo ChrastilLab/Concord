@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 // Frontend Imports
 import { Button } from "../../components/ui/button";
 import MainNavBar from "../../components/MainNavBar/MainNavBar";
-import SideBarNav from "./components/SideBar";
+// @ts-ignore
+import SideBarNav from "../../components/SideNavBar/SideBar";
 import ProjectsDisplay from "./components/ProjectsDisplay";
 
 import {
@@ -13,31 +14,18 @@ import {
   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
+import {handleGoogleSignIn} from "../../config/supabase";
+
 function HomePage() {
   const googleSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8l9l3h0_MPRxbnGLX-9qfJ0zAfJGkx7OfQUdCSjURDcKZQtEkHGIWiYwzbbG_aRhEtFRS1Q7Nx9wO/pubhtml?widget=true&amp;headers=false&rm=minimal&zoomScale=89";
   const { isLoading } = useSessionContext();
 
   const session = useSession();
-  const supabase = useSupabaseClient();
 
   if (isLoading) {
     return <></>;
   }
 
-  async function handleGoogleSignIn() {
-
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        scopes:
-          "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/docs  https://www.googleapis.com/auth/spreadsheets",
-      },
-    });
-
-    if (error) {
-      console.error(error);
-    }
-  }
 
   return (
     <div className="w-full flex flex-col bg-muted/40">
