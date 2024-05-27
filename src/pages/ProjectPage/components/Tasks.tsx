@@ -11,8 +11,12 @@ import {
 
 import { Button } from "../../../components/ui/button";
 
-function Tasks(props:any) {
-    console.log(props);
+interface TaskProps {
+    projectId: number;
+}
+
+function Tasks(props:TaskProps) {
+    // console.log(props);
   return (
     <Card>
       <CardHeader>
@@ -20,7 +24,7 @@ function Tasks(props:any) {
         <CardDescription>Tasks Component Here</CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
-        <TaskDisplay />
+        <TaskDisplay projectId={props.projectId}/>
       </CardContent>
       <CardFooter>
         <Button>IDK</Button>

@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import ProjectPage from "./pages/ProjectPage/ProjectPage";
 
 import "./App.css";
+import SettingPage from "./pages/HomePage/Setting/setting";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/project/:projectId" element={<ProjectPage />} />
+        <Route path="/settings" element={<SettingPage />} />
       </Routes>
     </Router>
   );

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -13,192 +12,46 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import {ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react";
+import {ChevronDown} from "lucide-react";
 
 import {Button} from "src/components/ui/button";
-import {Checkbox} from "src/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "src/components/ui/dropdown-menu";
 import {Input} from "src/components/ui/input";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "src/components/ui/table";
 import Task from "../../../types/Task";
-import {ProjectStatus, ProjectType} from "../../../types/ProjectEnums";
-
-const data: Task[] = [
-  {
-    projectId:1,
-    taskId: 1,
-    status: ProjectStatus.Completed,
-    taskName: "TaskExample1",
-    type: ProjectType.Deadline,
-    endDate: new Date("2024-06-15T09:00:00Z"),
-    assignedDate: new Date("2024-05-25T15:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 2,
-    status: ProjectStatus.NotStarted,
-    taskName: "Lab Session 1",
-    type: ProjectType.Scheduled,
-    startDate: new Date("2024-05-27T09:00:00Z"),
-    endDate: new Date("2024-05-27T11:00:00Z"),
-    assignedDate: new Date("2024-05-20T11:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 3,
-    status: ProjectStatus.NotStarted,
-    taskName: "Lab Session 2",
-    type: ProjectType.Scheduled,
-    startDate: new Date("2024-05-29T13:00:00Z"),
-    endDate: new Date("2024-05-29T15:00:00Z"),
-    assignedDate: new Date("2024-05-20T11:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 4,
-    status: ProjectStatus.InProgress,
-    taskName: "Write report",
-    type: ProjectType.Deadline,
-    endDate: new Date("2024-06-09T04:20:00Z"),
-    assignedDate: new Date("2024-04-20T11:00:00Z")
-  },
-  {
-    projectId:1,
-    taskId: 5,
-    status: ProjectStatus.Completed,
-    taskName: "Analyze Data",
-    type: ProjectType.Deadline,
-    endDate: new Date("2024-04-13T03:30:00Z"),
-    assignedDate: new Date("2024-04-01T08:00:00Z")
-  },
-];
+import {TaskStatus, TaskType} from "../../../types/ProjectEnums";
+import {useEffect, useState} from "react";
+import {useSupabaseClient} from "@supabase/auth-helpers-react";
+import columns from "./TaskColumns";
 
 
 
-export const columns: ColumnDef<Task>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-        <Checkbox
-            checked={
-                table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && "indeterminate")
-            }
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label="Select all"
-        />
-    ),
-    cell: ({ row }) => (
-        <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-        />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "taskName",
-    header: ({ column }) => {
-      return (
-          <Button
-              variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Task
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("taskName")}</div>,
-  },
-  {
-    accessorKey: "type",
-    header: () => <div className="text-right">Task Type</div>,
-    cell: ({ row }) => {
-      const type: string = row.getValue("type");
-      return <div className="text-right font-medium">{type}</div>;
-    },
-  },
-  {
-    accessorKey: "assignedDate",
-    header: () => <div className="text-right">Assigned</div>,
-    cell: ({ row }) => {
-      const date: Date = row.getValue("assignedDate");
-      return <div className="text-right font-medium">{date.toISOString().split('T')[0]}</div>;
-    },
-  },
-  {
-    accessorKey: "startDate",
-    header: () => <div className="text-right">Start Date</div>,
-    cell: ({ row }) => {
-      const type: ProjectType = row.getValue("type");
-      const startDate: Date | undefined = row.getValue("startDate");
+interface TaskDisplayProps {
+  projectId: number;
+}
 
-      return (
-          <div className="text-right font-medium">
-            {type === ProjectType.Deadline ? '-' : startDate?.toISOString().split('T')[0]}
-          </div>
-      );
-    },
-  },
+function transformTaskData(rawTasks: any[]): Task[] {
+  return rawTasks.map((rawTask) => ({
+    projectId: rawTask.project_id,
+    taskId: rawTask.task_id,
+    status: rawTask.status as TaskStatus,
+    taskName: rawTask.task_name,
+    type: rawTask.task_type as TaskType,
+    endDate: new Date(rawTask.end_date),
+    startDate: rawTask.start_date ? new Date(rawTask.start_date) : undefined,
+    assignedDate: new Date(rawTask.assigned_at),
+    assignedBy: rawTask.assigned_by,
+    assignedTo: rawTask.assigned_to,
+  }));
+}
 
-  {
-    accessorKey: "endDate",
-    header: () => <div className="text-right">End Date</div>,
-    cell: ({ row }) => {
-      const date: Date = row.getValue("endDate");
-      return <div className="text-right font-medium">{date.toISOString().split('T')[0]}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const task: Task = row.original;
-
-      return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                  onClick={() => navigator.clipboard.writeText(task.taskId.toString())}
-              >
-                Copy Task ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View Task details</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-      );
-    },
-  },
-];
-
-export function TaskDisplay() {
+export function TaskDisplay(props:TaskDisplayProps) {
+  // console.log("props projectId",props.projectId);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -207,8 +60,30 @@ export function TaskDisplay() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const table = useReactTable({
-    data,
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const supabase = useSupabaseClient();
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const { data, error } = await supabase.from("Tasks").select("*").eq("project_id", props.projectId);
+
+      // console.log("Supabase response:", { data, error });
+
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else {
+        // console.log(data);
+        setTasks(transformTaskData(data));
+      }
+      setLoading(false);
+    };
+
+    fetchTasks();
+  }, []);
+
+  const table = useReactTable<Task>({
+    // data,
+    data: tasks,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

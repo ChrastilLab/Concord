@@ -17,11 +17,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function ProjectPage() {
-  
 
-  let { projectId } = useParams();
 
-  console.log("Project ID: ", projectId);
+  const { projectId } = useParams<{ projectId: string }>();
+
+  // console.log("Project ID: ", projectId);
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -39,7 +39,8 @@ function ProjectPage() {
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
             <TabsContent value="tasks">
-              <Tasks projectId={projectId} />
+              {projectId ? (<Tasks projectId={parseInt(projectId)} />):(<>Failed to get project tasks</>)}
+
             </TabsContent>
             <TabsContent value="folder">
               <Folder />
