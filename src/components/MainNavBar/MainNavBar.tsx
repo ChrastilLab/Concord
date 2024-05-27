@@ -48,7 +48,7 @@ function MainNavBar() {
         </Link>
       </nav>
       <Sheet>
-        {/* TODO: Remove button outline on sheet trigger. */}
+        {/* TODO: Remove border on the close button when the user menu is expanded. */}
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
             <Menu className="h-5 w-5" />
@@ -111,6 +111,7 @@ function MainNavBar() {
                 Logout
               </DropdownMenuItem>
             ) : (
+              // TODO: Remove border on the user button when the user menu is expanded.
               <DropdownMenuItem onClick={() => {handleGoogleSignIn();}}>
                 Login
               </DropdownMenuItem>
