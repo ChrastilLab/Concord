@@ -11,10 +11,6 @@ import { Button } from "../../../components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../../../components/ui/card";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent} from "../../../components/ui/dropdown-menu";
 import CreateNewStudyCard from "../../../components/CreateNewStudyCard/CreateNewStudyCard";
-import { Input } from "../../../components/ui/input"
-import { Label } from "../../../components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
-import { Textarea } from "../../../components/ui/textarea";
 
 function ProjectsDisplay() {
   const [projects, setProjects] = useState<Project[]>([]);

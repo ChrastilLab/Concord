@@ -4,6 +4,7 @@ import {Input} from "../ui/input";
 import {Textarea} from "../ui/textarea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../ui/select";
 import {Button} from "../ui/button";
+import MultiSelect from "../MultiSelect/MultiSelect";
 import React from "react";
 
 function CreateNewStudyCard() {
@@ -22,14 +23,15 @@ function CreateNewStudyCard() {
                         <Textarea id="studydescription" placeholder="Study Description"></Textarea>
                         <div className="flex flex-col space-y-1.5"></div>
                         <Label htmlFor="studymembers"> Study Members </Label>
-                        <Select>
-                            <SelectTrigger id="studymembers">
-                                <SelectValue placeholder="Select Members" />
-                            </SelectTrigger>
-                            <SelectContent position="popper">
-                                <SelectItem value="member"> Member </SelectItem>
-                            </SelectContent>
-                        </Select>
+                        {/*<Select>*/}
+                        {/*    <SelectTrigger id="studymembers">*/}
+                        {/*        <SelectValue placeholder="Select Members" />*/}
+                        {/*    </SelectTrigger>*/}
+                        {/*    <SelectContent position="popper">*/}
+                        {/*        <SelectItem value="member"> Member </SelectItem>*/}
+                        {/*    </SelectContent>*/}
+                        {/*</Select>*/}
+                        <MultiSelect/>
                         <div className="flex flex-col space-y-1.5"></div>
                         <Label htmlFor="studygoogledrivelink"> Study Google Drive Link </Label>
                         <Input id="studygoogledrivelink" placeholder="Google Drive Link" />
