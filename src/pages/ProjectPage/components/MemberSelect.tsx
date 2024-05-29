@@ -3,8 +3,8 @@
 import React, {useEffect, useState} from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
-import { cn } from "../../lib/utils"
-import { Button } from "../ui/button";
+import { cn } from "../../../lib/utils"
+import { Button } from "../../../components/ui/button";
 import {
     Command,
     CommandEmpty,
@@ -13,18 +13,17 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-} from "../ui/command"
+} from "../../../components/ui/command"
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "../ui/popover"
+} from "../../../components/ui/popover"
 
-import {supabase} from "../../config/supabase";
-import Project from "@/src/types/Project";
+import {supabase} from "../../../config/supabase";
 
 
-export function MultiSelect() {
+export function MemberSelect() {
 
     const [members, setMembers] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -40,10 +39,6 @@ export function MultiSelect() {
         }
     }
 
-    // React.useEffect(() => {
-    //     console.log(selectedMembers);
-    // }, [selectedMembers]);
-
 
     const fetchMembers = async () => {
         const {
@@ -51,24 +46,46 @@ export function MultiSelect() {
             error
         } = await supabase.from("UsersInOrganizations").select("*").eq("organization_id", "cc2bde6a-2087-49d3-bb39-16d6eab68d7e");
 
-        console.log("Supabase response:", {data, error});
+        console.log("Members response:", {data, error});
 
         if (error) {
             console.error("Error fetching data:", error);
         } else {
             console.log(data);
-            setMembers(data as string[]);
+            memberIdsToDisplayNames();
+            // setMembers(???);
         }
         setLoading(false);
 
     }
 
+    const  memberIdsToDisplayNames = () => {
+        //
+        /*
+        TODO:
+            现在 fetchMembers() 拿到的是这样的数据: [
+                { user_id: "f43e36f4-fa3e-4a1d-b84a-e5dbea4f4309",
+                  organization_id: "cc2bde6a-2087-49d3-bb39-16d6eab68d7e",
+                  link_id: 2 },
+                { user_id: "4a626e13-ed0a-45e6-bdaf-27a54c12d47c",
+                  organization_id: "cc2bde6a-2087-49d3-bb39-16d6eab68d7e",
+                  link_id: 3 }
+                 ]
+            需要通过 user_id 访问database拿到用户的 Display Name
+            然后把Display Name放到members里面
+
+            之后有更多需求但是目前需要完成这个
+
+
+
+         */
+    }
+
 
     const loadMembers = () => {
-        if (members!.length) {
-            fetchMembers();
-        }
+        fetchMembers();
     }
+
 
 
 
@@ -118,4 +135,4 @@ export function MultiSelect() {
     )
 }
 
-export default MultiSelect;
+export default MemberSelect;
