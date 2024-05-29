@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 // Backend Imports
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+// import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Project from "../../../types/Project";
+import {supabase} from "../../../config/supabase";
 
 // Frontend Imports
 import { Button } from "../../../components/ui/button";
@@ -15,7 +16,7 @@ import CreateNewStudyCard from "../../../components/CreateNewStudyCard/CreateNew
 function ProjectsDisplay() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const supabase = useSupabaseClient();
+
   useEffect(() => {
     const fetchProjects = async () => {
       const { data, error } = await supabase.from("Projects").select("*");

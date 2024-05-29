@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import React, {useEffect, useState} from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "../../lib/utils"
@@ -20,14 +20,17 @@ import {
     PopoverTrigger,
 } from "../ui/popover"
 
+import {supabase} from "../../config/supabase";
+import Project from "@/src/types/Project";
 
-const members = [
-    "Peter", "Anteater", "Banteater", "Canteater"
-];
 
 export function MultiSelect() {
-    const [open, setOpen] = React.useState(false)
-    const [selectedMembers, setSelectedMembers] = React.useState<string[]>([])
+
+    const [members, setMembers] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const [open, setOpen] = useState(false)
+    const [selectedMembers, setSelectedMembers] = useState<string[]>([])
 
     const handleSelect = (member: string) => {
         if (selectedMembers.includes((member))){
@@ -37,9 +40,37 @@ export function MultiSelect() {
         }
     }
 
-    React.useEffect(() => {
-        console.log(selectedMembers);
-    }, [selectedMembers]);
+    // React.useEffect(() => {
+    //     console.log(selectedMembers);
+    // }, [selectedMembers]);
+
+
+    const fetchMembers = async () => {
+        const {
+            data,
+            error
+        } = await supabase.from("UsersInOrganizations").select("*").eq("organization_id", "cc2bde6a-2087-49d3-bb39-16d6eab68d7e");
+
+        console.log("Supabase response:", {data, error});
+
+        if (error) {
+            console.error("Error fetching data:", error);
+        } else {
+            console.log(data);
+            setMembers(data as string[]);
+        }
+        setLoading(false);
+
+    }
+
+
+    const loadMembers = () => {
+        if (members!.length) {
+            fetchMembers();
+        }
+    }
+
+
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -49,10 +80,11 @@ export function MultiSelect() {
                     role="combobox"
                     aria-expanded={open}
                     className="justify-between"
+                    onClick={loadMembers}
                 >
                     Select Members
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
+                </Button >
             </PopoverTrigger>
             <PopoverContent className="p-0 w-full">
                 <Command>
@@ -60,7 +92,7 @@ export function MultiSelect() {
                     <CommandList>
                         <CommandEmpty>No results found.</CommandEmpty>
                         <CommandSeparator />
-                        <CommandGroup heading="Settings">
+                        <CommandGroup heading="Members">
                             {members.map((member) => (
                                 <CommandItem
                                     key={member}
