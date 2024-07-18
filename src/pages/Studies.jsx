@@ -27,13 +27,13 @@ function Studies() {
                 session ? (
                     <Box flex={1} display={'flex'} flexDirection={'row'} zIndex={1}>
                         <Sidenav />
-                        <Flex flex={1} flexDirection={'column'} alignItems="center">
-                            <Box width="100%" px="68px" >
+                        <Flex  flex={1} flexDirection={'column'} alignItems="center">
+                            <Box width='100%' px="68px" >
                                 <ProjectHeader />
                             </Box>
                             <Grid
                                 templateColumns="repeat(3, 1fr)"
-                                gap={2}
+                                gap={1}
                                 width="100%"
                                 px="68px"
                             >

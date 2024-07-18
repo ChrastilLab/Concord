@@ -4,8 +4,8 @@ import {InfoIcon} from '@chakra-ui/icons';
 
 function ProjectCard() {
     return (
-        <Flex mt={'5vh'} flexDirection={'column'} justifyContent={'space-between'} w={'380px'} bg={'#F4F4F4'}>
-            <Card borderRadius="md" boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"   p={2} bg="#F0F0F0" >
+        <Flex mt={'5vh'} flexDirection={'column'} justifyContent={'space-between'} w={'44vh'} h='22vh' bg={'#F4F4F4'}>
+            <Card borderRadius="md" boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"  h='full' p={2} bg="#F0F0F0" >
                 <CardHeader p={2} display="flex" justifyContent="space-between" alignItems="center">
                 <Box>
                         <Heading size='md' mb={1}>Project One</Heading> 
@@ -18,7 +18,7 @@ function ProjectCard() {
                 </CardHeader >
                 <CardBody p={2}>
                     
-                    <Text textColor='#A39999'>A research study on anteaters and the size of their noses...</Text>
+                    <Text w='75%' textColor='#A39999'>A research study on anteaters and the size of their noses...</Text>
                 </CardBody>
                 <CardFooter p={2}>
                     <HStack w="100%">

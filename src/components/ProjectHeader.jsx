@@ -7,10 +7,10 @@ import { FolderOutlined } from '@ant-design/icons';
 
 function ProjectHeader() {
     return (
-        <Flex mt={'5vh'} flexDirection={'column'} justifyContent={'space-between'}  w={'146vh'} bg={'#F4F4F4'}>
-            <Card  direction={{ base: 'column', sm: 'row' }} borderRadius="md" h='280px' boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"   p={2} bg="#F0F0F0" >
+        <Flex mt={'5vh'} flexDirection={'column'} justifyContent={'space-between'}  w={'154vh'} bg={'#F4F4F4'}>
+            <Card  direction={{ base: 'column', sm: 'row' }} borderRadius="md" h='25vh' boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"   p={2} bg="#F0F0F0" >
                 <CardHeader p={2} display="flex" justifyContent="space-between" alignItems="center">
-                <Stack ml={3} mb={3} w='45vh' spacing={3}>
+                <Stack ml={'2vh'} mb={3} w='45vh' spacing={3}>
                         <Heading size='lg' >Your Projects</Heading> 
                         
                         <Text mb={6}>Here is where all your projects are listed. You can
@@ -20,7 +20,7 @@ function ProjectHeader() {
                     </Stack>
                     
                 </CardHeader >
-                <CardBody ml='16vh' alignContent={'center'} p={2}>
+                <CardBody ml='22vh' alignContent={'center'} p={2}>
                     <HStack spacing={10}>
                     <Flex  alignItems={'center'} justifyContent={'center'}  bg={'#FFFDFD'} borderRadius='1vh' w='22vh' h='19vh'>
                         <Stack mt={6} alignItems={'center'} justifyContent={'center'}>
