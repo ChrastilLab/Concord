@@ -4,7 +4,7 @@ import ProjectHeader from "../components/ProjectHeader";
 import Header from "../components/Header"
 import Sidenav from "../components/Sidenav" 
 import { Box, Button, Center, Divider, Grid, GridItem, Heading, Flex } from "@chakra-ui/react"
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+// import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
     useSession,
@@ -16,9 +16,9 @@ function Studies() {
     const { isLoading } = useSessionContext();
     const session = useSession();
 
-    if (isLoading) {
-        return <></>;
-    }
+    // if (isLoading) {
+    //     return <></>;
+    // }
 
     return(
         <Flex flexDirection={'column'} height={'100vh'}>

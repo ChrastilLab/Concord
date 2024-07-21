@@ -1,6 +1,6 @@
 import {Box, Card, Spacer, Button, Badge, IconButton, CardBody, HStack, CardHeader, CardFooter, Heading, Flex, Image, Text, Stack} from "@chakra-ui/react"
 import "bootstrap-icons/font/bootstrap-icons.css";
-import {InfoIcon} from '@chakra-ui/icons';
+// import {InfoIcon} from '@chakra-ui/icons';
 
 function ProjectCard() {
     return (
@@ -15,7 +15,7 @@ function ProjectCard() {
                         color="white"  fontSize='small' fontWeight='none'display="flex" borderRadius={'0.5vh'} alignItems="center" paddingLeft={'1vh'} textTransform="none">
                         In progress <Box as="span" ml={1} className="bi bi-x" />
                     </Badge>
-                </CardHeader >
+                </CardHeader>
                 <CardBody p={2}>
                     
                     <Text w='75%' textColor='#A39999'>A research study on anteaters and the size of their noses...</Text>
@@ -24,7 +24,7 @@ function ProjectCard() {
                     <HStack w="100%">
                         <Text >Created on: <Text textColor='#A39999'as="span">Jan 7, 2024</Text></Text>
                         <Spacer />
-                        <IconButton 
+                        {/* <IconButton 
                             icon={<InfoIcon />} 
                             aria-label="Information" 
                             size="lg"
@@ -33,7 +33,7 @@ function ProjectCard() {
                             minWidth="40px"
                             minHeight="40px" 
                             variant="ghost"
-                        />
+                        /> */}
                     </HStack>
                 </CardFooter>
             </Card>

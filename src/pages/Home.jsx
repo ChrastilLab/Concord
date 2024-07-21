@@ -17,9 +17,9 @@ function Home() {
     const { isLoading } = useSessionContext();
     const session = useSession();
 
-    if (isLoading) {
-        return <></>;
-    }
+    // if (isLoading) {
+    //     return <></>;
+    // }
 
     return(
         <Flex flexDirection={'column'} height={'100vh'}>
