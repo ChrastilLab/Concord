@@ -3,7 +3,7 @@ import { ChakraProvider} from "@chakra-ui/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Studies from "./pages/Studies";
-import Login from "./pages/Login";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
