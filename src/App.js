@@ -3,6 +3,7 @@ import { ChakraProvider} from "@chakra-ui/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Studies from "./pages/Studies";
+import LabSheets from "./pages/LabSheet";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/studies" element={<Studies/>}/>
+            <Route path="/labsheet" element={<LabSheets/>}/>
         </Routes>
       </Router>
     </ChakraProvider>
@@ -18,3 +20,4 @@ function App() {
 }
 
 export default App;
+
