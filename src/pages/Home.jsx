@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import OrganizationCard from "../components/OrganizationCard";
+import SideInfoBar from "../components/SideInfoBar";
 
 /* UI Libraries */
 import { Box, Button, Center, Divider, Heading, Flex } from "@chakra-ui/react";
@@ -47,14 +48,13 @@ function Home() {
           <Sidenav />
           <Flex flex={1} flexDirection={"column"}>
             <Flex flexDir={"row"} justifyContent={"space-between"}>
-              <Heading marginLeft={"50px"} marginTop={"25px"}>
-                {" "}
-                Dashboard{" "}
+              <Heading marginLeft={"60px"} marginTop={"30px"}>
+                Dashboard
               </Heading>
               <Button
                 variant={"ghost"}
                 padding={"0px"}
-                marginTop={"25px"}
+                marginTop={"30px"}
                 marginRight={"60px"}
                 _hover={{ bg: "#D0EAF9" }}
               >
@@ -67,16 +67,11 @@ function Home() {
               <Divider
                 orientation="horizontal"
                 width={"90%"}
-                marginTop={"38px"}
+                marginTop={"20px"}
                 bgColor={"DFE5EB"}
               />
             </Center>
-            <Flex
-              flexDir={"row"}
-              marginLeft={"68px"}
-              justify={"space-between"}
-              marginRight={"60px"}
-            >
+            <Flex flexDir={"row"} justify={"center"} gap={"40px"}>
               {dummy.map((org) => (
                 <OrganizationCard
                   organization={org.name}
@@ -86,6 +81,7 @@ function Home() {
               ))}
             </Flex>
           </Flex>
+          <SideInfoBar numOrgs={dummy.length}></SideInfoBar>
         </Box>
       ) : (
         <div>Not logged in</div>

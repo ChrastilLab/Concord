@@ -19,7 +19,7 @@ import {
 
 function OrganizationCard({ organization, description, color_scheme }) {
   return (
-    <Card maxW="sm" marginTop="50px" width={"304px"}>
+    <Card maxW="sm" marginTop="50px" width={"270px"} height={"250px"}>
       <Box
         bgColor={color_scheme}
         height={"135px"}
@@ -48,19 +48,23 @@ function OrganizationCard({ organization, description, color_scheme }) {
           <Heading size="md" color={color_scheme}>
             {organization}
           </Heading>
-          <Text fontSize={"12px"}>{description}</Text>
-          <Flex flexDir={"row"} gap={"15px"}>
+          <Text fontSize={"11px"}>{description}</Text>
+          <Flex flexDir={"row"} gap={"10px"}>
             <Button
               variant={"link"}
               color={"black"}
               _hover={{ color: "#708090" }}
+              width={"20px"}
+              minWidth={"20px"}
             >
               <MegaphoneIcon
                 style={{
                   height: "20px",
                   width: "20px",
                 }}
-              ></MegaphoneIcon>
+              >
+                {" "}
+              </MegaphoneIcon>
             </Button>
 
             <Button
