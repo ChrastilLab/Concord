@@ -16,10 +16,20 @@ import {
   MegaphoneIcon,
   FolderIcon,
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 function OrganizationCard({ organization, description, color_scheme }) {
+  const navigate = useNavigate();
+
   return (
-    <Card maxW="sm" marginTop="50px" width={"270px"} height={"250px"}>
+    <Card
+      maxW="sm"
+      marginTop="50px"
+      width={"270px"}
+      height={"250px"}
+      _hover={{ transform: "scale(1.05)", transition: "transform .3s" }}
+      onClick={() => navigate(`/${organization}`)}
+    >
       <Box
         bgColor={color_scheme}
         height={"135px"}

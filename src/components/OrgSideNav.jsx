@@ -1,8 +1,10 @@
 import { Flex, Button, Stack, Text } from "@chakra-ui/react";
 import { SettingOutlined } from "@ant-design/icons";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 export default function OrgSideNav({ organizations }) {
+  const navigate = useNavigate();
   let iconStyle = { height: "20px", width: "20px", marginRight: "8px" };
 
   return (
@@ -20,6 +22,7 @@ export default function OrgSideNav({ organizations }) {
             justifyContent={"left"}
             variant={"ghost"}
             _hover={{ bg: "#D0EAF9" }}
+            onClick={() => navigate(`/${org.name}`)}
           >
             <Text isTruncated>{org.name}</Text>
           </Button>

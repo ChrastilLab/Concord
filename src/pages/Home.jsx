@@ -27,7 +27,7 @@ const dummy = [
     color_scheme: "#A52A2A",
   },
   {
-    name: "Database Query Booster and me",
+    name: "Database Query Booster",
     description: "Science lab for brain stuff that anteaters...",
     color_scheme: "#8FBC8F",
   },
