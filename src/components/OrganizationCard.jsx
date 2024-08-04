@@ -45,7 +45,7 @@ function OrganizationCard({ organization, description, color_scheme }) {
       </Box>
       <CardBody>
         <Stack spacing="2">
-          <Heading size="md" color={color_scheme}>
+          <Heading size="md" color={color_scheme} isTruncated>
             {organization}
           </Heading>
           <Text fontSize={"11px"}>{description}</Text>

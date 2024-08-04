@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import OrganizationCard from "../components/OrganizationCard";
 import SideInfoBar from "../components/SideInfoBar";
+import OrgSideNav from "../components/OrgSideNav";
 
 /* UI Libraries */
 import { Box, Button, Center, Divider, Heading, Flex } from "@chakra-ui/react";
@@ -26,7 +27,7 @@ const dummy = [
     color_scheme: "#A52A2A",
   },
   {
-    name: "Database Query Booster",
+    name: "Database Query Booster and me",
     description: "Science lab for brain stuff that anteaters...",
     color_scheme: "#8FBC8F",
   },
@@ -45,7 +46,8 @@ function Home() {
       <Header />
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
-          <Sidenav />
+          {/* <Sidenav /> */}
+          <OrgSideNav organizations={dummy}></OrgSideNav>
           <Flex flex={1} flexDirection={"column"}>
             <Flex flexDir={"row"} justifyContent={"space-between"}>
               <Heading marginLeft={"60px"} marginTop={"30px"}>
