@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Studies from "./pages/Studies";
 import LabSheets from "./pages/LabSheet";
+import Organization from './pages/Organization';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/studies" element={<Studies/>}/>
-            <Route path="/labsheet" element={<LabSheets/>}/>
+          <Route path="/labsheet" element={<LabSheets/>}/>
+          <Route path='/:orgName' element={<Organization />} />
         </Routes>
       </Router>
     </ChakraProvider>
