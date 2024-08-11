@@ -6,40 +6,8 @@ import { Switch, FormControl, FormLabel, Box, Flex, Text, Button, ButtonGroup } 
 function Folder() {
   const session = useSession();
   const supabase = useSupabaseClient();
-  const [files, setFiles] = useState([]);
   const [isListView, setIsListView] = useState(false);
 
-  
-  //Useful when developing own frontend
-  {/*}
-  function getDriveFiles() {
-    if (session) {
-      const folderId = '1ffv1lf5sB6cO9V9l_yN-WjxWfmh5-jic'; //dummy data
-      fetch(`https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents`, {
-        method: "GET",
-        headers: {
-          'Authorization': `Bearer ${session.provider_token}`, //use the access token from the session
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(data => {
-          if (data && data.files) {
-            setFiles(data.files);
-          } else {
-            setFiles([]);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          setFiles([]);
-        });
-    }
-  }
-
-  useEffect(() => {
-    getDriveFiles(); // fetch the files when the component mounts
-  }, [session]); // re-run the effect when the session changes
-  */}
   const handleToggle = () => {
     setIsListView(!isListView);
   };
