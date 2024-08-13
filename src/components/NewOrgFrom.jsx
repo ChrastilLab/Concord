@@ -16,6 +16,9 @@ import {
 
 import { PlusIcon } from "@heroicons/react/24/outline";
 
+import { AddBox } from "@mui/icons-material";
+import { Cancel } from "@mui/icons-material";
+
 export default function NewOrgForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -50,11 +53,24 @@ export default function NewOrgForm() {
             </Stack>
           </ModalBody>
 
-          <ModalFooter>
-            <Button variant="ghost">Cancel</Button>
+          <ModalFooter gap={"10px"}>
+            <Button
+              variant="solid"
+              leftIcon={<AddBox fontSize="15px" />}
+              onClick={onClose}
+              width={"100px"}
+            >
+              Save
+            </Button>
 
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Delete
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={onClose}
+              leftIcon={<Cancel fontSize="15px" />}
+              width={"100px"}
+            >
+              Cancel
             </Button>
           </ModalFooter>
         </ModalContent>

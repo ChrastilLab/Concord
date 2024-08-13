@@ -15,21 +15,26 @@ import {
   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
+import { supabase } from "../config/supabase";
+
 const dummy = [
   {
     name: "SNL",
     description: "Science lab for brain stuff that anteaters...",
     color_scheme: "#708090",
+    leader: "",
   },
   {
     name: "Concord...",
     description: "Science lab for brain stuff that anteaters...",
     color_scheme: "#A52A2A",
+    leader: "",
   },
   {
     name: "Database Query Booster",
     description: "Science lab for brain stuff that anteaters...",
     color_scheme: "#8FBC8F",
+    leader: "",
   },
 ];
 
@@ -40,6 +45,29 @@ function Home() {
   // if (isLoading) {
   //     return <></>;
   // }
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("Organizations")
+        .select("organization_name, leader, description");
+
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else {
+        setData(data);
+      }
+      data.map((org, idx) => (dummy[idx].name = org.organization_name));
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
