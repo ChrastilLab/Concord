@@ -18,9 +18,26 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 
 import { AddBox } from "@mui/icons-material";
 import { Cancel } from "@mui/icons-material";
+import { supabase } from "../config/supabase";
+import { useState } from "react";
 
 export default function NewOrgForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [newData, setNewData] = useState({
+    organization_name: "",
+    leader: "",
+    description: "",
+  });
+
+  async function handleSaveClicked() {
+    const { error } = await supabase.from("Organizations").insert(newData);
+
+    if (!error) {
+      setNewData({ organization_name: "", leader: "", description: "" }); // reset the default data
+    }
+    onClose();
+  }
 
   return (
     <>
@@ -45,11 +62,40 @@ export default function NewOrgForm() {
           <ModalBody marginBottom={"80px"}>
             <Stack spacing={"15px"}>
               <Text fontWeight={"medium"}>Organization Name</Text>
-              <Input placeholder="..." size="md" />
+              <Input
+                placeholder="..."
+                size="md"
+                value={newData.organization_name}
+                onChange={(e) =>
+                  setNewData({
+                    ...newData,
+                    organization_name: e.target.value,
+                  })
+                }
+              />
               <Text fontWeight={"medium"}>Organization Lead</Text>
-              <Input placeholder="..." size="md" />
+              <Input
+                placeholder="..."
+                size="md"
+                value={newData.leader}
+                onChange={(e) =>
+                  setNewData({
+                    ...newData,
+                    leader: e.target.value,
+                  })
+                }
+              />
               <Text fontWeight={"medium"}>Organization Description</Text>
-              <Textarea placeholder="" />
+              <Textarea
+                placeholder="..."
+                value={newData.description}
+                onChange={(e) =>
+                  setNewData({
+                    ...newData,
+                    description: e.target.value,
+                  })
+                }
+              />
             </Stack>
           </ModalBody>
 
@@ -57,8 +103,8 @@ export default function NewOrgForm() {
             <Button
               variant="solid"
               leftIcon={<AddBox fontSize="15px" />}
-              onClick={onClose}
               width={"100px"}
+              onClick={handleSaveClicked}
             >
               Save
             </Button>

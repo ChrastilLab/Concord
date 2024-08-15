@@ -6,7 +6,15 @@ import SideInfoBar from "../components/SideInfoBar";
 import OrgSideNav from "../components/OrgSideNav";
 
 /* UI Libraries */
-import { Box, Button, Center, Divider, Heading, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Divider,
+  Heading,
+  Flex,
+  Spacer,
+} from "@chakra-ui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
@@ -17,26 +25,7 @@ import {
 
 import { supabase } from "../config/supabase";
 
-const dummy = [
-  {
-    name: "SNL",
-    description: "Science lab for brain stuff that anteaters...",
-    color_scheme: "#708090",
-    leader: "",
-  },
-  {
-    name: "Concord...",
-    description: "Science lab for brain stuff that anteaters...",
-    color_scheme: "#A52A2A",
-    leader: "",
-  },
-  {
-    name: "Database Query Booster",
-    description: "Science lab for brain stuff that anteaters...",
-    color_scheme: "#8FBC8F",
-    leader: "",
-  },
-];
+const default_color_scheme = "#708090";
 
 function Home() {
   const { isLoading } = useSessionContext();
@@ -46,7 +35,7 @@ function Home() {
   //     return <></>;
   // }
 
-  const [data, setData] = useState([]);
+  const [orgData, setOrgData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,12 +44,9 @@ function Home() {
         .from("Organizations")
         .select("organization_name, leader, description");
 
-      if (error) {
-        console.error("Error fetching data:", error);
-      } else {
-        setData(data);
+      if (!error) {
+        setOrgData(data);
       }
-      data.map((org, idx) => (dummy[idx].name = org.organization_name));
       setLoading(false);
     };
 
@@ -75,7 +61,7 @@ function Home() {
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
           {/* <Sidenav /> */}
-          <OrgSideNav organizations={dummy}></OrgSideNav>
+          <OrgSideNav organizations={orgData}></OrgSideNav>
           <Flex flex={1} flexDirection={"column"}>
             <Flex flexDir={"row"} justifyContent={"space-between"}>
               <Heading marginLeft={"60px"} marginTop={"30px"}>
@@ -101,17 +87,23 @@ function Home() {
                 bgColor={"DFE5EB"}
               />
             </Center>
-            <Flex flexDir={"row"} justify={"center"} gap={"40px"}>
-              {dummy.map((org) => (
+            <Flex
+              flexDir={"row"}
+              gap={"35px"}
+              flexWrap={"wrap"}
+              marginTop={"40px"}
+              marginLeft={"60px"}
+            >
+              {orgData.map((org) => (
                 <OrganizationCard
-                  organization={org.name}
+                  organization={org.organization_name}
                   description={org.description}
-                  color_scheme={org.color_scheme}
+                  color_scheme={default_color_scheme}
                 />
               ))}
             </Flex>
           </Flex>
-          <SideInfoBar numOrgs={dummy.length}></SideInfoBar>
+          <SideInfoBar numOrgs={orgData.length}></SideInfoBar>
         </Box>
       ) : (
         <div>Not logged in</div>

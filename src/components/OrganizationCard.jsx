@@ -24,7 +24,6 @@ function OrganizationCard({ organization, description, color_scheme }) {
   return (
     <Card
       maxW="sm"
-      marginTop="50px"
       width={"270px"}
       height={"250px"}
       _hover={{ transform: "scale(1.05)", transition: "transform .3s" }}
