@@ -53,7 +53,7 @@ export default function NewOrgForm() {
       </Button>
 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay bg={"blackAlpha.300"} backdropFilter={"blur(5px)"} />
         <ModalContent minWidth={"600px"}>
           <ModalHeader textAlign="center" fontSize={"25px"} marginTop={"20px"}>
             New Organization
