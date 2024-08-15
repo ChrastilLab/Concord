@@ -72,6 +72,7 @@ export default function NewOrgForm() {
                     organization_name: e.target.value,
                   })
                 }
+                maxWidth={"480px"}
               />
               <Text fontWeight={"medium"}>Organization Lead</Text>
               <Input
@@ -84,6 +85,7 @@ export default function NewOrgForm() {
                     leader: e.target.value,
                   })
                 }
+                maxWidth={"480px"}
               />
               <Text fontWeight={"medium"}>Organization Description</Text>
               <Textarea
@@ -95,6 +97,7 @@ export default function NewOrgForm() {
                     description: e.target.value,
                   })
                 }
+                maxWidth={"525px"}
               />
             </Stack>
           </ModalBody>

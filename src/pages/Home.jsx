@@ -6,15 +6,7 @@ import SideInfoBar from "../components/SideInfoBar";
 import OrgSideNav from "../components/OrgSideNav";
 
 /* UI Libraries */
-import {
-  Box,
-  Button,
-  Center,
-  Divider,
-  Heading,
-  Flex,
-  Spacer,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Divider, Heading, Flex } from "@chakra-ui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
@@ -52,6 +44,21 @@ function Home() {
 
     fetchData();
   }, []);
+
+  const subscription = supabase
+    .channel("table_db_changes")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "Organizations",
+      },
+      (payload) => {
+        setOrgData((prevData) => [...prevData, payload.new]);
+      }
+    )
+    .subscribe();
 
   if (loading) return <div>Loading...</div>;
 
