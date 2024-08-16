@@ -4,6 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Check from './img/Check.png';
 import Progress from './img/Progress.png';
 import { FolderOutlined } from '@ant-design/icons';
+import CreateNewStudy from './CreateNewStudy';
 
 function ProjectHeader() {
     return (
@@ -16,7 +17,7 @@ function ProjectHeader() {
                         <Text mb={6}>Here is where all your projects are listed. You can
                         create a new one by clicking the button below.</Text>
                         
-                        <Button fontSize='14' w='26vh'  bg='black' color='white'>Create New Study</Button>
+                        <CreateNewStudy />
                     </Stack>
                     
                 </CardHeader >
