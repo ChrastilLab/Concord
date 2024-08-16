@@ -26,6 +26,9 @@ import { useState, useEffect } from 'react';
 function CreateNewStudy() {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const[userData, setUserData] = useState({});
+    const[userAdmin, setUserAdmin] = useState(false);
+
     const [LeaderData, setLeaderData] = useState([]);
     const [newData, setNewData] = useState({
         project_id: -1,
@@ -78,6 +81,16 @@ function CreateNewStudy() {
       }
       onClose();
     }
+
+    async function openModal() {
+      const {data, error} = await supabase.from("Users").select("user_type").eq("user_id", userData.user.id);
+            
+      if(!error && data.length > 0){
+          setUserAdmin(data[0].user_type);
+      }
+
+      onOpen();
+    }
   
 
 
@@ -92,13 +105,23 @@ function CreateNewStudy() {
             }
         };
 
+        const fetchUser = async () => {
+            const {data, error} = await supabase.auth.getUser();
+
+            if (!error){
+                setUserData(data);
+            }
+        };
+
+
+        fetchUser();
         fetchData();
     }, []);
 
     return (
       <>
         <Button 
-        onClick={onOpen} fontSize='14' 
+        onClick={openModal} fontSize='14' 
         w='26vh'  bg='black' color='white'>Create New Study</Button>
   
         <Modal isOpen={isOpen} onClose={onClose} size="5xl">
@@ -117,8 +140,12 @@ function CreateNewStudy() {
                         <Input placeholder='Give a title...' value={newData.project_name} onChange={(e) => setNewData({...newData, project_name: e.target.value})}></Input>
                         <Text>Project Description</Text>
                         <Textarea placeholder='Write some descriptions...' value={newData.description} onChange={(e) => setNewData({...newData, description: e.target.value})}></Textarea>
+
+                        {userAdmin && (
+                        <>
                         <Text>IRB Number</Text>
                         <Input placeholder='Provide an IRB number...' value={newData.irb_number} onChange={(e) => setNewData({...newData, irb_number: e.target.value})}></Input> 
+                        </>)}
                         <Text>Project Lead</Text>
                         <Select placeholder='Select Lead' value={newData.project_lead} onChange={(e) => setNewData({...newData, project_lead: e.target.value})}>
                             {LeaderData.map((item) => {
