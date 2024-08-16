@@ -22,10 +22,11 @@ import {
     Tooltip as RechartsTooltip,
     ResponsiveContainer,
 } from 'recharts';
+import EditAccountInfo from "./EditAccountInfo";
 
 
 const userData = {
-    avatarImg: "https://avatars.githubusercontent.com/u/47913844?v=4",
+    avatarImg: "",
     name: "Yukai Gu",
     email: "yukai1@uci.edu",
     status: "Programming...",
@@ -85,7 +86,7 @@ function AccountPopup() {
                         <Image width={"40px"}
                                height={"40px"}
                                borderRadius={"100%"}
-                               src={userData.avatarImg}
+                               src={session.user.user_metadata.avatar_url}
                                alt="Profile" />
                     </Button>
                 </PopoverTrigger>
@@ -114,17 +115,18 @@ function AccountPopup() {
                                  borderRadius={"5px"}
                                  placement='left'>
                             <TimeIcon position={"absolute"}
-                                      right={"0"}
-                                      marginRight={"10px"}/>
+                                      left={"10px"}
+                                      marginRight={"10px"} color={"white"}/>
                         </Tooltip>
                     </PopoverHeader>
 
-                    <Avatar src={userData.avatarImg}
+                    <Avatar src={session.user.user_metadata.avatar_url}
                             boxSize={"12vh"} position={"relative"} top={"-6vh"} left={"2vw"} border={"#e3e5e7 solid 7px"}>
                         <Tooltip hasArrow label={userData.status} placement='right' backgroundColor={"#d0f5d7"} color={"#2f533f"}>
                             <AvatarBadge boxSize={'1.5em'} bg='green.500' border={"#e3e5e7 solid 5px"} />
                         </Tooltip>
                     </Avatar>
+                    <EditAccountInfo />
 
                     <PopoverBody padding={"10px"}
                                  backgroundColor={"#e3e5e7"}
