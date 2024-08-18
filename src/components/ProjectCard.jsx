@@ -11,7 +11,7 @@ function ProjectCard({ project }) {
                         <Heading size='md' mb={1}>{project.project_name}</Heading> 
                         <Text>Lead: {project.project_lead}</Text>
                     </Box>
-                    <Badge bg={ project.status == "In Progress" ? "#4299E1" : project.status == "Completed" ? "#48BB78" : "#A0AEC0"}
+                    <Badge bg={ project.status === "In Progress" ? "#4299E1" : project.status === "Completed" ? "#48BB78" : "#A0AEC0"}
                         color="white"  fontSize='small' fontWeight='none'display="flex" borderRadius={'0.5vh'} alignItems="center" paddingLeft={'1vh'} textTransform="none">
                         {project.status} <Box as="span" ml={1} className="bi bi-x" />
                     </Badge>
