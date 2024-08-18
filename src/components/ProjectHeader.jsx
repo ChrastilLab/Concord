@@ -5,8 +5,31 @@ import Check from './img/Check.png';
 import Progress from './img/Progress.png';
 import { FolderOutlined } from '@ant-design/icons';
 import CreateNewStudy from './CreateNewStudy';
+import { useState, useEffect } from 'react';
 
-function ProjectHeader() {
+function ProjectHeader({ projects }) {
+
+    const [numberDone, setNumberDone] = useState(0);
+    const [numberInProgress, setNumberInProgress] = useState(0);
+    const [totalProjects, setTotalProjects] = useState(0);
+
+    useEffect(() => {
+        let done = 0;
+        let inProgress = 0;
+        let total = 0;
+        projects.map((project) => {
+            if (project.status === 'Completed') {
+                done++;
+            } else if (project.status === 'In Progress') {
+                inProgress++;
+            }
+            total++;
+        });
+        setNumberDone(done);
+        setNumberInProgress(inProgress);
+        setTotalProjects(total);
+    }, [projects]);
+
     return (
         <Flex mt={'5vh'} flexDirection={'column'} justifyContent={'space-between'}  w={'154vh'} bg={'#F4F4F4'}>
             <Card  direction={{ base: 'column', sm: 'row' }} borderRadius="md" h='25vh' boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"   p={2} bg="#F0F0F0" >
@@ -17,7 +40,7 @@ function ProjectHeader() {
                         <Text mb={6}>Here is where all your projects are listed. You can
                         create a new one by clicking the button below.</Text>
                         
-                        <CreateNewStudy />
+                        <CreateNewStudy projects={projects}/>
                     </Stack>
                     
                 </CardHeader >
@@ -27,21 +50,21 @@ function ProjectHeader() {
                         <Stack mt={6} alignItems={'center'} justifyContent={'center'}>
                             <Image h={'4vh'} w={'4vh'} src={Check}></Image>
                             <Text fontWeight={'bold'}>Projects Done</Text>
-                            <Text fontSize='35' fontWeight={'bold'}>21</Text>
+                            <Text fontSize='35' fontWeight={'bold'}>{numberDone}</Text>
                         </Stack>
                     </Flex>
                     <Flex  alignItems={'center'} justifyContent={'center'}  bg={'#FFFDFD'} borderRadius='1vh' w='22vh' h='19vh'>
                         <Stack mt={4} alignItems={'center'} justifyContent={'center'}>
                             <Image ml='3' h={'5vh'} w={'6vh'} src={Progress}></Image>
                             <Text fontWeight={'bold'}>In Progress</Text>
-                            <Text fontSize='35' fontWeight={'bold'}>5</Text>
+                            <Text fontSize='35' fontWeight={'bold'}>{numberInProgress}</Text>
                         </Stack>
                     </Flex>
                     <Flex  alignItems={'center'} justifyContent={'center'}  bg={'#FFFDFD'} borderRadius='1vh' w='22vh' h='19vh'>
                         <Stack mt={7} alignItems={'center'} justifyContent={'center'}>
                             <FolderOutlined style={{fontSize: '4vh'}} />
                             <Text fontWeight={'bold'}>Total Projects</Text>
-                            <Text fontSize='35' fontWeight={'bold'}>32</Text>
+                            <Text fontSize='35' fontWeight={'bold'}>{totalProjects}</Text>
                         </Stack>
                     </Flex>
                     </HStack>

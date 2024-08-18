@@ -23,7 +23,7 @@ import { useState, useEffect } from 'react';
 
 
 
-function CreateNewStudy() {
+function CreateNewStudy({ projects }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const[userData, setUserData] = useState({});
@@ -34,6 +34,7 @@ function CreateNewStudy() {
         project_id: -1,
         project_name: '',
         description: '',
+        organization_id: 0,
         irb_number: '',
         project_lead: '',
         notes: '',
@@ -45,7 +46,7 @@ function CreateNewStudy() {
     });
 
 
-    async function assignProjectID() {
+    async function assignNecessary() {
       const { data, error } = await supabase
           .from("Projects")
           .select("project_id");
@@ -53,14 +54,14 @@ function CreateNewStudy() {
       if (!error) {
           const newProjectID = data.length + 1;
           
-          return { ...newData, project_id: newProjectID };
+          return { ...newData, project_id: newProjectID , organization_id: projects[0].organization_id};
       }
   
-      return newData;
+      return {...newData, organization_id: projects[0].organization_id};
     }
   
     async function handleSaveClicked() {
-      const updatedData = await assignProjectID();
+      const updatedData = await assignNecessary();
   
       const { error } = await supabase.from("Projects").insert(updatedData);
   
@@ -69,6 +70,7 @@ function CreateNewStudy() {
               project_id: -1,
               project_name: '',
               description: '',
+              organization_id: 0,
               irb_number: '',
               project_lead: '',
               notes: '',
