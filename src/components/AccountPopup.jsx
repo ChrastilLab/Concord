@@ -46,14 +46,14 @@ const userData = {
         tenthWeek: 8
     },
     tags: ["Developer", "Volunteer"],
-    tasks: ["Task 1: Finish the personal information page", "Task 2: Looking into backend APIs", "Task 3: Implement the user profile"],
+    // tasks: ["Task 1: Finish the personal information page", "Task 2: Looking into backend APIs", "Task 3: Implement the user profile"],
 };
 
 const CustomTooltip: React.FC<{ active?: boolean; payload?: any; label?: number }> = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
             <Box bg="#caf0f8" p={2} borderRadius="5px" boxShadow="md" padding={"5px"} marginLeft={"15px"} marginRight={"15px"}>
-                <Text fontWeight="bold" mb={1} color={"#0077b6"}>{"Week " + ( 1)}</Text>
+                <Text fontWeight="bold" mb={1} color={"#0077b6"}>{`Week ${label + 1}`}</Text>
                 <Text color={"#0077b6"}>{`Hours: ${payload[0].value}h`}</Text>
             </Box>
         );
@@ -185,18 +185,18 @@ function AccountPopup() {
                                     </BarChart>
                                 </ResponsiveContainer>
                             </VStack>
-                            <Divider/>
-                            <VStack align="left">
-                                {userData.tasks.map((task, index) => (
-                                    <Checkbox key={index}
-                                              backgroundColor={"#e3e5e7"}
-                                              padding={"5px"}
-                                              borderRadius={"5px"}
-                                              marginTop={"5px"}>
-                                        {task}
-                                    </Checkbox>
-                                ))}
-                            </VStack>
+                            {/*<Divider/>*/}
+                            {/*<VStack align="left">*/}
+                            {/*    {userData.tasks.map((task, index) => (*/}
+                            {/*        <Checkbox key={index}*/}
+                            {/*                  backgroundColor={"#e3e5e7"}*/}
+                            {/*                  padding={"5px"}*/}
+                            {/*                  borderRadius={"5px"}*/}
+                            {/*                  marginTop={"5px"}>*/}
+                            {/*            {task}*/}
+                            {/*        </Checkbox>*/}
+                            {/*    ))}*/}
+                            {/*</VStack>*/}
                             <Box></Box>
                         </VStack>
                     </PopoverBody>
