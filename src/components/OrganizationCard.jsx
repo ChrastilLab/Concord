@@ -27,7 +27,7 @@ function OrganizationCard({ organization, description, color_scheme }) {
       width={"270px"}
       height={"250px"}
       _hover={{ transform: "scale(1.05)", transition: "transform .3s" }}
-      onClick={() => navigate(`/studies`)}
+      onClick={() => navigate(`/studies/${organization}`)}
     >
       <Box
         bgColor={color_scheme}
