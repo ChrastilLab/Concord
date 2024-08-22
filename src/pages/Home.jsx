@@ -17,12 +17,12 @@ import {
 
 const dummy = [
   {
-    name: "SNL",
+    name: "Test Org 1",
     description: "Science lab for brain stuff that anteaters...",
     color_scheme: "#708090",
   },
   {
-    name: "Concord...",
+    name: "Test Org 4",
     description: "Science lab for brain stuff that anteaters...",
     color_scheme: "#A52A2A",
   },
