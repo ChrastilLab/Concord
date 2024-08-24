@@ -7,6 +7,7 @@ import Login from "./pages/Login/Login";
 import LabSheets from "./pages/LabSheet";
 import Folder from "./pages/Folder";
 import Organization from './pages/Organization';
+import RASummary from './pages/RASummary';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/labsheet" element={<LabSheets/>}/>
           <Route path='/:orgName' element={<Organization />} />
           <Route path="/folder" element={<Folder/>}/>
+          <Route path="/ra-summary" element={<RASummary/>}/>
         </Routes>
       </Router>
     </ChakraProvider>
