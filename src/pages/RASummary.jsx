@@ -30,15 +30,14 @@ function RASummary() {
                                     RA Summary
                                 </Heading>
                                 <Center>
-                                    <Divider orientation = "horizontal" marginTop = {"38px"} width = {"90%"} bgColor = {"DFESEB"}>
-
+                                    <Divider orientation = "horizontal" marginTop = {"35px"} width = {"100%"} bgColor = {"DFESEB"} marginBottom={"20px"}>
                                     </Divider>
                                 </Center>
-                                <Text noOfLines={3}>
+                                <Text noOfLines={3} marginBottom={"25px"}>
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus veritatis error illum neque inventore recusandae officiis unde velit dicta laboriosam tenetur harum quo sit est, ratione libero pariatur, dignissimos aliquid atque labore repudiandae expedita? Voluptates vero suscipit aut. Omnis assumenda a tempora vel cumque quae minus esse debitis facere, optio ducimus cum, minima et rem ipsam beatae similique qui repellat aut obcaecati. Officia hic quis praesentium odio temporibus eligendi illum laudantium quisquam, a magnam repellat assumenda facilis delectus maxime repellendus dolores sit doloribus vero impedit. Vitae explicabo quaerat culpa nemo eligendi sequi, itaque, fugiat consectetur nisi voluptatum est deleniti! Voluptates.
                                 </Text>
                                 <TableContainer width = {"100%"}>
-                                    <Table variant='striped' colorScheme='teal'>
+                                    <Table variant='striped' colorScheme='table'>
                                         <Thead>
                                             <Tr>
                                                 <Th> RA </Th>

@@ -1,5 +1,5 @@
 import './App.css';
-import { ChakraProvider} from "@chakra-ui/react";
+import { ChakraProvider, extendTheme} from "@chakra-ui/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Studies from "./pages/Studies";
@@ -11,8 +11,16 @@ import RASummary from './pages/RASummary';
 
 
 function App() {
+  const theme = extendTheme({
+    colors: {
+      table: {
+        100: "#D0EAF9",
+      },
+    },
+  })
+  
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}> 
       <Router>
         <Routes>
           
