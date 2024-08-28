@@ -1,5 +1,5 @@
 import './App.css';
-import { ChakraProvider} from "@chakra-ui/react";
+import { ChakraProvider, extendTheme} from "@chakra-ui/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Studies from "./pages/Studies";
@@ -8,11 +8,20 @@ import LabSheets from "./pages/LabSheet";
 import Folder from "./pages/Folder";
 import Organization from './pages/Organization';
 import Tasks from './pages/Tasks';
+import RASummary from './pages/RASummary';
 
 
 function App() {
+  const theme = extendTheme({
+    colors: {
+      table: {
+        100: "#D0EAF9",
+      },
+    },
+  })
+  
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}> 
       <Router>
         <Routes>
           
@@ -23,6 +32,7 @@ function App() {
           <Route path="/labsheet" element={<LabSheets/>}/>
           <Route path='/:orgName' element={<Organization />} />
           <Route path="/folder" element={<Folder/>}/>
+          <Route path="/ra-summary" element={<RASummary/>}/>
         </Routes>
       </Router>
     </ChakraProvider>
