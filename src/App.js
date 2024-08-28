@@ -7,6 +7,7 @@ import Login from "./pages/Login/Login";
 import LabSheets from "./pages/LabSheet";
 import Folder from "./pages/Folder";
 import Organization from './pages/Organization';
+import Tasks from './pages/Tasks';
 import RASummary from './pages/RASummary';
 
 
@@ -26,6 +27,7 @@ function App() {
           
           <Route path="/" element={<Home/>}/>
           <Route path="/Login" element={<Login/>}/>
+          <Route path='/tasks' element={<Tasks/>}/>
           <Route path="/studies/:organization" element={<Studies/>}/>
           <Route path="/labsheet" element={<LabSheets/>}/>
           <Route path='/:orgName' element={<Organization />} />
