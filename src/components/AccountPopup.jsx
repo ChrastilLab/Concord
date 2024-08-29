@@ -30,7 +30,7 @@ const userData = {
     name: "Yukai Gu",
     email: "yukai1@uci.edu",
     status: "Programming...",
-    role: "admin",
+    role: "member",
     description: "This is the description part. I am a student from UCI, working as a developer in this project.",
     lastActive: "April 23, 2024 at 12:00:00 AM UTC-7",
     hours: {
@@ -46,7 +46,6 @@ const userData = {
         tenthWeek: 8
     },
     tags: ["Developer", "Volunteer"],
-    // tasks: ["Task 1: Finish the personal information page", "Task 2: Looking into backend APIs", "Task 3: Implement the user profile"],
 };
 
 const CustomTooltip: React.FC<{ active?: boolean; payload?: any; label?: number }> = ({ active, payload, label }) => {
@@ -185,18 +184,8 @@ function AccountPopup() {
                                     </BarChart>
                                 </ResponsiveContainer>
                             </VStack>
-                            {/*<Divider/>*/}
-                            {/*<VStack align="left">*/}
-                            {/*    {userData.tasks.map((task, index) => (*/}
-                            {/*        <Checkbox key={index}*/}
-                            {/*                  backgroundColor={"#e3e5e7"}*/}
-                            {/*                  padding={"5px"}*/}
-                            {/*                  borderRadius={"5px"}*/}
-                            {/*                  marginTop={"5px"}>*/}
-                            {/*            {task}*/}
-                            {/*        </Checkbox>*/}
-                            {/*    ))}*/}
-                            {/*</VStack>*/}
+                            <Box></Box>
+                            <Button onClick={() => userData.role.toLowerCase()==="admin"?navigate("/ra-summary"):navigate("/members")}>My summary</Button>
                             <Box></Box>
                         </VStack>
                     </PopoverBody>
