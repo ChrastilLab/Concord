@@ -7,6 +7,8 @@ import {
   Heading,
   Text,
   Stack,
+  Button,
+  Flex,
 } from "@chakra-ui/react";
 import {
   EllipsisVerticalIcon,
