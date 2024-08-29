@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 
 function Sidenav() {
     const navigate = useNavigate();
-    let navOptions = ['Home', 'Studies', 'Announcements', 'Discussions', 'Members', 'Lab Sheet']
-    let navRoutes = ['/', '/studies', '/announcements', '/discussions', '/members', '/labsheet'];
+    let navOptions = ['Home', 'Studies', 'Tasks', 'Announcements', 'Discussions', 'Members', 'Lab Sheet']
+    let navRoutes = ['/', '/studies', '/tasks', '/announcements', '/discussions', '/members', '/labsheet'];
     let iconStyle = { height: '20px', width: '20px', marginRight: '8px'}
     let thinIconStyle = { height: '20px', width: '20px', marginRight: '8px', stroke: "#ffffff", strokeWidth: 0.5 }
     let icons = [<HomeOutlined style={thinIconStyle} />, <BookOpenIcon style={iconStyle}/>, <FeedbackOutlined style={thinIconStyle} />, <ChatOutlined style={thinIconStyle}/>, <i className="bi bi-people" style={iconStyle}></i>, <i className="bi bi-file-earmark-spreadsheet" style={iconStyle}></i>]

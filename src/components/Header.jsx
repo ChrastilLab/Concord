@@ -1,7 +1,8 @@
 import {
     Box,
     Flex,
-    Button
+    Button,
+    Text,
 } from "@chakra-ui/react"
 
 import {
@@ -11,17 +12,10 @@ import {
 
 import {handleGoogleSignIn} from "../config/supabase";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-function Header() {
+import 'boxicons';
+import AccountPopup from "./AccountPopup";
 
-    const navigate = useNavigate();
-    const session = useSession();
-    const supabase = useSupabaseClient();
-    async function signOut() {
-        await supabase.auth.signOut().then(() => {
-            navigate("/");
-        });
-    }
+function Header() {
 
     return(
         <Flex alignItems={'center'}
@@ -32,18 +26,10 @@ function Header() {
               padding={'20px'}
               zIndex={5}>
             <Box>
-                Logo
+                <Text fontWeight='bold' fontSize='1.8rem'>Logo</Text>
             </Box>
             {
-                session ? (
-                    <Button variant={"solid"} onClick={signOut}>
-                        Logout
-                    </Button>
-                ) : (
-                    <Button variant={"solid"} onClick={handleGoogleSignIn}>
-                        Login
-                    </Button>
-                )
+                <AccountPopup/>
             }
 
         </Flex>
