@@ -5,6 +5,12 @@ import {
     Text,
 } from "@chakra-ui/react"
 
+import {
+    useSession,
+    useSupabaseClient,
+} from "@supabase/auth-helpers-react";
+
+import {handleGoogleSignIn} from "../config/supabase";
 import React from "react";
 import 'boxicons';
 import AccountPopup from "./AccountPopup";

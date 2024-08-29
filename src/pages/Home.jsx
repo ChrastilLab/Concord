@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
+
+import React from "react";
+import Header from "../components/Header"
+import Sidenav from "../components/Sidenav"
+
 import OrganizationCard from "../components/OrganizationCard";
 import SideInfoBar from "../components/SideInfoBar";
 import OrgSideNav from "../components/OrgSideNav";
@@ -12,7 +14,7 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import {
   useSession,
   useSupabaseClient,
-  useSessionContext,
+  // useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 import { supabase } from "../config/supabase";
@@ -57,6 +59,7 @@ function Home() {
       (payload) => {
         setOrgData((prevData) => [...prevData, payload.new]);
       }
+
     )
     .subscribe();
 
