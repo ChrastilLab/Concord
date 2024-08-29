@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/icons';
 
 
-function Members() {
+function PersonalSummary() {
     const session = useSession();
     const tag = [["Admin", "blue"], ["Organization", "green"], ["Project-Two", "purple"], ["Organization-One", "pink"]];
     const date = new Date();
@@ -157,4 +157,4 @@ function Members() {
     );
 }
 
-export default Members;
+export default PersonalSummary;

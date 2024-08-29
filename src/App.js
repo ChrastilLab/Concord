@@ -9,7 +9,7 @@ import Folder from "./pages/Folder";
 import Organization from './pages/Organization';
 import Tasks from './pages/Tasks';
 import RASummary from './pages/RASummary';
-import Members from './pages/Members';
+import PersonalSummary from './pages/PersonalSummary';
 
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
           <Route path='/:orgName' element={<Organization />} />
           <Route path="/folder" element={<Folder/>}/>
           <Route path="/ra-summary" element={<RASummary/>}/>
-          <Route path="/members" element={<Members/>}/>
+          <Route path="/personal-summary" element={<PersonalSummary/>}/>
         </Routes>
       </Router>
     </ChakraProvider>

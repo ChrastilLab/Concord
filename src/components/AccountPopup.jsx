@@ -185,7 +185,7 @@ function AccountPopup() {
                                 </ResponsiveContainer>
                             </VStack>
                             <Box></Box>
-                            <Button onClick={() => userData.role.toLowerCase()==="admin"?navigate("/ra-summary"):navigate("/members")}>My summary</Button>
+                            <Button onClick={() => userData.role.toLowerCase()==="admin"?navigate("/ra-summary"):navigate("/personal-summary")} width={"40%"} backgroundColor={"white"} border={"black solid 1px"} borderRadius={"10px"} height={9}>My summary</Button>
                             <Box></Box>
                         </VStack>
                     </PopoverBody>
