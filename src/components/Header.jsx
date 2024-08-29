@@ -7,7 +7,6 @@ import {
 import {
     useSession,
     useSupabaseClient,
-    useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 import {handleGoogleSignIn} from "../config/supabase";

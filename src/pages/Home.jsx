@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Header from "../components/Header"
 import Sidenav from "../components/Sidenav"
 import OrganizationCard from "../components/OrganizationCard";
@@ -9,12 +9,11 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
     useSession,
-    useSupabaseClient,
-    useSessionContext,
+    // useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 function Home() {
-    const { isLoading } = useSessionContext();
+    // const { isLoading } = useSessionContext();
     const session = useSession();
 
     // if (isLoading) {

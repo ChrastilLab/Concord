@@ -1,22 +1,20 @@
-import React, {useEffect, useState} from "react";
-import ProjectCard from "../components/ProjectCard"
-import ProjectHeader from "../components/ProjectHeader";
+import React from "react";
+
 import Header from "../components/Header"
 import Sidenav from "../components/Sidenav"
 import MembersGrid from "../components/MembersGrid"
-import { Box, Button, Center, Divider, Grid, GridItem, Heading, Flex } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 // import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
     useSession,
-    useSupabaseClient,
-    useSessionContext,
+    // useSupabaseClient,
+    // useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 
-
 function Members() {
-    const { isLoading } = useSessionContext();
+    // const { isLoading } = useSessionContext();
     const session = useSession();
 
 

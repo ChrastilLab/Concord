@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Box, Card, CardBody, Heading, Image, Text, Stack} from "@chakra-ui/react"
+import {Box, Card, CardBody, Heading, Text, Stack} from "@chakra-ui/react"
 
 function OrganizationCard() {
     return (
