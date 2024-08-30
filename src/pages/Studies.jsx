@@ -8,6 +8,8 @@ import { Box, Grid, GridItem, Flex } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../config/supabase";
 
+import { useState, useEffect } from 'react';
+
 import {
   useSession,
   // useSupabaseClient,
