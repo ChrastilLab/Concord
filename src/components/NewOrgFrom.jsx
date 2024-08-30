@@ -45,7 +45,7 @@ export default function NewOrgForm() {
         leftIcon={<PlusIcon width={"20px"} />}
         width={"180px"}
         height={"35px"}
-        fontSize={"16px"}
+        fontSize={"15px"}
         marginTop={"400px"}
         onClick={onOpen}
       >

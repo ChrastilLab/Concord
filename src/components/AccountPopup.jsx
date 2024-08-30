@@ -25,7 +25,7 @@ import {
 import EditAccountInfo from "./EditAccountInfo";
 
 
-const userData = {
+export const userData = {
     avatarImg: "",
     name: "Yukai Gu",
     email: "yukai1@uci.edu",
