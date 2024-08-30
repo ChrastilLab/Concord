@@ -7,6 +7,8 @@ import {
   Heading,
   Text,
   Stack,
+  Button,
+  Flex,
 } from "@chakra-ui/react";
 import {
   EllipsisVerticalIcon,
@@ -14,7 +16,6 @@ import {
   FolderIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-
 
 function OrganizationCard({ organization, description, color_scheme }) {
   const navigate = useNavigate();

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import Sidenav from "../components/Sidenav";
 import Header from "../components/Header";
 
@@ -18,12 +17,10 @@ import {
   Select,
   Flex,
   Heading,
-  IconButton,
   Popover,
   Checkbox,
   PopoverTrigger,
   PopoverContent,
-  PopoverHeader,
   PopoverBody,
   PopoverFooter,
   PopoverCloseButton,
@@ -33,17 +30,11 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
-} from "@chakra-ui/icons";
 
 import {
   useSession,
-  useSupabaseClient,
-  useSessionContext,
+  // useSupabaseClient,
+  // useSessionContext,
 } from "@supabase/auth-helpers-react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 

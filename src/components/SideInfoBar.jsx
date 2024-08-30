@@ -1,4 +1,4 @@
-import { Text, Heading, Flex, Stack, Button } from "@chakra-ui/react";
+import { Text, Heading, Flex, Stack } from "@chakra-ui/react";
 import NewOrgForm from "./NewOrgFrom";
 
 export default function SideInfoBar({ numOrgs }) {
