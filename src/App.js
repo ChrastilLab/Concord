@@ -29,7 +29,7 @@ function App() {
           <Route path="/Login" element={<Login/>}/>
           <Route path='/tasks' element={<Tasks/>}/>
           <Route path="/studies/:organization" element={<Studies/>}/>
-          <Route path="/labsheet" element={<LabSheets/>}/>
+          <Route path="/:organization/labsheet" element={<LabSheets/>}/>
           <Route path="/members" element={<Members/>}/>
           {/* <Route path="/announcements" element={}/> */}
           <Route path="/folder" element={<Folder/>}/>
