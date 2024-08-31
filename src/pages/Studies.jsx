@@ -78,7 +78,7 @@ function Studies() {
                         <Sidenav />
                         <Flex  flex={1} flexDirection={'column'} alignItems="center">
                             <Box width='100%' px="68px" >
-                                <ProjectHeader projects={projects}/>
+                                <ProjectHeader projects={projects} orgName={organization}/>
                             </Box>
                             <Grid
                                 templateColumns="repeat(3, 1fr)"
@@ -86,11 +86,6 @@ function Studies() {
                                 width="100%"
                                 px="68px"
                             >
-                                {/* {[...Array(6)].map((_, index) => (
-                                    <GridItem key={index}>
-                                        <ProjectCard />
-                                    </GridItem>
-                                ))} */}
                                 {projects.map((project) => (
                                     <GridItem key={project.project_id}>
                                         <ProjectCard project={project} />

@@ -7,7 +7,6 @@ import Login from "./pages/Login/Login";
 import LabSheets from "./pages/LabSheet";
 import Members from "./pages/Members";
 import Folder from "./pages/Folder";
-import Organization from './pages/Organization';
 import Tasks from './pages/Tasks';
 import RASummary from './pages/RASummary';
 
@@ -33,7 +32,6 @@ function App() {
           <Route path="/labsheet" element={<LabSheets/>}/>
           <Route path="/members" element={<Members/>}/>
           {/* <Route path="/announcements" element={}/> */}
-          <Route path='/:orgName' element={<Organization />} />
           <Route path="/folder" element={<Folder/>}/>
           <Route path="/ra-summary" element={<RASummary/>}/>
         </Routes>
