@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ReactComponent as MdOutlineMapsHomeWork } from  "./img/MdOutlineMapsHomeWork.svg";
 
-function IndividualStudySidenav({organization, project}) {
+function IndividualProjectSidenav({organization, project}) {
 
     const navigate = useNavigate();
     let iconStyle = { height: '20px', width: '20px', marginRight: '8px'}
@@ -44,4 +44,4 @@ function IndividualStudySidenav({organization, project}) {
     )
 }
 
-export default IndividualStudySidenav
+export default IndividualProjectSidenav

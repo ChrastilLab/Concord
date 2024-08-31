@@ -22,7 +22,7 @@ import {handleGoogleSignIn} from "../config/supabase";
 import React from "react";
 import AccountPopup from "./AccountPopup";
 
-function Header() {
+function IndividualProjectHeader() {
 
     return(
         <Flex alignItems={'center'}
@@ -50,4 +50,4 @@ function Header() {
     )
 }
 
-export default Header
+export default IndividualProjectHeader

@@ -1,8 +1,8 @@
 import React from "react";
 import { useParams } from 'react-router-dom';
 import { supabase } from "../config/supabase";
-import IndividualStudyHeader from "../components/IndividualStudyHeader";
-import IndividualStudySidenav from "../components/IndividualStudySidenav"
+import IndividualProjectHeader from "../components/IndividualProjectHeader";
+import IndividualProjectSidenav from "../components/IndividualProjectSidenav"
 import { Box, Grid, GridItem, Flex } from "@chakra-ui/react"
 import { useState, useEffect } from 'react';
 
@@ -22,11 +22,11 @@ function IndividualProject() {
 
   return(
         <Flex flexDirection={'column'} height={'100vh'}>
-            <IndividualStudyHeader />
+            <IndividualProjectHeader />
             {
                 session ? (
                     <Box flex={1} display={'flex'} flexDirection={'row'} zIndex={1}>
-                      <IndividualStudySidenav organization={organization} project={project}/>
+                      <IndividualProjectSidenav organization={organization} project={project}/>
                     </Box>
                 ) : (
                     <div>
