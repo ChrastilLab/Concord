@@ -1,11 +1,13 @@
 import {Box, Card, Spacer, Badge, CardBody, HStack, CardHeader, CardFooter, Heading, Flex, Text} from "@chakra-ui/react"
 import "bootstrap-icons/font/bootstrap-icons.css";
 // import {InfoIcon} from '@chakra-ui/icons';
+import { useNavigate } from "react-router-dom";
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, organization }) {
+    const navigate = useNavigate();
     return (
         <Flex mt={'5vh'} flexDirection={'column'} justifyContent={'space-between'} w={'44vh'} h='22vh' bg={'#F4F4F4'}>
-            <Card borderRadius="md" boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"  h='full' p={2} bg="#F0F0F0" >
+            <Card borderRadius="md" boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"  h='full' p={2} bg="#F0F0F0" onClick={() => navigate(`/studies/${organization}/${project.project_name}`)}>
                 <CardHeader p={2} display="flex" justifyContent="space-between" alignItems="center">
                 <Box>
                         <Heading size='md' mb={1}>{project.project_name}</Heading> 

@@ -93,7 +93,7 @@ function Studies() {
                                 ))} */}
                                 {projects.map((project) => (
                                     <GridItem key={project.project_id}>
-                                        <ProjectCard project={project} />
+                                        <ProjectCard project={project} organization={organization} />
                                     </GridItem>
                                 ))}
                             </Grid>
