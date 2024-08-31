@@ -95,9 +95,6 @@ function ProjectHeader({ projects, orgName }) {
 
             <CreateNewStudy projects={projects} />
           </Stack>
-          <Flex position={"fixed"} top={"115px"} right={"85px"}>
-            <PencilSquareIcon width={"20px"}></PencilSquareIcon>
-          </Flex>
         </CardHeader>
 
         <CardBody ml="6vh" alignContent={"center"} p={2}>
@@ -151,6 +148,10 @@ function ProjectHeader({ projects, orgName }) {
                   {totalProjects}
                 </Text>
               </Stack>
+            </Flex>
+
+            <Flex marginLeft={"-35px"} marginTop={"-162px"}>
+              <PencilSquareIcon width={"20px"}></PencilSquareIcon>
             </Flex>
           </HStack>
         </CardBody>

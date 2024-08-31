@@ -82,13 +82,14 @@ function Studies() {
                             </Box>
                             <Grid
                                 templateColumns="repeat(3, 1fr)"
+                                columnGap={"50px"}
                                 gap={1}
                                 width="100%"
                                 px="68px"
                             >
                                 {projects.map((project) => (
                                     <GridItem key={project.project_id}>
-                                        <ProjectCard project={project} />
+                                        <ProjectCard project={project} gap={"20px"}/>
                                     </GridItem>
                                 ))}
                             </Grid>
