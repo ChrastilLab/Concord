@@ -13,8 +13,9 @@ import {
 } from "@chakra-ui/react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 // import {InfoIcon} from '@chakra-ui/icons';
+import EditProject from "./EditProject";
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, onProjectUpdate }) {
   return (
     <Flex
       mt={"5vh"}
@@ -76,7 +77,12 @@ function ProjectCard({ project }) {
                 {project.created_at}
               </Text>
             </Text>
+            
             <Spacer />
+            <EditProject 
+            project={project}
+            onProjectUpdate={onProjectUpdate}
+          />
             {/* <IconButton 
                             icon={<InfoIcon />} 
                             aria-label="Information" 
