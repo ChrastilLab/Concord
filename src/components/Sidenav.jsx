@@ -33,11 +33,11 @@ function Sidenav() {
     "Lab Sheet",
   ];
   let navRoutes = [
-    "/studies",
-    "/tasks",
-    "/announcements",
-    "/discussions",
-    "/members",
+    `/${organization}/studies`,
+    `/${organization}/tasks`,
+    `/${organization}/announcements`,
+    `/${organization}/discussions`,
+    `/${organization}/members`,
     `/${organization}/labsheet`,
   ];
   let iconStyle = { height: "20px", width: "20px", marginRight: "8px" };

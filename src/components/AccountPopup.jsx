@@ -30,7 +30,7 @@ export const userData = {
     name: "Yukai Gu",
     email: "yukai1@uci.edu",
     status: "Programming...",
-    role: "admin",
+    role: "ee",
     description: "This is the description part. I am a student from UCI, working as a developer in this project.",
     lastActive: "April 23, 2024 at 12:00:00 AM UTC-7",
     hours: {
