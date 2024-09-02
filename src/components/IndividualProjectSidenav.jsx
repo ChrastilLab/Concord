@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ReactComponent as MdOutlineMapsHomeWork } from  "./img/MdOutlineMapsHomeWork.svg";
 
-function IndividualProjectSidenav({organization, project}) {
+function IndividualProjectSidenav({organization, project_name}) {
 
     const navigate = useNavigate();
     let iconStyle = { height: '20px', width: '20px', marginRight: '8px'}
@@ -30,7 +30,7 @@ function IndividualProjectSidenav({organization, project}) {
             <Stack spacing={2} marginTop={'25px'}>
                 {/* Todo: the navigation to member, tasks, documents, calendar pages should be specific to this project */}
                 <Button onClick={() => navigate(`/studies/${organization}`)} justifyContent={'left'} variant={'ghost'}  _hover={{ bg: "#D0EAF9" }}>{<MdOutlineMapsHomeWork style={thinIconStyle}/>} {organization}</Button>
-                <Button onClick={() => navigate(`/studies/${organization}/${project}`)} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<KeyboardArrowDownIcon style={iconStyle}/>} {project}</Button>
+                <Button onClick={() => navigate(`/studies/${organization}/${project_name}`)} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<KeyboardArrowDownIcon style={iconStyle}/>} {project_name}</Button>
                 <Button onClick={() => navigate('/tasks') } ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<FeedbackOutlined style={thinIconStyle}/>} Tasks</Button>
                 <Button onClick={() => navigate('/folder')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<BookOpenIcon style={iconStyle}/>} Documents</Button>
                 <Button onClick={() => navigate('/calendar')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<CalendarMonthIcon style={thinIconStyle}/>} Calendar</Button>

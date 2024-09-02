@@ -37,7 +37,7 @@ function App() {
           <Route path='/:orgName' element={<Organization />} />
           <Route path="/folder" element={<Folder/>}/>
           <Route path="/ra-summary" element={<RASummary/>}/>
-          <Route path="/studies/:organization/:project" element={<IndividualProject/>}/>
+          <Route path="/studies/:organization/:project_name" element={<IndividualProject/>}/>
         </Routes>
       </Router>
     </ChakraProvider>

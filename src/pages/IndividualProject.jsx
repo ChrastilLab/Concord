@@ -17,8 +17,37 @@ import {
 
 function IndividualProject() {
 
-  const { organization, project } = useParams();
+  const { organization, project_name } = useParams();
   const { isLoading } = useSessionContext();
+
+  const [ project, setProject ] = useState([]);
+  const [ detail, setDetail ] = useState('GOAL');
+
+  function handleAspectClick(aspect){
+    setDetail(aspect);
+  };
+
+  useEffect(() => {
+    const fetchProject = async () => {
+        const { data, error } = await supabase
+            .from('Projects')
+            .select('*')
+            .eq('project_name', project_name);
+        
+        if (!error){
+            setProject(data[0]);
+            console.log(data[0]);
+        }
+        
+        else{
+            console.error(error);
+        }
+
+    };
+
+    fetchProject();
+    }, []);
+
 
   const session = useSession();
 
@@ -28,20 +57,20 @@ function IndividualProject() {
             {
                 session ? (
                     <Box flex={1} display={'flex'} flexDirection={'row'} zIndex={1}>
-                      <IndividualProjectSidenav organization={organization} project={project}/>
+                      <IndividualProjectSidenav organization={organization} project_name={project_name}/>
                       <Flex pl={'65px'} pt={'51px'} pr={'65px'} flex={1} flexDirection={'column'}>
                         <Flex flex={1} flexDirection={'column'}>
                             <HStack spacing={'50px'}>
-                                <Card w={'550px'} h={'400px'} borderRadius="20px" boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)"  h='full' p={2} bg="#F0F0F0">
+                                <Card w={'550px'} h={'400px'} borderRadius="20px" boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)" h='full' p={2} bg="#F0F0F0">
                                     <CardHeader pt={2} pb={0} display='flex' justifyContent='flex-end'>
                                         <Button bg="#F0F0F0"><CheckEdit/></Button>
                                     </CardHeader>
                                     <CardBody pl={'35px'} pb={'60px'} pt={0} display='flex' justifyContent='flex-start'>
                                         <VStack alignItems={'left'} spacing={3}>
-                                            <Text fontSize={'36px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} lineHeight={'30px'}>IndivRobotics</Text>
-                                            <Text color = {'#565656'} fontSize={'14px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>Led By: Taylor</Text>
-                                            <Text fontSize={'14px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={700} lineHeight={'10px'}>IRB Number: #2020-6048</Text>
-                                            <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'} pt={'15px'}>IndivRobotics aims to create personalized and customizable robots for each member while allowing the user to create their own team,  color, and so on..</Text>
+                                            <Text fontSize={'36px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} lineHeight={'30px'}>{project.project_name}</Text>
+                                            <Text color = {'#565656'} fontSize={'14px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>Led By: {project.project_lead}</Text>
+                                            <Text fontSize={'14px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={700} lineHeight={'10px'}>IRB Number: {project.irb_number}</Text>
+                                            <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'} pt={'15px'}>{project.description}</Text>
                                         </VStack>
                                     </CardBody>
                                 </Card >
@@ -50,7 +79,7 @@ function IndividualProject() {
                                         <ButtonGroup display='flex' justifyContent='space-between'>
                                         {['GOAL', 'TESTING', 'HYPOTHESIS', 'EXPECTATIONS'].map((aspect) => (
                                             <Button bg="#F0F0F0">
-                                                <Text fontSize={'23px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} lineHeight={'24px'}>{aspect}</Text>
+                                                <Text fontSize={'23px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} lineHeight={'24px'} textDecoration={detail === aspect ? 'underline' : ''} color={detail === aspect ? '#76CCFD' : 'black'} onClick={() => handleAspectClick(aspect)}>{aspect}</Text>
                                             </Button>
                                         ))}
                                         </ButtonGroup>
@@ -58,12 +87,7 @@ function IndividualProject() {
                                     <Divider width={'630px'} alignSelf={'center'} color='gray'/>
                                     <CardBody pt={'30px'} pl={'50px'} pr={'50px'} pb={'50px'}>
                                         <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>
-                                        To test the advantages o    f varying navigational abilities in  humans and robots using
-                                        To test the advantages of varying navigational abilities in  humans and robots using
-                                        To test the advantages of varying navigational abilities in  humans and robots using
-                                        To test the advantages of varying navigational abilities in  humans and robots using
-                                        To test the advantages of varying navigational abilities in  humans and robots using
-                                        To test the advantages of varying navigational abilities in  humans and robots using
+                                        {detail === 'GOAL' ? project.goal : detail === 'TESTING' ? project.testing : detail === 'HYPOTHESIS' ? project.hypothesis : project.goal}
                                         </Text>
                                     </CardBody>
                                 </Card>
