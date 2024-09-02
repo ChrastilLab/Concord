@@ -32,7 +32,7 @@ function IndividualProjectSidenav({organization, project}) {
                 <Button onClick={() => navigate(`/studies/${organization}`)} justifyContent={'left'} variant={'ghost'}  _hover={{ bg: "#D0EAF9" }}>{<MdOutlineMapsHomeWork style={thinIconStyle}/>} {organization}</Button>
                 <Button onClick={() => navigate(`/studies/${organization}/${project}`)} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<KeyboardArrowDownIcon style={iconStyle}/>} {project}</Button>
                 <Button onClick={() => navigate('/tasks') } ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<FeedbackOutlined style={thinIconStyle}/>} Tasks</Button>
-                <Button onClick={() => navigate('/documents')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<BookOpenIcon style={iconStyle}/>} Documents</Button>
+                <Button onClick={() => navigate('/folder')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<BookOpenIcon style={iconStyle}/>} Documents</Button>
                 <Button onClick={() => navigate('/calendar')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<CalendarMonthIcon style={thinIconStyle}/>} Calendar</Button>
                 <Button onClick={() => navigate('/members')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<i className="bi bi-people" style={iconStyle} />} Members</Button>
             </Stack>
