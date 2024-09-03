@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
+// import Sidenav from "../components/Sidenav";
 
 import OrganizationCard from "../components/OrganizationCard";
 import SideInfoBar from "../components/SideInfoBar";

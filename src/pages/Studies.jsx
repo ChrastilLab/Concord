@@ -1,28 +1,24 @@
-import React from "react";
-import ProjectCard from "../components/ProjectCard";
 import React, { useEffect, useState } from "react";
+
 import ProjectCard from "../components/ProjectCard";
 import ProjectHeader from "../components/ProjectHeader";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import { Box, Grid, GridItem, Flex } from "@chakra-ui/react";
-import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
-import { Box, Grid, GridItem, Flex } from "@chakra-ui/react";
 // import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { useParams } from "react-router-dom";
+
 import { useParams } from "react-router-dom";
 import { supabase } from "../config/supabase";
 
 import {
   useSession,
-  useSupabaseClient,
-  useSessionContext,
+//   useSupabaseClient,
+//   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 function Studies() {
   const { organization } = useParams();
-  const { isLoading } = useSessionContext();
+//   const { isLoading } = useSessionContext();
 
   const session = useSession();
 

@@ -1,18 +1,15 @@
 import {
   Box,
   Card,
-  Spacer,
   Badge,
   CardBody,
   HStack,
   CardHeader,
-  CardFooter,
   Heading,
   Flex,
   Text,
 } from "@chakra-ui/react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-// import {InfoIcon} from '@chakra-ui/icons';
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 function ProjectCard({ project }) {

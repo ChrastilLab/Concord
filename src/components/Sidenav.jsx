@@ -12,8 +12,8 @@ import {
 /* Icons */
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { HomeOutlined } from "@ant-design/icons";
-import { BookOpenIcon } from "@heroicons/react/24/outline";
-import { CalendarDateRangeIcon } from "@heroicons/react/24/outline";
+// import { BookOpenIcon } from "@heroicons/react/24/outline";
+// import { CalendarDateRangeIcon } from "@heroicons/react/24/outline";
 import FeedbackOutlined from "@mui/icons-material/FeedbackOutlined";
 import ChatOutlined from "@mui/icons-material/ChatOutlined";
 import { SettingOutlined } from "@ant-design/icons";

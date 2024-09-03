@@ -15,7 +15,6 @@ import {
   Box,
   Tooltip,
   Text,
-  Checkbox,
   Divider,
   Avatar,
   AvatarBadge,
