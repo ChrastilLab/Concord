@@ -25,16 +25,16 @@ function Sidenav() {
   const organization = useParams().organization;
 
   let navOptions = [
-    "Studies",
-    "Tasks",
+    // "Studies",
+    // "Tasks",
     "Announcements",
     "Discussions",
     "Members",
     "Lab Sheet",
   ];
   let navRoutes = [
-    `/${organization}/studies`,
-    `/${organization}/tasks`,
+    // `/${organization}/studies`,
+    // `/${organization}/tasks`,
     `/${organization}/announcements`,
     `/${organization}/discussions`,
     `/${organization}/members`,
@@ -49,8 +49,8 @@ function Sidenav() {
     strokeWidth: 0.5,
   };
   let icons = [
-    <BookOpenIcon style={iconStyle} />,
-    <CalendarDateRangeIcon style={iconStyle} />,
+    // <BookOpenIcon style={iconStyle} />,
+    // <CalendarDateRangeIcon style={iconStyle} />,
     <FeedbackOutlined style={thinIconStyle} />,
     <ChatOutlined style={thinIconStyle} />,
     <i className="bi bi-people" style={iconStyle}></i>,
