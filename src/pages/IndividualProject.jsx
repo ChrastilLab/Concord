@@ -87,7 +87,7 @@ function IndividualProject() {
                                     <Divider width={'630px'} alignSelf={'center'} color='gray'/>
                                     <CardBody pt={'30px'} pl={'50px'} pr={'50px'} pb={'50px'}>
                                         <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>
-                                        {detail === 'GOAL' ? project.goal : detail === 'TESTING' ? project.testing : detail === 'HYPOTHESIS' ? project.hypothesis : project.goal}
+                                        {detail === 'GOAL' ? project.goal : detail === 'TESTING' ? project.testing : detail === 'HYPOTHESIS' ? project.hypothesis : project.commitment}
                                         </Text>
                                     </CardBody>
                                 </Card>
@@ -99,15 +99,85 @@ function IndividualProject() {
                                 <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>Pinned Documents</Text>
                             </HStack>
                             <Divider width={'1350px'} pt={'25px'} color='black'/>
-                            <Grid templateColumns='repeat(4, 1fr)' gap={6} pt={'25px'}>
-                                <GridItem>Documents</GridItem>
-                                <GridItem>Documents</GridItem>
-                                <GridItem>Documents</GridItem>
-                                <GridItem>Documents</GridItem>
-                                <GridItem>Documents</GridItem>
-                                <GridItem>Documents</GridItem>
-                                <GridItem>Documents</GridItem>
-                                <GridItem>Documents</GridItem>
+                            <Grid templateColumns='repeat(4, 1fr)' gap={8} pt={'25px'}>
+                                <GridItem position="relative" cursor="pointer">
+                                    <iframe
+                                        src="https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/preview"
+                                        width="100%"
+                                        height="100%"
+                                        style={{
+                                            transform: "scale(0.5)",
+                                            transformOrigin: "top left",
+                                            width: "200%",
+                                            height: "300%",
+                                            border: "none",
+                                        }}
+                                    ></iframe>
+                                    <div
+                                        onClick={() => window.open('https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/edit?usp=sharing', '_blank')}
+                                        style={{
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "90%",
+                                            height: "90%",
+                                            backgroundColor: "rgba(0, 0, 0, 0)",
+                                            zIndex: 10,
+                                        }}
+                                    ></div>
+                                </GridItem>
+                                <GridItem position="relative" cursor="pointer">
+                                    <iframe
+                                        src="https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/preview"
+                                        width="100%"
+                                        height="100%"
+                                        style={{
+                                            transform: "scale(0.5)",
+                                            transformOrigin: "top left",
+                                            width: "200%",
+                                            height: "300%",
+                                            border: "none",
+                                        }}
+                                    ></iframe>
+                                    <div
+                                        onClick={() => window.open('https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/edit?usp=sharing', '_blank')}
+                                        style={{
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "90%",
+                                            height: "90%",
+                                            backgroundColor: "rgba(0, 0, 0, 0)",
+                                            zIndex: 10,
+                                        }}
+                                    ></div>
+                                </GridItem>
+                                <GridItem position="relative" cursor="pointer">
+                                    <iframe
+                                        src="https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/preview"
+                                        width="100%"
+                                        height="100%"
+                                        style={{
+                                            transform: "scale(0.5)",
+                                            transformOrigin: "top left",
+                                            width: "200%",
+                                            height: "300%",
+                                            border: "none",
+                                        }}
+                                    ></iframe>
+                                    <div
+                                        onClick={() => window.open('https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/edit?usp=sharing', '_blank')}
+                                        style={{
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "90%",
+                                            height: "90%",
+                                            backgroundColor: "rgba(0, 0, 0, 0)",
+                                            zIndex: 10,
+                                        }}
+                                    ></div>
+                                </GridItem>
                             </Grid>
                         </Flex>
                     </Flex>
