@@ -20,6 +20,20 @@ import {
 import { EditIcon } from "@chakra-ui/icons";
 import { supabase } from "../config/supabase";
 
+const fetchUser = async () => {
+  const { data, error } = await supabase.auth.getUser();
+  return { user: data?.user, error };
+};
+
+const checkIfAdmin = async (userId) => {
+  const { data, error } = await supabase
+    .from("Users")
+    .select("user_type")
+    .eq("user_id", userId);
+  const isAdmin = !error && data.length > 0 && data[0].user_type;
+  return isAdmin;
+};
+
 function EditProject({ project, onProjectUpdate }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userData, setUserData] = useState({});
@@ -30,25 +44,20 @@ function EditProject({ project, onProjectUpdate }) {
 
   useEffect(() => {
     const fetchData = async () => {
-        const { data, error } = await supabase.auth.getUser();
-        const user = data.user
+        const { user, error } = await fetchUser();
 
-        if (!error) {
-          setUserData(user);
-  
-          const { data, error } = await supabase
-            .from("Users")
-            .select("user_type")
-            .eq("user_id", user.id);
-            
-          if (!error && data.length > 0 && data[0].user_type) {
-            setUserAdmin(true);
-          }
+        if (!error && user) {
+            setUserData(user);
+
+            const isAdmin = await checkIfAdmin(user.id);
+            if (isAdmin) {
+                setUserAdmin(true);
+            }
         }
-      };
-  
-      fetchData();
-    }, []);
+    };
+
+    fetchData();
+  }, []);
 
   const handleSaveClicked = async () => {
     const { error } = await supabase
