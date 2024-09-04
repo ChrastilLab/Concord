@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Sidenav from "../components/Sidenav";
 import Header from "../components/Header";
 import {
@@ -19,6 +19,7 @@ function PersonalSummary() {
     const date = new Date();
     const tasks = ["Task 1: Finish the personal information page", "Task 2: Looking into backend APIs", "Task 3: Implement the user profile", "Task 4: do something", "Task 5: do something again"];
     const hours = [10, 20, 13, 15, 17, 23, 19, 10, 20, 19];
+    const userName = localStorage.getItem('username');
 
     function getNumberSuffix(day) {
         if (day > 3 && day < 21) return 'th';
@@ -39,7 +40,7 @@ function PersonalSummary() {
                     <Box width="98%" marginLeft="1%" marginRight="1%" p={10}>
                         <Flex flexDirection={"column"}>
                             <Heading fontSize="3.2rem" mb={4}>
-                                User Name
+                                {userName}
                             </Heading>
                             <Flex flexDirection={"row"}>
                                 {tag.map(([name,color]) => (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import { handleGoogleSignIn } from "../config/supabase";
 
@@ -25,29 +25,6 @@ import {
 import EditAccountInfo from "./EditAccountInfo";
 
 
-const userData = {
-    avatarImg: "",
-    name: "Yukai Gu",
-    email: "yukai1@uci.edu",
-    status: "Programming...",
-    role: "member",
-    description: "This is the description part. I am a student from UCI, working as a developer in this project.",
-    lastActive: "April 23, 2024 at 12:00:00 AM UTC-7",
-    hours: {
-        firstWeek: 6,
-        secondWeek: 3,
-        thirdWeek: 7,
-        fourthWeek: 6,
-        fifthWeek: 10,
-        sixthWeek: 8,
-        seventhWeek: 7,
-        eighthWeek: 10,
-        ninthWeek: 7,
-        tenthWeek: 8
-    },
-    tags: ["Developer", "Volunteer"],
-};
-
 const CustomTooltip: React.FC<{ active?: boolean; payload?: any; label?: number }> = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
@@ -65,6 +42,65 @@ function AccountPopup() {
     const session = useSession();
     const navigate = useNavigate();
     const supabase = useSupabaseClient();
+
+    const [displayName, setDisplayName] = useState('');
+    const [userType, setUserType] = useState('');
+    const [bio, setBio] = useState('');
+    const [status, setStatus] = useState('');
+
+    const updateUserDataFromEdit = (newData) => {
+        setDisplayName(newData.name);
+        setBio(newData.bio);
+        setStatus(newData.status);
+    };
+
+    const userData = {
+        avatarImg: "",
+        name: displayName,
+        email: session.user.email ? session.user.email : "",
+        status: status,
+        userType: userType,
+        description: bio,
+        lastActive: session.user.last_sign_in_at ? session.user.last_sign_in_at : "",
+        hours: { // Hardcoded for now (Shows the hours worked by the user)
+            firstWeek: 6,
+            secondWeek: 3,
+            thirdWeek: 7,
+            fourthWeek: 6,
+            fifthWeek: 10,
+            sixthWeek: 8,
+            seventhWeek: 7,
+            eighthWeek: 10,
+            ninthWeek: 7,
+            tenthWeek: 8
+        },
+    };
+
+    useEffect(() => {
+        async function fetchUserDisplayName() {
+            if (session) {
+                const {data: Users, error} = await supabase
+                    .from('Users')
+                    .select('*')
+                    .eq('user_id', session.user.id)
+
+                if (error) {
+                    console.error('Error fetching display_name: ', error);
+                } else {
+                    setDisplayName(Users[0].display_name);
+                    setUserType(Users[0].user_type);
+                    setBio(Users[0].bio);
+                    setStatus(Users[0].status);
+                    localStorage.setItem('username', Users[0].display_name);
+                    localStorage.setItem('usertype', Users[0].user_type);
+                    localStorage.setItem('userbio', Users[0].bio);
+                    localStorage.setItem('userstatus', Users[0].status);
+                }
+            }
+        }
+        fetchUserDisplayName();
+    }, []);
+
 
     async function signOut() {
         await supabase.auth.signOut().then(() => {
@@ -86,7 +122,7 @@ function AccountPopup() {
                                height={"40px"}
                                borderRadius={"100%"}
                                src={session.user.user_metadata.avatar_url}
-                               alt="Profile" />
+                               alt="Profile"/>
                     </Button>
                 </PopoverTrigger>
 
@@ -98,7 +134,7 @@ function AccountPopup() {
                                 height={"65vh"}
                                 width={"30vw"}
                                 minWidth={"300px"}>
-                    <PopoverArrow />
+                    <PopoverArrow/>
 
                     <PopoverHeader fontWeight={"bold"}
                                    backgroundColor={"#4498ec"}
@@ -120,12 +156,14 @@ function AccountPopup() {
                     </PopoverHeader>
 
                     <Avatar src={session.user.user_metadata.avatar_url}
-                            boxSize={"12vh"} position={"relative"} top={"-6vh"} left={"2vw"} border={"#e3e5e7 solid 7px"}>
-                        <Tooltip hasArrow label={userData.status} placement='right' backgroundColor={"#d0f5d7"} color={"#2f533f"}>
-                            <AvatarBadge boxSize={'1.5em'} bg='green.500' border={"#e3e5e7 solid 5px"} />
+                            boxSize={"12vh"} position={"relative"} top={"-6vh"} left={"2vw"}
+                            border={"#e3e5e7 solid 7px"}>
+                        <Tooltip hasArrow label={userData.status} placement='right' backgroundColor={"#d0f5d7"}
+                                 color={"#2f533f"}>
+                            <AvatarBadge boxSize={'1.5em'} bg='green.500' border={"#e3e5e7 solid 5px"}/>
                         </Tooltip>
                     </Avatar>
-                    <EditAccountInfo />
+                    <EditAccountInfo updateUserDataFromEdit={updateUserDataFromEdit}/>
 
                     <PopoverBody padding={"10px"}
                                  backgroundColor={"#e3e5e7"}
@@ -155,17 +193,17 @@ function AccountPopup() {
                                       lineHeight={"22px"}
                                       display={"inline-block"}
                                       verticalAlign={"middle"}>
-                                    {userData.name}
+                                    {displayName}
                                 </Text>
                                 <Badge colorScheme={'green'}
                                        marginLeft={"20px"}
                                        borderRadius={"5px"}>
-                                    {userData.role.toUpperCase()}
+                                    {userData.userType?"ADMIN":"MEMBER"}
                                 </Badge>
                                 <Box fontSize={"12px"}
                                      color={"black"}
                                      left={"0"}>
-                                    {session ? session.user.email : ""}
+                                    {userData.email}
                                 </Box>
                             </Box>
                             <Divider/>
@@ -179,13 +217,16 @@ function AccountPopup() {
                             <VStack align="left">
                                 <ResponsiveContainer width="100%" height={60}>
                                     <BarChart data={data}>
-                                        <RechartsTooltip content={<CustomTooltip />} />
-                                        <Bar dataKey="hours" fill="#4498ec" />
+                                        <RechartsTooltip content={<CustomTooltip/>}/>
+                                        <Bar dataKey="hours" fill="#4498ec"/>
                                     </BarChart>
                                 </ResponsiveContainer>
                             </VStack>
                             <Box></Box>
-                            <Button onClick={() => userData.role.toLowerCase()==="admin"?navigate("/ra-summary"):navigate("/personal-summary")} width={"40%"} backgroundColor={"white"} border={"black solid 1px"} borderRadius={"10px"} height={9}>My summary</Button>
+                            <Button
+                                onClick={() => userData.userType ? navigate("/ra-summary") : navigate("/personal-summary")}
+                                width={"40%"} backgroundColor={"white"} border={"black solid 1px"} borderRadius={"10px"}
+                                height={9}>My summary</Button>
                             <Box></Box>
                         </VStack>
                     </PopoverBody>
