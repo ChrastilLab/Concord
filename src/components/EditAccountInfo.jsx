@@ -1,6 +1,4 @@
-import {
-    EditIcon,
-} from '@chakra-ui/icons';
+import { EditIcon } from "@chakra-ui/icons";
 import React, {useState} from "react";
 import {
     Modal,
@@ -11,9 +9,17 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    useDisclosure, FormControl, FormLabel, Input, Textarea, AlertIcon, Alert, Box, useToast
-} from '@chakra-ui/react'
-import {useSession} from "@supabase/auth-helpers-react";
+    useDisclosure,
+    FormControl,
+    FormLabel,
+    Input,
+    Textarea,
+    AlertIcon,
+    Alert,
+    Box,
+    useToast
+} from "@chakra-ui/react";
+import { useSession } from "@supabase/auth-helpers-react";
 import {supabase} from "../config/supabase";
 
 function EditAccountInfo({updateUserDataFromEdit}) {
@@ -70,20 +76,19 @@ function EditAccountInfo({updateUserDataFromEdit}) {
 
     return (
         <>
-            <Button position={"absolute"}
-                    right={"10px"}
-                    top={"15px"}
-                    _hover={"None"}
-                    _active={"None"}
-                    backgroundColor={"#4498ec"}
-                    onClick={onOpen}>
-                <EditIcon color={"white"} boxSize={'25px'}/>
+            <Button
+                position={"absolute"}
+                right={"10px"}
+                top={"15px"}
+                _hover={"None"}
+                _active={"None"}
+                backgroundColor={"#4498ec"}
+                onClick={onOpen}
+            >
+                <EditIcon color={"white"} boxSize={"25px"} />
             </Button>
 
-            <Modal
-                isOpen={isOpen}
-                onClose={onClose}
-            >
+            <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Edit Account Information</ModalHeader>
@@ -96,7 +101,10 @@ function EditAccountInfo({updateUserDataFromEdit}) {
 
                         <FormControl mt={8}>
                             <FormLabel color={"black"}>E-mail</FormLabel>
-                            <Input placeholder={session.user.email} disabled/>
+                            <Input
+                                placeholder={session.user.email}
+                                disabled
+                            />
                         </FormControl>
 
                         <FormControl mt={8}>
@@ -106,13 +114,16 @@ function EditAccountInfo({updateUserDataFromEdit}) {
 
                         <FormControl mt={8}>
                             <FormLabel color={"black"}>Description</FormLabel>
-                            <Textarea defaultValue={bio} onChange={(e) => setBio(e.target.value)}/>
+                            <Textarea
+                                defaultValue={bio}
+                                onChange={(e) => setBio(e.target.value)}
+                            />
                         </FormControl>
 
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={handleSave}>
+                        <Button colorScheme="blue" mr={3} onClick={handleSave}>
                             Save
                         </Button>
                         <Button onClick={onClose}>Cancel</Button>

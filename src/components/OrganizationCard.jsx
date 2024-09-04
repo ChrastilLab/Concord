@@ -5,7 +5,6 @@ import {
   Card,
   CardBody,
   Heading,
-  Image,
   Text,
   Stack,
   Button,

@@ -3,33 +3,56 @@ import { useNavigate } from "react-router-dom";
 import { handleGoogleSignIn } from "../config/supabase";
 
 import {
-    Popover, PopoverTrigger, Button, PopoverContent, PopoverArrow, PopoverHeader, PopoverBody, Image, VStack,
-    Box,Tooltip, Text, Checkbox, Divider, Avatar, AvatarBadge, Badge,
-} from '@chakra-ui/react';
+  Popover,
+  PopoverTrigger,
+  Button,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverBody,
+  Image,
+  VStack,
+  Box,
+  Tooltip,
+  Text,
+  Divider,
+  Avatar,
+  AvatarBadge,
+  Badge,
+} from "@chakra-ui/react";
+
+import { TimeIcon } from "@chakra-ui/icons";
+
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import {
-    TimeIcon,
-} from '@chakra-ui/icons';
-
-import {
-    useSession,
-    useSupabaseClient,
-} from "@supabase/auth-helpers-react";
-
-import {
-    BarChart,
-    Bar,
-    Tooltip as RechartsTooltip,
-    ResponsiveContainer,
-} from 'recharts';
+  BarChart,
+  Bar,
+  Tooltip as RechartsTooltip,
+  ResponsiveContainer,
+} from "recharts";
 import EditAccountInfo from "./EditAccountInfo";
 
 
-const CustomTooltip: React.FC<{ active?: boolean; payload?: any; label?: number }> = ({ active, payload, label }) => {
+const CustomTooltip: React.FC<{
+    active?: boolean,
+    payload?: any,
+    label?: number,
+}> = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
-            <Box bg="#caf0f8" p={2} borderRadius="5px" boxShadow="md" padding={"5px"} marginLeft={"15px"} marginRight={"15px"}>
-                <Text fontWeight="bold" mb={1} color={"#0077b6"}>{`Week ${label + 1}`}</Text>
+            <Box
+                bg="#caf0f8"
+                p={2}
+                borderRadius="5px"
+                boxShadow="md"
+                padding={"5px"}
+                marginLeft={"15px"}
+                marginRight={"15px"}
+            >
+                <Text fontWeight="bold" mb={1} color={"#0077b6"}>{`Week ${
+                    label + 1
+                }`}</Text>
                 <Text color={"#0077b6"}>{`Hours: ${payload[0].value}h`}</Text>
             </Box>
         );
@@ -37,6 +60,7 @@ const CustomTooltip: React.FC<{ active?: boolean; payload?: any; label?: number 
     return null;
 };
 
+export let userData;
 
 function AccountPopup() {
     const session = useSession();
@@ -54,7 +78,7 @@ function AccountPopup() {
         setStatus(newData.status);
     };
 
-    const userData = {
+    userData = {
         avatarImg: "",
         name: displayName,
         email: session.user.email ? session.user.email : "",
@@ -109,107 +133,145 @@ function AccountPopup() {
     }
 
     const data = Object.entries(userData.hours).map(([week, hours]) => ({
-        week: week.replace(/([A-Z])/g, ' $1').replace(/^\w/, c => c.toUpperCase()),
-        hours
+        week: week
+            .replace(/([A-Z])/g, " $1")
+            .replace(/^\w/, (c) => c.toUpperCase()),
+        hours,
     }));
 
-    return (
-        session ? (
+    return session ? (
             <Popover>
                 <PopoverTrigger>
                     <Button background={"inherit"}>
-                        <Image width={"40px"}
-                               height={"40px"}
-                               borderRadius={"100%"}
-                               src={session.user.user_metadata.avatar_url}
-                               alt="Profile"/>
+                        <Image
+                            width={"40px"}
+                            height={"40px"}
+                            borderRadius={"100%"}
+                            src={session.user.user_metadata.avatar_url}
+                            alt="Profile"
+                        />
                     </Button>
                 </PopoverTrigger>
 
-                <PopoverContent backgroundColor={"#e3e5e7"}
-                                borderRadius={"10px"}
-                                overflow={"hidden"}
-                                color={"black"}
-                                right={"30px"}
-                                height={"65vh"}
-                                width={"30vw"}
-                                minWidth={"300px"}>
-                    <PopoverArrow/>
+                <PopoverContent
+                    backgroundColor={"#e3e5e7"}
+                    borderRadius={"10px"}
+                    overflow={"hidden"}
+                    color={"black"}
+                    right={"30px"}
+                    height={"65vh"}
+                    width={"30vw"}
+                    minWidth={"300px"}
+                >
+                    <PopoverArrow />
 
-                    <PopoverHeader fontWeight={"bold"}
-                                   backgroundColor={"#4498ec"}
-                                   padding={"10px"}
-                                   height={"10vh"}
-                                   width={"30vw"}
-                                   minWidth={"300px"}>
-                        <Tooltip label={session ? session.user.last_sign_in_at : ""}
-                                 fontSize={"12px"}
-                                 backgroundColor={"#d0f5d7"}
-                                 color={"#2f533f"}
-                                 padding={"5px"}
-                                 borderRadius={"5px"}
-                                 placement='left'>
-                            <TimeIcon position={"absolute"}
-                                      left={"10px"}
-                                      marginRight={"10px"} color={"white"}/>
-                        </Tooltip>
-                    </PopoverHeader>
+        <PopoverHeader
+          fontWeight={"bold"}
+          backgroundColor={"#4498ec"}
+          padding={"10px"}
+          height={"10vh"}
+          width={"30vw"}
+          minWidth={"300px"}
+        >
+          <Tooltip
+            label={session ? session.user.last_sign_in_at : ""}
+            fontSize={"12px"}
+            backgroundColor={"#d0f5d7"}
+            color={"#2f533f"}
+            padding={"5px"}
+            borderRadius={"5px"}
+            placement="left"
+          >
+            <TimeIcon
+              position={"absolute"}
+              left={"10px"}
+              marginRight={"10px"}
+              color={"white"}
+            />
+          </Tooltip>
+        </PopoverHeader>
 
-                    <Avatar src={session.user.user_metadata.avatar_url}
-                            boxSize={"12vh"} position={"relative"} top={"-6vh"} left={"2vw"}
-                            border={"#e3e5e7 solid 7px"}>
-                        <Tooltip hasArrow label={userData.status} placement='right' backgroundColor={"#d0f5d7"}
-                                 color={"#2f533f"}>
-                            <AvatarBadge boxSize={'1.5em'} bg='green.500' border={"#e3e5e7 solid 5px"}/>
+                    <Avatar
+                        src={session.user.user_metadata.avatar_url}
+                        boxSize={"12vh"}
+                        position={"relative"}
+                        top={"-6vh"}
+                        left={"2vw"}
+                        border={"#e3e5e7 solid 7px"}
+                    >
+                        <Tooltip
+                            hasArrow
+                            label={userData.status}
+                            placement='right'
+                            backgroundColor={"#d0f5d7"}
+                            color={"#2f533f"}
+                        >
+                            <AvatarBadge
+                                boxSize={"1.5em"}
+                                bg="green.500"
+                                border={"#e3e5e7 solid 5px"}
+                            />
                         </Tooltip>
                     </Avatar>
                     <EditAccountInfo updateUserDataFromEdit={updateUserDataFromEdit}/>
 
-                    <PopoverBody padding={"10px"}
-                                 backgroundColor={"#e3e5e7"}
-                                 width={"30vw"}
-                                 height={"50vh"}
-                                 minWidth={"300px"}>
-                        <VStack position={"absolute"}
-                                width={"26vw"}
-                                minWidth={"270px"}
-                                height={"41vh"}
-                                backgroundColor={"#ffffff"}
-                                left={"2vw"}
-                                top={"16vh"}
-                                borderRadius={"10px"}
-                                paddingLeft={"15px"}
-                                paddingRight={"15px"}
-                                paddingTop={"10px"}
-                                overflowY={"scroll"}
-                                scroll
-                                spacing={4}
-                                align={'stretch'}>
+                    <PopoverBody
+                        padding={"10px"}
+                        backgroundColor={"#e3e5e7"}
+                        width={"30vw"}
+                        height={"50vh"}
+                        minWidth={"300px"}
+                    >
+                        <VStack
+                            position={"absolute"}
+                            width={"26vw"}
+                            minWidth={"270px"}
+                            height={"41vh"}
+                            backgroundColor={"#ffffff"}
+                            left={"2vw"}
+                            top={"16vh"}
+                            borderRadius={"10px"}
+                            paddingLeft={"15px"}
+                            paddingRight={"15px"}
+                            paddingTop={"10px"}
+                            overflowY={"scroll"}
+                            scroll
+                            spacing={4}
+                            align={"stretch"}
+                        >
                             <Box>
-                                <Text fontSize={"22px"}
-                                      fontWeight={"bold"}
-                                      color={"black"}
-                                      left={"0"}
-                                      lineHeight={"22px"}
-                                      display={"inline-block"}
-                                      verticalAlign={"middle"}>
+                                <Text
+                                    fontSize={"22px"}
+                                    fontWeight={"bold"}
+                                    color={"black"}
+                                    left={"0"}
+                                    lineHeight={"22px"}
+                                    display={"inline-block"}
+                                    verticalAlign={"middle"}
+                                >
                                     {displayName}
                                 </Text>
-                                <Badge colorScheme={'green'}
-                                       marginLeft={"20px"}
-                                       borderRadius={"5px"}>
+                                <Badge
+                                    colorScheme={"green"}
+                                    marginLeft={"20px"}
+                                    borderRadius={"5px"}
+                                >
                                     {userData.userType?"ADMIN":"MEMBER"}
                                 </Badge>
-                                <Box fontSize={"12px"}
-                                     color={"black"}
-                                     left={"0"}>
+                                <Box
+                                    fontSize={"12px"}
+                                    color={"black"}
+                                    left={"0"}
+                                >
                                     {userData.email}
                                 </Box>
                             </Box>
                             <Divider/>
                             <Box>
-                                <Box fontSize={"12px"}
-                                     color={"black"}>
+                                <Box
+                                    fontSize={"12px"}
+                                    color={"black"}
+                                >
                                     {userData.description}
                                 </Box>
                             </Box>
@@ -240,10 +302,9 @@ function AccountPopup() {
                 </PopoverContent>
             </Popover>
         ) : (
-            <Button bg='transparent' onClick={handleGoogleSignIn}>
-                <box-icon size='lg' name='user-circle'></box-icon>
+            <Button bg="transparent" onClick={handleGoogleSignIn}>
+                <box-icon size="lg" name="user-circle"></box-icon>
             </Button>
-        )
     );
 }
 

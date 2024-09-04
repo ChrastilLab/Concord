@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
+// import Sidenav from "../components/Sidenav";
+
 import OrganizationCard from "../components/OrganizationCard";
 import SideInfoBar from "../components/SideInfoBar";
 import OrgSideNav from "../components/OrgSideNav";
+
+import { useState, useEffect } from "react";
 
 /* UI Libraries */
 import { Box, Button, Center, Divider, Heading, Flex } from "@chakra-ui/react";
@@ -11,16 +14,19 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
   useSession,
-  useSupabaseClient,
-  useSessionContext,
+//   useSupabaseClient,
+//   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 import { supabase } from "../config/supabase";
 
-const default_color_scheme = "#708090";
+const randomColors = [];
+for (let i = 0; i < 7; i++) {
+  randomColors.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+}
 
 function Home() {
-  const { isLoading } = useSessionContext();
+//   const { isLoading } = useSessionContext();
   const session = useSession();
 
   // if (isLoading) {
@@ -105,7 +111,7 @@ function Home() {
                 <OrganizationCard
                   organization={org.organization_name}
                   description={org.description}
-                  color_scheme={default_color_scheme}
+                  color_scheme={randomColors[orgData.indexOf(org)]}
                 />
               ))}
             </Flex>
