@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
+
 import ProjectCard from "../components/ProjectCard";
 import ProjectHeader from "../components/ProjectHeader";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import { Box, Grid, GridItem, Flex } from "@chakra-ui/react";
 // import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+
 import { useParams } from "react-router-dom";
 import { supabase } from "../config/supabase";
 
 import {
   useSession,
-  // useSupabaseClient,
-  useSessionContext,
+//   useSupabaseClient,
+//   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 function Studies() {
@@ -84,22 +86,18 @@ function Studies() {
           <Sidenav />
           <Flex flex={1} flexDirection={"column"} alignItems="center">
             <Box width="100%" px="68px">
-              <ProjectHeader projects={projects} />
+              <ProjectHeader projects={projects} orgName={organization} />
             </Box>
             <Grid
               templateColumns="repeat(3, 1fr)"
+              columnGap={"50px"}
               gap={1}
               width="100%"
               px="68px"
             >
-              {/* {[...Array(6)].map((_, index) => (
-                                    <GridItem key={index}>
-                                        <ProjectCard />
-                                    </GridItem>
-                                ))} */}
               {projects.map((project) => (
                 <GridItem key={project.project_id}>
-                  <ProjectCard project={project} onProjectUpdate={triggerRefresh} />
+                  <ProjectCard project={project} onProjectUpdate={triggerRefresh} gap={"20px"} />
                 </GridItem>
               ))}
             </Grid>

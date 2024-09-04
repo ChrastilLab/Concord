@@ -7,7 +7,6 @@ import Login from "./pages/Login/Login";
 import LabSheets from "./pages/LabSheet";
 import Members from "./pages/Members";
 import Folder from "./pages/Folder";
-import Organization from './pages/Organization';
 import Tasks from './pages/Tasks';
 import RASummary from './pages/RASummary';
 
@@ -28,12 +27,11 @@ function App() {
           
           <Route path="/" element={<Home/>}/>
           <Route path="/Login" element={<Login/>}/>
-          <Route path='/tasks' element={<Tasks/>}/>
+          <Route path='/:organization/tasks' element={<Tasks/>}/>
           <Route path="/studies/:organization" element={<Studies/>}/>
-          <Route path="/labsheet" element={<LabSheets/>}/>
-          <Route path="/members" element={<Members/>}/>
+          <Route path="/:organization/labsheet" element={<LabSheets/>}/>
+          <Route path="/:organization/members" element={<Members/>}/>
           {/* <Route path="/announcements" element={}/> */}
-          <Route path='/:orgName' element={<Organization />} />
           <Route path="/folder" element={<Folder/>}/>
           <Route path="/ra-summary" element={<RASummary/>}/>
         </Routes>

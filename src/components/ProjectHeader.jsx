@@ -10,14 +10,15 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-// import {InfoIcon} from '@chakra-ui/icons';
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Check from "./img/Check.png";
-import Progress from "./img/Progress.png";
+import { GraphUpArrow } from "react-bootstrap-icons";
 import { FolderOutlined } from "@ant-design/icons";
 import CreateNewStudy from "./CreateNewStudy";
 import { useState, useEffect } from "react";
+import { supabase } from "../config/supabase";
 
-function ProjectHeader({ projects }) {
+function ProjectHeader({ projects, orgName }) {
   const [numberDone, setNumberDone] = useState(0);
   const [numberInProgress, setNumberInProgress] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
@@ -39,12 +40,33 @@ function ProjectHeader({ projects }) {
     setTotalProjects(total);
   }, [projects]);
 
+  const [orgData, setOrgData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("Organizations")
+        .select("organization_name, leader, description")
+        .eq("organization_name", orgName);
+
+      if (!error) {
+        setOrgData(data);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <Flex
       mt={"5vh"}
       flexDirection={"column"}
       justifyContent={"space-between"}
-      w={"154vh"}
+      w={"138vh"}
       bg={"#F4F4F4"}
     >
       <Card
@@ -61,18 +83,20 @@ function ProjectHeader({ projects }) {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Stack ml={"2vh"} mb={3} w="45vh" spacing={3}>
-            <Heading size="lg">Your Projects</Heading>
+          <Stack ml={"2vh"} mb={3} w="45vh" spacing={3} marginTop={"10px"}>
+            <Heading size="lg">{orgData[0].organization_name}</Heading>
 
-            <Text mb={6}>
-              Here is where all your projects are listed. You can create a new
-              one by clicking the button below.
+            <Text marginTop={"-15px"} color={"#808080"}>
+              Led By: {orgData[0].leader ? orgData[0].leader : "None"}
             </Text>
+
+            <Text isTruncated>{orgData[0].description}</Text>
 
             <CreateNewStudy projects={projects} />
           </Stack>
         </CardHeader>
-        <CardBody ml="22vh" alignContent={"center"} p={2}>
+
+        <CardBody ml="6vh" alignContent={"center"} p={2}>
           <HStack spacing={10}>
             <Flex
               alignItems={"center"}
@@ -82,14 +106,15 @@ function ProjectHeader({ projects }) {
               w="22vh"
               h="19vh"
             >
-              <Stack mt={6} alignItems={"center"} justifyContent={"center"}>
-                <Image h={"4vh"} w={"4vh"} src={Check}></Image>
-                <Text fontWeight={"bold"}>Projects Done</Text>
-                <Text fontSize="35" fontWeight={"bold"}>
+              <Stack mt={4} alignItems={"center"} justifyContent={"center"}>
+                <GraphUpArrow size={"25px"}></GraphUpArrow>
+                <Text fontWeight={"bold"}>Data Analysis</Text>
+                <Text fontSize="30" fontWeight={"bold"}>
                   {numberDone}
                 </Text>
               </Stack>
             </Flex>
+
             <Flex
               alignItems={"center"}
               justifyContent={"center"}
@@ -99,13 +124,14 @@ function ProjectHeader({ projects }) {
               h="19vh"
             >
               <Stack mt={4} alignItems={"center"} justifyContent={"center"}>
-                <Image ml="3" h={"5vh"} w={"6vh"} src={Progress}></Image>
-                <Text fontWeight={"bold"}>In Progress</Text>
-                <Text fontSize="35" fontWeight={"bold"}>
+                <Image h={"4vh"} w={"4vh"} src={Check}></Image>
+                <Text fontWeight={"bold"}>Data Collection</Text>
+                <Text fontSize="30" fontWeight={"bold"}>
                   {numberInProgress}
                 </Text>
               </Stack>
             </Flex>
+
             <Flex
               alignItems={"center"}
               justifyContent={"center"}
@@ -114,13 +140,17 @@ function ProjectHeader({ projects }) {
               w="22vh"
               h="19vh"
             >
-              <Stack mt={7} alignItems={"center"} justifyContent={"center"}>
+              <Stack mt={4} alignItems={"center"} justifyContent={"center"}>
                 <FolderOutlined style={{ fontSize: "4vh" }} />
                 <Text fontWeight={"bold"}>Total Projects</Text>
-                <Text fontSize="35" fontWeight={"bold"}>
+                <Text fontSize="30" fontWeight={"bold"}>
                   {totalProjects}
                 </Text>
               </Stack>
+            </Flex>
+
+            <Flex marginLeft={"-35px"} marginTop={"-162px"}>
+              <PencilSquareIcon width={"20px"}></PencilSquareIcon>
             </Flex>
           </HStack>
         </CardBody>

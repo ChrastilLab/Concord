@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+// import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import {
   Switch,
   FormControl,
@@ -8,10 +8,10 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-//No individual project page yet, will include folder inside project page in the future
+// No individual project page yet, will include folder inside project page in the future
 function Folder() {
-  const session = useSession();
-  const supabase = useSupabaseClient();
+  // const session = useSession();
+  // const supabase = useSupabaseClient();
   const [isListView, setIsListView] = useState(false);
 
   const handleToggle = () => {
