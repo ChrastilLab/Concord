@@ -63,10 +63,10 @@ function AccountPopup() {
     const navigate = useNavigate();
     const supabase = useSupabaseClient();
 
-    const [displayName, setDisplayName] = useState('');
-    const [userType, setUserType] = useState('');
-    const [bio, setBio] = useState('');
-    const [status, setStatus] = useState('');
+    const [displayName, setDisplayName] = useState(localStorage.getItem("username")?localStorage.getItem("username"):"");
+    const [userType, setUserType] = useState(localStorage.getItem("usertype")?localStorage.getItem("usertype"):"");
+    const [bio, setBio] = useState(localStorage.getItem("userbio")?localStorage.getItem("userbio"):"");
+    const [status, setStatus] = useState(localStorage.getItem("userstatus")?localStorage.getItem("userstatus"):"");
 
     const updateUserDataFromEdit = (newData) => {
         setDisplayName(newData.name);
@@ -77,11 +77,11 @@ function AccountPopup() {
     userData = {
         avatarImg: "",
         name: displayName,
-        email: session.user.email ? session.user.email : "",
+        email: session ? session.user.email : "",
         status: status,
         userType: userType,
         description: bio,
-        lastActive: session.user.last_sign_in_at ? session.user.last_sign_in_at : "",
+        lastActive: session ? session.user.last_sign_in_at : "",
         hours: { // Hardcoded for now (Shows the hours worked by the user)
             firstWeek: 6,
             secondWeek: 3,
