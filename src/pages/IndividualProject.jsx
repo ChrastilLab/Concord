@@ -7,6 +7,7 @@ import { Box, Grid, GridItem, Flex, Spacer, Card, CardBody, CardHeader, HStack, 
 import { useState, useEffect } from 'react';
 import { ReactComponent as CheckEdit} from "../components/img/CkEdit.svg";
 import { ReactComponent as Pin} from "../components/img/AiOutlinePushpin.svg";
+import { ReactComponent as PinStar} from "../components/img/CkStar.svg";
 
 import {
   useSession,
@@ -108,7 +109,7 @@ function IndividualProject() {
                                 <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>Pinned Documents</Text>
                             </HStack>
                             <Divider width={'1350px'} pt={'25px'} color='black'/>
-                            <Grid templateColumns='repeat(4, 1fr)' gap={8} pt={'25px'} pb={'25px'} rowGap={120}>
+                            <Grid templateColumns='repeat(4, 1fr)' gap={8} pt={'25px'} pb={'100px'} rowGap={120}>
                                 {project.ProjectPinnedDocs != null && project.ProjectPinnedDocs.length > 0 ?
                                     project.ProjectPinnedDocs.map((doc) => (
                                         <GridItem position="relative" cursor="pointer">
@@ -131,11 +132,13 @@ function IndividualProject() {
                                                     top: 0,
                                                     left: 0,
                                                     width: "90%",
-                                                    height: "90%",
+                                                    height: "120%",
                                                     backgroundColor: "rgba(0, 0, 0, 0)",
                                                     zIndex: 10,
+                                                    title: "Click to open document",
                                                 }}
                                             ></div>
+                                            <PinStar style={{ position: "absolute", top: 10, right: 20, width: "30px", height: "30px", zIndex: 20 }} />
                                         </GridItem>))
                                 : null}
                             </Grid>
