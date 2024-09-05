@@ -20,19 +20,28 @@ function IndividualProject() {
   const { organization, project_name } = useParams();
   const { isLoading } = useSessionContext();
 
-  const [ project, setProject ] = useState([]);
+  const [ project, setProject ] = useState({});
   const [ detail, setDetail ] = useState('GOAL');
 
   function handleAspectClick(aspect){
     setDetail(aspect);
   };
 
+  function makePreviewURL(url) {
+    const parts = url.split('/');
+    let modified = '';
+    for(let i = 0; i < 6; ++i){
+        modified += parts[i] + '/';
+    } 
+    return modified + 'preview';
+  };
+
   useEffect(() => {
     const fetchProject = async () => {
         const { data, error } = await supabase
             .from('Projects')
-            .select('*')
-            .eq('project_name', project_name);
+            .select('*, ProjectPinnedDocs(*)')
+            .eq('project_name', project_name)
         
         if (!error){
             setProject(data[0]);
@@ -46,7 +55,7 @@ function IndividualProject() {
     };
 
     fetchProject();
-    }, []);
+    }, [organization, project_name]);
 
 
   const session = useSession();
@@ -99,85 +108,36 @@ function IndividualProject() {
                                 <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>Pinned Documents</Text>
                             </HStack>
                             <Divider width={'1350px'} pt={'25px'} color='black'/>
-                            <Grid templateColumns='repeat(4, 1fr)' gap={8} pt={'25px'}>
-                                <GridItem position="relative" cursor="pointer">
-                                    <iframe
-                                        src="https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/preview"
-                                        width="100%"
-                                        height="100%"
-                                        style={{
-                                            transform: "scale(0.5)",
-                                            transformOrigin: "top left",
-                                            width: "200%",
-                                            height: "300%",
-                                            border: "none",
-                                        }}
-                                    ></iframe>
-                                    <div
-                                        onClick={() => window.open('https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/edit?usp=sharing', '_blank')}
-                                        style={{
-                                            position: "absolute",
-                                            top: 0,
-                                            left: 0,
-                                            width: "90%",
-                                            height: "90%",
-                                            backgroundColor: "rgba(0, 0, 0, 0)",
-                                            zIndex: 10,
-                                        }}
-                                    ></div>
-                                </GridItem>
-                                <GridItem position="relative" cursor="pointer">
-                                    <iframe
-                                        src="https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/preview"
-                                        width="100%"
-                                        height="100%"
-                                        style={{
-                                            transform: "scale(0.5)",
-                                            transformOrigin: "top left",
-                                            width: "200%",
-                                            height: "300%",
-                                            border: "none",
-                                        }}
-                                    ></iframe>
-                                    <div
-                                        onClick={() => window.open('https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/edit?usp=sharing', '_blank')}
-                                        style={{
-                                            position: "absolute",
-                                            top: 0,
-                                            left: 0,
-                                            width: "90%",
-                                            height: "90%",
-                                            backgroundColor: "rgba(0, 0, 0, 0)",
-                                            zIndex: 10,
-                                        }}
-                                    ></div>
-                                </GridItem>
-                                <GridItem position="relative" cursor="pointer">
-                                    <iframe
-                                        src="https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/preview"
-                                        width="100%"
-                                        height="100%"
-                                        style={{
-                                            transform: "scale(0.5)",
-                                            transformOrigin: "top left",
-                                            width: "200%",
-                                            height: "300%",
-                                            border: "none",
-                                        }}
-                                    ></iframe>
-                                    <div
-                                        onClick={() => window.open('https://docs.google.com/document/d/1OiPzk2mHv-O8Y8qvl8yoNfrV2J3CDyvsUtkj5Aihpmo/edit?usp=sharing', '_blank')}
-                                        style={{
-                                            position: "absolute",
-                                            top: 0,
-                                            left: 0,
-                                            width: "90%",
-                                            height: "90%",
-                                            backgroundColor: "rgba(0, 0, 0, 0)",
-                                            zIndex: 10,
-                                        }}
-                                    ></div>
-                                </GridItem>
+                            <Grid templateColumns='repeat(4, 1fr)' gap={8} pt={'25px'} pb={'25px'} rowGap={120}>
+                                {project.ProjectPinnedDocs != null && project.ProjectPinnedDocs.length > 0 ?
+                                    project.ProjectPinnedDocs.map((doc) => (
+                                        <GridItem position="relative" cursor="pointer">
+                                            <iframe
+                                                src={makePreviewURL(doc.document_url)}
+                                                width="100%"
+                                                height="100%"
+                                                style={{
+                                                    transform: "scale(0.5)",
+                                                    transformOrigin: "top left",
+                                                    width: "200%",
+                                                    height: "300%",
+                                                    border: "none",
+                                                }}
+                                            ></iframe>
+                                            <div
+                                                onClick={() => window.open(doc.document_url, '_blank')}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    left: 0,
+                                                    width: "90%",
+                                                    height: "90%",
+                                                    backgroundColor: "rgba(0, 0, 0, 0)",
+                                                    zIndex: 10,
+                                                }}
+                                            ></div>
+                                        </GridItem>))
+                                : null}
                             </Grid>
                         </Flex>
                     </Flex>
