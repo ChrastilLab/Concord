@@ -34,11 +34,7 @@ import {
 import EditAccountInfo from "./EditAccountInfo";
 
 
-const CustomTooltip: React.FC<{
-    active?: boolean,
-    payload?: any,
-    label?: number,
-}> = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
             <Box
