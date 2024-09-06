@@ -14,9 +14,6 @@ import {
   FormLabel,
   Input,
   Textarea,
-  AlertIcon,
-  Alert,
-  Box,
   useToast,
 } from "@chakra-ui/react";
 import { useSession } from "@supabase/auth-helpers-react";
@@ -127,10 +124,9 @@ function EditAccountInfo({ updateUserDataFromEdit }) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSave}>
-              Save
+            <Button colorScheme="green" mr={3} onClick={handleSave}>
+              Save Changes
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

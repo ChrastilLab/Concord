@@ -16,8 +16,6 @@ import {
 
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-import { AddBox } from "@mui/icons-material";
-import { Cancel } from "@mui/icons-material";
 import { supabase } from "../config/supabase";
 import { useState } from "react";
 
@@ -63,7 +61,7 @@ export default function NewOrgForm() {
             <Stack spacing={"15px"}>
               <Text fontWeight={"medium"}>Organization Name</Text>
               <Input
-                placeholder="..."
+                placeholder="Spatial Neuroscience Lab"
                 size="md"
                 value={newData.organization_name}
                 onChange={(e) =>
@@ -76,7 +74,7 @@ export default function NewOrgForm() {
               />
               <Text fontWeight={"medium"}>Organization Lead</Text>
               <Input
-                placeholder="..."
+                placeholder="Peter Anteater"
                 size="md"
                 value={newData.leader}
                 onChange={(e) =>
@@ -89,7 +87,7 @@ export default function NewOrgForm() {
               />
               <Text fontWeight={"medium"}>Organization Description</Text>
               <Textarea
-                placeholder="..."
+                placeholder="This is a lab organization..."
                 value={newData.description}
                 onChange={(e) =>
                   setNewData({
@@ -104,22 +102,11 @@ export default function NewOrgForm() {
 
           <ModalFooter gap={"10px"}>
             <Button
+              colorScheme="green"
               variant="solid"
-              leftIcon={<AddBox fontSize="15px" />}
-              width={"100px"}
               onClick={handleSaveClicked}
             >
-              Save
-            </Button>
-
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={onClose}
-              leftIcon={<Cancel fontSize="15px" />}
-              width={"100px"}
-            >
-              Cancel
+              Create Organization
             </Button>
           </ModalFooter>
         </ModalContent>
