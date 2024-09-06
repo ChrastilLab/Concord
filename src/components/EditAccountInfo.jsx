@@ -1,84 +1,137 @@
 import { EditIcon } from "@chakra-ui/icons";
-import React from "react";
+import React, {useState} from "react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useDisclosure,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    Button,
+    useDisclosure,
+    FormControl,
+    FormLabel,
+    Input,
+    Textarea,
+    AlertIcon,
+    Alert,
+    Box,
+    useToast
 } from "@chakra-ui/react";
 import { useSession } from "@supabase/auth-helpers-react";
+import {supabase} from "../config/supabase";
 
-function EditAccountInfo() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const session = useSession();
+function EditAccountInfo({updateUserDataFromEdit}) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const session = useSession();
+    const toast = useToast();
 
-  return (
-    <>
-      <Button
-        position={"absolute"}
-        right={"10px"}
-        top={"15px"}
-        _hover={"None"}
-        _active={"None"}
-        backgroundColor={"#4498ec"}
-        onClick={onOpen}
-      >
-        <EditIcon color={"white"} boxSize={"25px"} />
-      </Button>
+    const [name, setName] = useState(localStorage.getItem('username') || '');
+    const [bio, setBio] = useState(localStorage.getItem('userbio') || '');
+    const [status, setStatus] = useState(localStorage.getItem('userstatus') || '');
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit Account Information</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel color={"#3179b8"}>Full name</FormLabel>
-              <Input variant="flushed" placeholder="type your name" />
-            </FormControl>
+    const handleSave = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('Users')
+                .update({
+                    display_name: name,
+                    bio: bio,
+                    status: status,
+                })
+                .eq('user_id', session.user.id);
 
-            <FormControl mt={8}>
-              <FormLabel color={"#3179b8"}>E-mail</FormLabel>
-              <Input
-                variant="flushed"
-                placeholder={session.user.email}
-                disabled
-              />
-            </FormControl>
+            if (error) {
+                console.error("Error updating user data: ", error);
+            } else {
+                const updatedData = { name: name, bio: bio, status: status };
+                updateUserDataFromEdit(updatedData);
+                localStorage.setItem('username', name);
+                localStorage.setItem('userbio', bio);
+                localStorage.setItem('userstatus', status);
 
-            <FormControl mt={8}>
-              <FormLabel color={"#3179b8"}>Status</FormLabel>
-              <Input variant="flushed" defaultValue="Programming..." />
-            </FormControl>
+                toast({
+                    title: "Success!",
+                    description: "Your account information has been successfully updated!",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
 
-            <FormControl mt={8}>
-              <FormLabel color={"#3179b8"}>Description</FormLabel>
-              <Textarea
-                variant="flushed"
-                defaultValue="This is the description part. I am a student from UCI, working as a developer in this project."
-              />
-            </FormControl>
-          </ModalBody>
+                onClose();
+            }
+        } catch (error) {
+            console.error("Error saving data:", error);
+            toast({
+                title: "Error",
+                description: "There was an error saving your data.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
+
+    return (
+        <>
+            <Button
+                position={"absolute"}
+                right={"10px"}
+                top={"15px"}
+                _hover={"None"}
+                _active={"None"}
+                backgroundColor={"#4498ec"}
+                onClick={onOpen}
+            >
+                <EditIcon color={"white"} boxSize={"25px"} />
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  );
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Edit Account Information</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <FormControl>
+                            <FormLabel color={"black"}>Full name</FormLabel>
+                            <Input defaultValue={name} onChange={(e) => setName(e.target.value)}/>
+                        </FormControl>
+
+                        <FormControl mt={8}>
+                            <FormLabel color={"black"}>E-mail</FormLabel>
+                            <Input
+                                placeholder={session.user.email}
+                                disabled
+                            />
+                        </FormControl>
+
+                        <FormControl mt={8}>
+                            <FormLabel color={"black"}>Status</FormLabel>
+                            <Input defaultValue={status} onChange={(e) => setStatus(e.target.value)}/>
+                        </FormControl>
+
+                        <FormControl mt={8}>
+                            <FormLabel color={"black"}>Description</FormLabel>
+                            <Textarea
+                                defaultValue={bio}
+                                onChange={(e) => setBio(e.target.value)}
+                            />
+                        </FormControl>
+
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme="blue" mr={3} onClick={handleSave}>
+                            Save
+                        </Button>
+                        <Button onClick={onClose}>Cancel</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    );
 }
 
 export default EditAccountInfo;

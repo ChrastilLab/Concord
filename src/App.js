@@ -9,6 +9,7 @@ import Members from "./pages/Members";
 import Folder from "./pages/Folder";
 import Tasks from './pages/Tasks';
 import RASummary from './pages/RASummary';
+import PersonalSummary from './pages/PersonalSummary';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           {/* <Route path="/announcements" element={}/> */}
           <Route path="/folder" element={<Folder/>}/>
           <Route path="/ra-summary" element={<RASummary/>}/>
+          <Route path="/personal-summary" element={<PersonalSummary/>}/>
         </Routes>
       </Router>
     </ChakraProvider>
