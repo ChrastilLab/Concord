@@ -14,8 +14,8 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
   useSession,
-//   useSupabaseClient,
-//   useSessionContext,
+  //   useSupabaseClient,
+  //   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 import { supabase } from "../config/supabase";
@@ -26,7 +26,7 @@ for (let i = 0; i < 7; i++) {
 }
 
 function Home() {
-//   const { isLoading } = useSessionContext();
+  //   const { isLoading } = useSessionContext();
   const session = useSession();
 
   // if (isLoading) {

@@ -1,12 +1,6 @@
 import { useState } from "react";
 // import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import {
-  Switch,
-  FormControl,
-  Flex,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Switch, FormControl, Flex, Text, Button } from "@chakra-ui/react";
 
 // No individual project page yet, will include folder inside project page in the future
 function Folder() {
