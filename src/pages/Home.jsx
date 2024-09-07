@@ -33,6 +33,7 @@ function Home() {
   const supabase = useSupabaseClient();
 
   const [orgData, setOrgData] = useState([]);
+  const [userCreatedOrgs, setUserCreatedOrgs] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,11 +45,29 @@ function Home() {
       if (!error) {
         setOrgData(data);
       }
-      setLoading(false);
     };
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchUserCreatedOrgs = async () => {
+      if (session) {
+        const { data, error } = await supabase
+          .from("OrganizationCreators")
+          .select("*")
+          .eq("user_id", session.user.id);
+
+        if (!error) {
+          setUserCreatedOrgs(data.length);
+        }
+
+        setLoading(false);
+      }
+    };
+
+    fetchUserCreatedOrgs();
+  });
 
   const subscription = supabase
     .channel("table_db_changes")
@@ -116,7 +135,10 @@ function Home() {
               ))}
             </Flex>
           </Flex>
-          <SideInfoBar numOrgs={orgData.length}></SideInfoBar>
+          <SideInfoBar
+            numOrgs={orgData.length}
+            userCreatedOrgs={userCreatedOrgs}
+          ></SideInfoBar>
         </Box>
       ) : (
         <div>Not logged in</div>

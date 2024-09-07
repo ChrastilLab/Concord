@@ -4,11 +4,10 @@ import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState, useEffect } from "react";
 
-export default function SideInfoBar({ numOrgs }) {
+export default function SideInfoBar({ numOrgs, userCreatedOrgs }) {
   const session = useSession();
   const supabase = useSupabaseClient();
   const [userData, setUserData] = useState([]);
-  const [userCreatedOrgs, setUserCreatedOrgs] = useState(0);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -23,20 +22,6 @@ export default function SideInfoBar({ numOrgs }) {
     };
 
     fetchUserData();
-
-    const fetchUserCreatedOrgs = async () => {
-      const { data, error } = await supabase
-        .from("OrganizationCreators")
-        .select("*")
-        .eq("user_id", session.user.id);
-
-      if (!error) {
-        console.log(data);
-        setUserCreatedOrgs(data.length);
-      }
-    };
-
-    fetchUserCreatedOrgs();
   }, []);
 
   return (
