@@ -9,17 +9,49 @@ import {
   Stack,
   Button,
   Flex,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from "@chakra-ui/react";
+
 import {
   EllipsisVerticalIcon,
   MegaphoneIcon,
-  FolderIcon,
+  DocumentChartBarIcon,
 } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
 
-function OrganizationCard({ organization, description, color_scheme }) {
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
+
+function OrganizationCard({
+  organization,
+  description,
+  color_scheme,
+  labSheetUrl,
+}) {
+  const toast = useToast();
+
   const navigate = useNavigate();
 
+  function handleFolderClicked(event) {
+    event.stopPropagation();
+    console.log(labSheetUrl);
+    if (!labSheetUrl) {
+      toast({
+        title: "Lab Sheet not exists.",
+        description: "The lab sheet hasn't been created.",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+
+    navigate(labSheetUrl);
+  }
+
+  console.log(labSheetUrl);
   return (
     <Card
       maxW="sm"
@@ -58,7 +90,7 @@ function OrganizationCard({ organization, description, color_scheme }) {
           </Heading>
           <Text fontSize={"11px"}>{description}</Text>
           <Flex flexDir={"row"} gap={"10px"}>
-            <Button
+            {/* <Button
               variant={"link"}
               color={"black"}
               _hover={{ color: "#708090" }}
@@ -73,20 +105,22 @@ function OrganizationCard({ organization, description, color_scheme }) {
               >
                 {" "}
               </MegaphoneIcon>
-            </Button>
+            </Button> */}
 
             <Button
               variant={"link"}
               color={"black"}
-              _hover={{ color: "#708090" }}
+              _hover={{ color: "#C0C0C0" }}
+              width={"20px"}
+              minWidth={"20px"}
+              onClick={(e) => handleFolderClicked(e)}
             >
-              {" "}
-              <FolderIcon
+              <DocumentChartBarIcon
                 style={{
                   height: "20px",
                   width: "20px",
                 }}
-              ></FolderIcon>
+              ></DocumentChartBarIcon>
             </Button>
           </Flex>
         </Stack>
