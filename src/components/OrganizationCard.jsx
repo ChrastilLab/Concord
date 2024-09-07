@@ -9,10 +9,6 @@ import {
   Stack,
   Button,
   Flex,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
 } from "@chakra-ui/react";
 
 import {
@@ -31,10 +27,9 @@ function OrganizationCard({
   labSheetUrl,
 }) {
   const toast = useToast();
-
   const navigate = useNavigate();
 
-  function handleFolderClicked(event) {
+  function handleDocClicked(event) {
     event.stopPropagation();
     console.log(labSheetUrl);
     if (!labSheetUrl) {
@@ -51,7 +46,6 @@ function OrganizationCard({
     navigate(labSheetUrl);
   }
 
-  console.log(labSheetUrl);
   return (
     <Card
       maxW="sm"
@@ -113,7 +107,7 @@ function OrganizationCard({
               _hover={{ color: "#C0C0C0" }}
               width={"20px"}
               minWidth={"20px"}
-              onClick={(e) => handleFolderClicked(e)}
+              onClick={(e) => handleDocClicked(e)}
             >
               <DocumentChartBarIcon
                 style={{
