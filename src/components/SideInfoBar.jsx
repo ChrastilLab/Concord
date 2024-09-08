@@ -41,7 +41,7 @@ export default function SideInfoBar({ numOrgs, userCreatedOrgs }) {
       </Stack>
       <Flex position={"fixed"} bottom="80px" gap={"20px"} flexDir={"column"}>
         <NewOrgForm></NewOrgForm>
-        {userData.user_type ? (
+        {!userData.user_type ? (
           <Button
             leftIcon={<UserPlusIcon width={"20px"} />}
             width={"180px"}
