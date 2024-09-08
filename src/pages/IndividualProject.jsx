@@ -68,48 +68,48 @@ function IndividualProject() {
                 session ? (
                     <Box flex={1} display={'flex'} flexDirection={'row'} zIndex={1}>
                       <IndividualProjectSidenav organization={organization} project_name={project_name}/>
-                      <Flex pl={'65px'} pt={'51px'} pr={'65px'} flex={1} flexDirection={'column'}>
+                      <Flex pl={'3.5%'} pt={'3%'} pr={'3.5%'} flex={1} flexDirection={'column'}>
                         <Flex flex={1} flexDirection={'column'}>
-                            <HStack spacing={'50px'}>
-                                <Card w={'550px'} h={'400px'} borderRadius="20px" boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)" h='full' p={2} bg="#F0F0F0">
+                            <HStack spacing={'3.5%'}>
+                                <Card w={'40%'} h={'40%'} borderRadius="20px" boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)" h='full' p={2} bg="#F0F0F0">
                                     <CardHeader pt={2} pb={0} display='flex' justifyContent='flex-end'>
                                         <Button bg="#F0F0F0"><CheckEdit/></Button>
                                     </CardHeader>
-                                    <CardBody pl={'35px'} pb={'60px'} pt={0} display='flex' justifyContent='flex-start'>
+                                    <CardBody pl={'7%'} pb={'12%'} pt={0} display='flex' justifyContent='flex-start'>
                                         <VStack alignItems={'left'} spacing={3}>
-                                            <Text fontSize={'36px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} lineHeight={'30px'}>{project.project_name}</Text>
-                                            <Text color = {'#565656'} fontSize={'14px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>Led By: {project.project_lead}</Text>
-                                            <Text fontSize={'14px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={700} lineHeight={'10px'}>IRB Number: {project.irb_number}</Text>
-                                            <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'} pt={'15px'}>{project.description}</Text>
+                                            <Text fontSize={'230%'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} lineHeight={'100%'}>{project.project_name}</Text>
+                                            <Text color = {'#565656'} fontSize={'90%'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'150%'}>Led By: {project.project_lead}</Text>
+                                            <Text fontSize={'95%'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={700} lineHeight={'100%'}>IRB Number: {project.irb_number}</Text>
+                                            <Text fontSize={'125%'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'120%'} pt={'5%'}>{project.description}</Text>
                                         </VStack>
                                     </CardBody>
                                 </Card >
-                                <Card w={'750px'} h={'400px'} borderRadius="20px" boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)"  h='full' p={2} bg="#F0F0F0">
-                                    <CardHeader pt={'30px'} pb={'20px'}>
+                                <Card w={'54%'} h={'40%'} borderRadius="20px" boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)"  h='full' p={2} bg="#F0F0F0">
+                                    <CardHeader pt={'5%'} pb={'2%'}>
                                         <ButtonGroup display='flex' justifyContent='space-between'>
                                         {['GOAL', 'TESTING', 'HYPOTHESIS', 'EXPECTATIONS'].map((aspect) => (
                                             <Button bg="#F0F0F0">
-                                                <Text fontSize={'23px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} lineHeight={'24px'} textDecoration={detail === aspect ? 'underline' : ''} color={detail === aspect ? '#76CCFD' : 'black'} onClick={() => handleAspectClick(aspect)}>{aspect}</Text>
+                                                <Text fontSize={'150%'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={600} textDecoration={detail === aspect ? 'underline' : ''} color={detail === aspect ? '#76CCFD' : 'black'} onClick={() => handleAspectClick(aspect)}>{aspect}</Text>
                                             </Button>
                                         ))}
                                         </ButtonGroup>
                                     </CardHeader>
-                                    <Divider width={'630px'} alignSelf={'center'} color='gray'/>
-                                    <CardBody pt={'30px'} pl={'50px'} pr={'50px'} pb={'50px'}>
-                                        <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>
+                                    <Divider width={'85%'} alignSelf={'center'} color='gray'/>
+                                    <CardBody pt={'5%'} pl={'6%'} pr={'6%'} pb={'8%'}>
+                                        <Text fontSize={'125%'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'130%'}>
                                         {detail === 'GOAL' ? project.goal : detail === 'TESTING' ? project.testing : detail === 'HYPOTHESIS' ? project.hypothesis : project.commitment}
                                         </Text>
                                     </CardBody>
                                 </Card>
                             </HStack>
                         </Flex>
-                        <Flex flex={1} pt={'58px'} flexDirection={'column'}>
-                            <HStack spacing={'14px'}>
+                        <Flex flex={1} pt={'5%'} flexDirection={'column'}>
+                            <HStack spacing={'1%'}>
                                 <Pin/>
-                                <Text fontSize={'20px'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400} lineHeight={'24px'}>Pinned Documents</Text>
+                                <Text fontSize={'140%'} fontFamily={'Inter'} fontStyle={'normal'} fontWeight={400}>Pinned Documents</Text>
                             </HStack>
-                            <Divider width={'1350px'} pt={'25px'} color='black'/>
-                            <Grid templateColumns='repeat(4, 1fr)' gap={8} pt={'25px'} pb={'100px'} rowGap={120}>
+                            <Divider width={'100%'} pt={'1.5%'} color='black'/>
+                            <Grid templateColumns='repeat(4, 1fr)' gap={8} pt={'2%'} pb={'10%'} rowGap={120}>
                                 {project.ProjectPinnedDocs != null && project.ProjectPinnedDocs.length > 0 ?
                                     project.ProjectPinnedDocs.map((doc) => (
                                         <GridItem position="relative" cursor="pointer">
@@ -138,7 +138,7 @@ function IndividualProject() {
                                                     title: "Click to open document",
                                                 }}
                                             ></div>
-                                            <PinStar style={{ position: "absolute", top: 10, right: 20, width: "30px", height: "30px", zIndex: 20 }} />
+                                            <PinStar style={{ position: "absolute", top: 10, right: 20, width: "10%", height: "20%", zIndex: 20 }} />
                                         </GridItem>))
                                 : null}
                             </Grid>

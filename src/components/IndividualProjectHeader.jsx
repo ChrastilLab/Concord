@@ -27,17 +27,17 @@ function IndividualProjectHeader() {
     return(
         <Flex alignItems={'center'}
               justifyContent={'space-between'}
-              w={'100%'} h={'70px'}
+              w={'100%'} h={'8%'}
               bg={'#E9E9E9'}
               boxShadow={'md'}
-              padding={'20px'}
+              padding={'1%'}
               zIndex={5}>
             <Box>
                 <Text fontWeight='bold' fontSize='1.8rem'>Logo</Text>
             </Box>
             <Spacer/>
-            <Box mr = {'15px'}>
-                <InputGroup mt={'5px'} alignItems={'center'}>
+            <Box mr = {'1%'}>
+                <InputGroup mt={'1%'} alignItems={'center'}>
                     <Input placeholder="Search this project..." borderRadius={'5px'} bg="white"/>
                     <InputRightElement>
                         <IconButton aria-label='Search database' icon={<Search2Icon/>} bg='white' size='sm' />

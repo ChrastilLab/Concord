@@ -23,19 +23,19 @@ import { ReactComponent as MdOutlineMapsHomeWork } from  "./img/MdOutlineMapsHom
 function IndividualProjectSidenav({organization, project_name}) {
 
     const navigate = useNavigate();
-    let iconStyle = { height: '20px', width: '20px', marginRight: '8px'}
-    let thinIconStyle = { height: '20px', width: '20px', marginRight: '8px', stroke: "#ffffff", strokeWidth: 0.5 }
+    let iconStyle = { height: '20px', width: '20px', marginRight: '3.5%'}
+    let thinIconStyle = { height: '20px', width: '20px', marginRight: '3.5%', stroke: "#ffffff", strokeWidth: 0.5 }
     
     return(
-        <Flex flexDirection={'column'} justifyContent={'space-between'} h={'100%'} w={'250px'} bg={'#F4F4F4'}>
-            <Stack spacing={2} marginTop={'25px'}>
+        <Flex flexDirection={'column'} justifyContent={'space-between'} h={'100%'} w={'15%'} bg={'#F4F4F4'}>
+            <Stack spacing={2} marginTop={'10%'}>
                 {/* Todo: the navigation to member, tasks, documents, calendar pages should be specific to this project */}
                 <Button onClick={() => navigate(`/studies/${organization}`)} justifyContent={'left'} variant={'ghost'}  _hover={{ bg: "#D0EAF9" }}>{<MdOutlineMapsHomeWork style={thinIconStyle}/>} <Text overflow='hidden'>{organization}</Text> </Button>
                 <Button onClick={() => navigate(`/studies/${organization}/${project_name}`)} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" } }>{<KeyboardArrowDownIcon style={iconStyle}/>}<Text overflow='hidden'>{project_name}</Text></Button>
-                <Button onClick={() => navigate('/tasks') } ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<FeedbackOutlined style={thinIconStyle}/>} Tasks</Button>
-                <Button onClick={() => navigate('/folder')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<BookOpenIcon style={iconStyle}/>} Documents</Button>
-                <Button onClick={() => navigate('/calendar')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<CalendarMonthIcon style={thinIconStyle}/>} Calendar</Button>
-                <Button onClick={() => navigate('/members')} ml={'25px'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<i className="bi bi-people" style={iconStyle} />} Members</Button>
+                <Button onClick={() => navigate('/tasks') } ml={'9%'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<FeedbackOutlined style={thinIconStyle}/>} <Text overflow='hidden'>Tasks</Text></Button>
+                <Button onClick={() => navigate('/folder')} ml={'9%'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<BookOpenIcon style={iconStyle}/>} <Text overflow='hidden'>Documents</Text></Button>
+                <Button onClick={() => navigate('/calendar')} ml={'9%'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<CalendarMonthIcon style={thinIconStyle}/>}<Text overflow='hidden'>Calendar</Text></Button>
+                <Button onClick={() => navigate('/members')} ml={'9%'} justifyContent={'left'} variant={'ghost'} _hover={{ bg: "#D0EAF9" }}>{<i className="bi bi-people" style={iconStyle} />}<Text overflow='hidden'>Members</Text></Button>
             </Stack>
             <Button justifyContent={'left'} variant={'ghost'}>
                 {<SettingOutlined style={iconStyle}/>} Settings
