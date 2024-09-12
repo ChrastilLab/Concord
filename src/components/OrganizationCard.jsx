@@ -17,7 +17,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
-
 function OrganizationCard({ organization, description, color_scheme }) {
   const navigate = useNavigate();
 

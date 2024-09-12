@@ -1,5 +1,5 @@
-import './App.css';
-import { ChakraProvider, extendTheme} from "@chakra-ui/react";
+import "./App.css";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Studies from "./pages/Studies";
@@ -20,24 +20,25 @@ function App() {
         100: "#D0EAF9",
       },
     },
-  })
-  
+  });
+
   return (
-    <ChakraProvider theme={theme}> 
+    <ChakraProvider theme={theme}>
       <Router>
         <Routes>
-          
-          <Route path="/" element={<Home/>}/>
-          <Route path="/Login" element={<Login/>}/>
-          <Route path='/tasks' element={<Tasks/>}/>
-          <Route path="/studies/:organization" element={<Studies/>}/>
-          <Route path="/labsheet" element={<LabSheets/>}/>
-          <Route path="/members" element={<Members/>}/>
+          <Route path="/" element={<Home />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/:organization/tasks" element={<Tasks />} />
+          <Route path="/studies/:organization" element={<Studies />} />
+          <Route path="/:organization/labsheet" element={<LabSheets />} />
+          <Route path="/:organization/members" element={<Members />} />
           {/* <Route path="/announcements" element={}/> */}
           <Route path='/:orgName' element={<Organization />} />
           <Route path="/folder" element={<Folder/>}/>
           <Route path="/ra-summary" element={<RASummary/>}/>
           <Route path="/studies/:organization/:project_name" element={<IndividualProject/>}/>
+          <Route path="/personal-summary" element={<PersonalSummary />} />
+
         </Routes>
       </Router>
     </ChakraProvider>
@@ -45,4 +46,3 @@ function App() {
 }
 
 export default App;
-
