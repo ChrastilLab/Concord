@@ -8,7 +8,6 @@ import {
   Grid,
   GridItem,
   Flex,
-  Spacer,
   Card,
   CardBody,
   CardHeader,
@@ -26,13 +25,13 @@ import { ReactComponent as PinStar } from "../components/img/CkStar.svg";
 
 import {
   useSession,
-  useSupabaseClient,
-  useSessionContext,
+//   useSupabaseClient,
+//   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 function IndividualProject() {
   const { organization, project_name } = useParams();
-  const { isLoading } = useSessionContext();
+//   const { isLoading } = useSessionContext();
 
   const [project, setProject] = useState({});
   const [detail, setDetail] = useState("GOAL");
@@ -90,10 +89,9 @@ function IndividualProject() {
               <HStack spacing={"3.5%"}>
                 <Card
                   w={"40%"}
-                  h={"40%"}
+                  h="full"
                   borderRadius="20px"
                   boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
-                  h="full"
                   p={2}
                   bg="#F0F0F0"
                 >
@@ -158,10 +156,9 @@ function IndividualProject() {
                 </Card>
                 <Card
                   w={"54%"}
-                  h={"40%"}
+                  h="full"
                   borderRadius="20px"
                   boxShadow="0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
-                  h="full"
                   p={2}
                   bg="#F0F0F0"
                 >
@@ -234,6 +231,7 @@ function IndividualProject() {
                   ? project.ProjectPinnedDocs.map((doc) => (
                       <GridItem position="relative" cursor="pointer">
                         <iframe
+                          title="document"
                           src={makePreviewURL(doc.document_url)}
                           width="100%"
                           height="100%"

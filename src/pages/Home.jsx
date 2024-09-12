@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../components/Header";
-// import Sidenav from "../components/Sidenav";
 
 import OrganizationCard from "../components/OrganizationCard";
 import SideInfoBar from "../components/SideInfoBar";
@@ -14,8 +13,6 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
   useSession,
-  //   useSupabaseClient,
-  //   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
 import { supabase } from "../config/supabase";
@@ -26,12 +23,7 @@ for (let i = 0; i < 7; i++) {
 }
 
 function Home() {
-  //   const { isLoading } = useSessionContext();
   const session = useSession();
-
-  // if (isLoading) {
-  //     return <></>;
-  // }
 
   const [orgData, setOrgData] = useState([]);
   const [loading, setLoading] = useState(true);
