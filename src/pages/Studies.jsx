@@ -97,7 +97,7 @@ function Studies() {
             >
               {projects.map((project) => (
                 <GridItem key={project.project_id}>
-                  <ProjectCard project={project} onProjectUpdate={triggerRefresh} gap={"20px"} />
+                  <ProjectCard project={project} organization={organization} onProjectUpdate={triggerRefresh} gap={"20px"} />
                 </GridItem>
               ))}
             </Grid>

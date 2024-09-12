@@ -7,9 +7,11 @@ import Login from "./pages/Login/Login";
 import LabSheets from "./pages/LabSheet";
 import Members from "./pages/Members";
 import Folder from "./pages/Folder";
-import Tasks from "./pages/Tasks";
-import RASummary from "./pages/RASummary";
-import PersonalSummary from "./pages/PersonalSummary";
+import Organization from './pages/Organization';
+import Tasks from './pages/Tasks';
+import RASummary from './pages/RASummary';
+import IndividualProject from './pages/IndividualProject';
+
 
 function App() {
   const theme = extendTheme({
@@ -31,9 +33,12 @@ function App() {
           <Route path="/:organization/labsheet" element={<LabSheets />} />
           <Route path="/:organization/members" element={<Members />} />
           {/* <Route path="/announcements" element={}/> */}
-          <Route path="/folder" element={<Folder />} />
-          <Route path="/ra-summary" element={<RASummary />} />
+          <Route path='/:orgName' element={<Organization />} />
+          <Route path="/folder" element={<Folder/>}/>
+          <Route path="/ra-summary" element={<RASummary/>}/>
+          <Route path="/studies/:organization/:project_name" element={<IndividualProject/>}/>
           <Route path="/personal-summary" element={<PersonalSummary />} />
+
         </Routes>
       </Router>
     </ChakraProvider>

@@ -11,8 +11,11 @@ import {
 } from "@chakra-ui/react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import EditProject from "./EditProject";
+import { useNavigate } from "react-router-dom";
 
-function ProjectCard({ project, onProjectUpdate }) {
+function ProjectCard({ project, organization, onProjectUpdate }) {
+  const navigate = useNavigate();
+  
   function formatDate(dateString) {
     const date = new Date(dateString);
     const options = { year: "numeric", month: "short", day: "numeric" };
@@ -35,6 +38,7 @@ function ProjectCard({ project, onProjectUpdate }) {
         h="full"
         p={4}
         bg="#F0F0F0"
+        onClick={() => navigate(`/studies/${organization}/${project.project_name}`)}
       >
         <CardHeader
           p={2}
