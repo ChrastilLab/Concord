@@ -8,8 +8,8 @@ import OrgSideNav from "../components/OrgSideNav";
 import { useState, useEffect } from "react";
 
 /* UI Libraries */
-import { Box, Button, Center, Divider, Heading, Flex } from "@chakra-ui/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { Box, Center, Divider, Heading, Flex } from "@chakra-ui/react";
+// import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
   useSession,
