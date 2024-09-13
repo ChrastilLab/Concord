@@ -73,7 +73,7 @@ function Sidenav() {
           _hover={{ bg: "#D0EAF9" }}
           marginTop={"25px"}
         >
-          {<HomeOutlined style={thinIconStyle} />} {"Home"}
+          {<HomeOutlined style={thinIconStyle} />} {"Dashboard"}
         </Button>
         <Accordion defaultIndex={[0]} allowMultiple paddingLeft={"10px"}>
           <AccordionItem border="none">

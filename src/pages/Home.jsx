@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../components/Header";
-// import Sidenav from "../components/Sidenav";
 
 import OrganizationCard from "../components/OrganizationCard";
 import SideInfoBar from "../components/SideInfoBar";
@@ -24,12 +23,7 @@ for (let i = 0; i < 7; i++) {
 }
 
 function Home() {
-  //   const { isLoading } = useSessionContext();
   const session = useSession();
-
-  // if (isLoading) {
-  //     return <></>;
-  // }
   const supabase = useSupabaseClient();
 
   const [orgData, setOrgData] = useState([]);

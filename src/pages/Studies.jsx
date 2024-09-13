@@ -23,6 +23,7 @@ function Studies() {
   const session = useSession();
 
   const [projects, setProjects] = useState([]);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   function filterProjects(projects) {
     let wantedProjects = [];
@@ -47,12 +48,15 @@ function Studies() {
         console.error(error);
         return;
       }
-
       setProjects(filterProjects(data));
     };
 
     fetchProjects();
-  }, [organization]);
+  }, [organization, refreshTrigger]);
+
+  const triggerRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   const New_projects_created = supabase
     .channel("custom-all-channel")
@@ -74,7 +78,6 @@ function Studies() {
   // if (isLoading) {
   //     return <></>;
   // }
-
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
       <Header />
@@ -94,7 +97,7 @@ function Studies() {
             >
               {projects.map((project) => (
                 <GridItem key={project.project_id}>
-                  <ProjectCard project={project} gap={"20px"} />
+                  <ProjectCard project={project} organization={organization} onProjectUpdate={triggerRefresh} gap={"20px"} />
                 </GridItem>
               ))}
             </Grid>
