@@ -13,9 +13,9 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 import {
   useSession,
+  useSupabaseClient,
+  //   useSessionContext,
 } from "@supabase/auth-helpers-react";
-
-import { supabase } from "../config/supabase";
 
 const randomColors = [];
 for (let i = 0; i < 7; i++) {
@@ -24,24 +24,44 @@ for (let i = 0; i < 7; i++) {
 
 function Home() {
   const session = useSession();
+  const supabase = useSupabaseClient();
 
   const [orgData, setOrgData] = useState([]);
+  const [userCreatedOrgs, setUserCreatedOrgs] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase
         .from("Organizations")
-        .select("organization_name, leader, description");
+        .select("organization_name, leader, description, lab_sheet");
 
       if (!error) {
         setOrgData(data);
       }
-      setLoading(false);
     };
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchUserCreatedOrgs = async () => {
+      if (session) {
+        const { data, error } = await supabase
+          .from("OrganizationCreators")
+          .select("*")
+          .eq("user_id", session.user.id);
+
+        if (!error) {
+          setUserCreatedOrgs(data.length);
+        }
+
+        setLoading(false);
+      }
+    };
+
+    fetchUserCreatedOrgs();
+  });
 
   const subscription = supabase
     .channel("table_db_changes")
@@ -72,7 +92,7 @@ function Home() {
               <Heading marginLeft={"60px"} marginTop={"30px"}>
                 Dashboard
               </Heading>
-              <Button
+              {/* <Button
                 variant={"ghost"}
                 padding={"0px"}
                 marginTop={"30px"}
@@ -82,7 +102,7 @@ function Home() {
                 <EllipsisVerticalIcon
                   style={{ height: "30px", width: "30px" }}
                 />
-              </Button>
+              </Button> */}
             </Flex>
             <Center>
               <Divider
@@ -104,11 +124,15 @@ function Home() {
                   organization={org.organization_name}
                   description={org.description}
                   color_scheme={randomColors[orgData.indexOf(org)]}
+                  labSheetUrl={org.lab_sheet}
                 />
               ))}
             </Flex>
           </Flex>
-          <SideInfoBar numOrgs={orgData.length}></SideInfoBar>
+          <SideInfoBar
+            numOrgs={orgData.length}
+            userCreatedOrgs={userCreatedOrgs}
+          ></SideInfoBar>
         </Box>
       ) : (
         <div>Not logged in</div>
