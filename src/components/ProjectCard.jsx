@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 function ProjectCard({ project, organization, onProjectUpdate }) {
   const navigate = useNavigate();
-  
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const options = { year: "numeric", month: "short", day: "numeric" };
@@ -38,7 +38,9 @@ function ProjectCard({ project, organization, onProjectUpdate }) {
         h="full"
         p={4}
         bg="#F0F0F0"
-        onClick={() => navigate(`/studies/${organization}/${project.project_name}`)}
+        onClick={() =>
+          navigate(`/studies/${organization}/${project.project_name}`)
+        }
       >
         <CardHeader
           p={2}
@@ -77,7 +79,7 @@ function ProjectCard({ project, organization, onProjectUpdate }) {
           </Box>
         </CardHeader>
         <CardBody p={2} fontSize={"14px"} h={"75%"}>
-          <Text w="75%" textColor="#A39999" noOfLines={2}>
+          <Text w="75%" textColor="#A39999" noOfLines={1}>
             {project.description}
           </Text>
           <HStack w="100%" marginTop={"10px"} gap={"70px"}>
