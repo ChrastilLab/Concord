@@ -7,6 +7,7 @@ import {
   Heading,
   Text,
   Stack,
+  HStack,
   Button,
   Flex,
   Popover,
@@ -30,6 +31,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 function OrganizationCard({
   organization,
@@ -39,6 +41,7 @@ function OrganizationCard({
 }) {
   const toast = useToast();
   const navigate = useNavigate();
+  const supabase = useSupabaseClient();
 
   const colors = [
     "#E76F51",
@@ -53,7 +56,7 @@ function OrganizationCard({
     "#005477",
   ];
 
-  const [color, setColor] = useState(colors[0]);
+  const [color, setColor] = useState(color_scheme);
 
   function handleDocClicked(event) {
     event.stopPropagation();
@@ -71,8 +74,12 @@ function OrganizationCard({
     navigate(labSheetUrl);
   }
 
-  function handleChangeColor(color) {
+  async function handleChangeColor(color) {
     setColor(color);
+    const { error } = await supabase
+      .from("Organizations")
+      .update({ color_scheme: color })
+      .eq("organization_name", organization);
   }
 
   return (
@@ -114,7 +121,7 @@ function OrganizationCard({
             <PopoverArrow bg={color} />
             <PopoverCloseButton color={"white"} />
             <PopoverHeader
-              height="100px"
+              height="85px"
               backgroundColor={color}
               borderTopLeftRadius={5}
               borderTopRightRadius={5}
@@ -138,6 +145,7 @@ function OrganizationCard({
                   ></Button>
                 ))}
               </SimpleGrid>
+
               <Input
                 size={"sm"}
                 mt={"10px"}
