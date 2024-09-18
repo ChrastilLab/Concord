@@ -50,14 +50,14 @@ function ProjectCard({ project, organization, onProjectUpdate }) {
         >
           <Box>
             <HStack>
-              <Heading size="md" mb={1} width={"160px"} isTruncated>
+              <Heading size="md" mb={1} width={"145px"} isTruncated>
                 {project.project_name}
               </Heading>
               <Badge
                 bg={
-                  project.status === "In Progress"
+                  project.status === "Data Analysis"
                     ? "#4299E1"
-                    : project.status === "Completed"
+                    : project.status === "Data Collection"
                     ? "#48BB78"
                     : "#A0AEC0"
                 }
@@ -67,8 +67,8 @@ function ProjectCard({ project, organization, onProjectUpdate }) {
                 display="flex"
                 borderRadius={"0.5vh"}
                 alignItems="center"
-                paddingLeft={"1vh"}
                 textTransform="none"
+                marginTop={"-5px"}
               >
                 {project.status} <Box as="span" ml={1} className="bi bi-x" />
               </Badge>

@@ -1,5 +1,5 @@
 import { Button, Text, Heading, Flex, Stack } from "@chakra-ui/react";
-import NewOrgForm from "./NewOrgFrom";
+import NewOrgForm from "./NewOrgForm";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState, useEffect } from "react";

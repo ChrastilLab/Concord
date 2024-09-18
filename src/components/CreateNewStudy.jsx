@@ -15,12 +15,15 @@ import {
   Textarea,
   Select,
   Spacer,
+  FormControl,
+  useToast,
 } from "@chakra-ui/react";
 import { supabase } from "../config/supabase";
 import { useState, useEffect } from "react";
 
 function CreateNewStudy({ projects }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [userData, setUserData] = useState({});
   const [userAdmin, setUserAdmin] = useState(false);
@@ -61,7 +64,20 @@ function CreateNewStudy({ projects }) {
 
   async function handleSaveClicked() {
     const updatedData = await assignNecessary();
+    for (const [key, value] of Object.entries(updatedData)) {
+      if (!value && key !== "notes") {
+        toast({
+          title: "Cannot Created.",
+          description: "Please provide more information for new project.",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+          position: "bottom-right",
+        });
 
+        return;
+      }
+    }
     const { error } = await supabase.from("Projects").insert(updatedData);
 
     if (!error) {
@@ -84,13 +100,15 @@ function CreateNewStudy({ projects }) {
   }
 
   async function openModal() {
-    const { data, error } = await supabase
-      .from("Users")
-      .select("user_type")
-      .eq("user_id", userData.user.id);
+    if ("id" in userData) {
+      const { data, error } = await supabase
+        .from("Users")
+        .select("user_type")
+        .eq("user_id", userData.user.id);
 
-    if (!error && data.length > 0) {
-      setUserAdmin(data[0].user_type);
+      if (!error && data.length > 0) {
+        setUserAdmin(data[0].user_type);
+      }
     }
 
     onOpen();
@@ -151,14 +169,18 @@ function CreateNewStudy({ projects }) {
           <ModalBody pl={"40px"} pr={"40px"} pb={"20px"}>
             <SimpleGrid columns={2} spacing={"70px"}>
               <Stack spacing={"14px"}>
-                <Text>Title</Text>
-                <Input
-                  placeholder="Give a title..."
-                  value={newData.project_name}
-                  onChange={(e) =>
-                    setNewData({ ...newData, project_name: e.target.value })
-                  }
-                ></Input>
+                <FormControl isRequired>
+                  <Text>Title</Text>
+                  <Input
+                    placeholder="Give a title..."
+                    value={newData.project_name}
+                    onChange={(e) =>
+                      setNewData({ ...newData, project_name: e.target.value })
+                    }
+                    required
+                  ></Input>
+                </FormControl>
+
                 <Text>Project Description</Text>
                 <Textarea
                   placeholder="Write some descriptions..."
@@ -196,7 +218,7 @@ function CreateNewStudy({ projects }) {
                     );
                   })}
                 </Select>
-                <Text>Miscellaneous Notes</Text>
+                <Text>Miscellaneous Notes (optional)</Text>
                 <Textarea
                   placeholder="Add any notes..."
                   value={newData.notes}
@@ -232,9 +254,8 @@ function CreateNewStudy({ projects }) {
                     setNewData({ ...newData, status: e.target.value })
                   }
                 >
-                  <option value="Not Started">Not Started</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
+                  <option value="Data Analysis">Data Analysis</option>
+                  <option value="Data Collection">Data Collection</option>
                 </Select>
                 <Spacer />
                 <Text>Prefered RA Committment</Text>

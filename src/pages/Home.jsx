@@ -37,7 +37,6 @@ function Home() {
         data.sort((a, b) =>
           a.organization_name > b.organization_name ? 1 : -1
         );
-        console.log(data);
         setOrgData(data);
       }
     };

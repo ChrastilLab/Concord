@@ -34,7 +34,7 @@ export default function NewOrgForm() {
     if (!newData.organization_name || !newData.leader || !newData.description) {
       toast({
         title: "Cannot Created.",
-        description: "Please provide all of the organization information.",
+        description: "Please provide all information for new organization.",
         status: "error",
         duration: 1500,
         isClosable: true,
