@@ -17,11 +17,6 @@ import {
   //   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
-const randomColors = [];
-for (let i = 0; i < 7; i++) {
-  randomColors.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
-}
-
 function Home() {
   const session = useSession();
   const supabase = useSupabaseClient();

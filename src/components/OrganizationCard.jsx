@@ -121,7 +121,7 @@ function OrganizationCard({
             <PopoverArrow bg={color} />
             <PopoverCloseButton color={"white"} />
             <PopoverHeader
-              height="85px"
+              height="70px"
               backgroundColor={color}
               borderTopLeftRadius={5}
               borderTopRightRadius={5}
