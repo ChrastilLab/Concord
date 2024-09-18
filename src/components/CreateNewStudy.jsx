@@ -100,15 +100,13 @@ function CreateNewStudy({ projects }) {
   }
 
   async function openModal() {
-    if ("id" in userData) {
-      const { data, error } = await supabase
-        .from("Users")
-        .select("user_type")
-        .eq("user_id", userData.user.id);
+    const { data, error } = await supabase
+      .from("Users")
+      .select("user_type")
+      .eq("user_id", userData.user.id);
 
-      if (!error && data.length > 0) {
-        setUserAdmin(data[0].user_type);
-      }
+    if (!error && data.length > 0) {
+      setUserAdmin(data[0].user_type);
     }
 
     onOpen();
