@@ -12,6 +12,7 @@ import {
   Textarea,
   Stack,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -21,6 +22,7 @@ import { useState } from "react";
 
 export default function NewOrgForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [newData, setNewData] = useState({
     organization_name: "",
@@ -29,6 +31,20 @@ export default function NewOrgForm() {
   });
 
   async function handleSaveClicked() {
+    if (!newData.organization_name || !newData.leader || !newData.description) {
+      toast({
+        title: "Cannot Created.",
+        description: "Please provide all information for new organization.",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    newData.color_scheme = randomColor;
+
     const { error } = await supabase.from("Organizations").insert(newData);
 
     if (!error) {

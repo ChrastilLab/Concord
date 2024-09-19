@@ -28,9 +28,9 @@ function ProjectHeader({ projects, orgName }) {
     let inProgress = 0;
     let total = 0;
     projects.map((project) => {
-      if (project.status === "Completed") {
+      if (project.status === "Data Analysis") {
         done++;
-      } else if (project.status === "In Progress") {
+      } else if (project.status === "Data Collection") {
         inProgress++;
       }
       total++;

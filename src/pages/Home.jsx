@@ -17,11 +17,6 @@ import {
   //   useSessionContext,
 } from "@supabase/auth-helpers-react";
 
-const randomColors = [];
-for (let i = 0; i < 7; i++) {
-  randomColors.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
-}
-
 function Home() {
   const session = useSession();
   const supabase = useSupabaseClient();
@@ -34,9 +29,14 @@ function Home() {
     const fetchData = async () => {
       const { data, error } = await supabase
         .from("Organizations")
-        .select("organization_name, leader, description, lab_sheet");
+        .select(
+          "organization_name, leader, description, lab_sheet, color_scheme"
+        );
 
       if (!error) {
+        data.sort((a, b) =>
+          a.organization_name > b.organization_name ? 1 : -1
+        );
         setOrgData(data);
       }
     };
@@ -72,8 +72,22 @@ function Home() {
         schema: "public",
         table: "Organizations",
       },
+
       (payload) => {
-        setOrgData((prevData) => [...prevData, payload.new]);
+        setOrgData((prevData) => {
+          const index = prevData.findIndex(
+            (org) => org.organization_name === payload.new.organization_name
+          );
+          if (index !== -1) {
+            // update
+            const updatedData = [...prevData];
+            updatedData[index] = payload.new;
+            return updatedData;
+          } else {
+            // insert new org
+            return [...prevData, payload.new];
+          }
+        });
       }
     )
     .subscribe();
@@ -123,7 +137,7 @@ function Home() {
                 <OrganizationCard
                   organization={org.organization_name}
                   description={org.description}
-                  color_scheme={randomColors[orgData.indexOf(org)]}
+                  color_scheme={org.color_scheme}
                   labSheetUrl={org.lab_sheet}
                 />
               ))}
