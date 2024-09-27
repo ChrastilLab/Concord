@@ -10,7 +10,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import EditOrgForm from "./EditOrgForm";
 import Check from "./img/Check.png";
 import { GraphUpArrow } from "react-bootstrap-icons";
 import { FolderOutlined } from "@ant-design/icons";
@@ -150,7 +150,7 @@ function ProjectHeader({ projects, orgName }) {
             </Flex>
 
             <Flex marginLeft={"-35px"} marginTop={"-162px"}>
-              <PencilSquareIcon width={"20px"}></PencilSquareIcon>
+              < EditOrgForm organization={orgName}/>
             </Flex>
           </HStack>
         </CardBody>
