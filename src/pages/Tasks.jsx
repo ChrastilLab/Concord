@@ -48,7 +48,7 @@ function Tasks() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
-  // const [taskDescription, setTaskDescription] = useState("");
+  const [description, setDescription] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -76,6 +76,7 @@ function Tasks() {
       `)
       .order("start_date", { ascending: true });
 
+    console.log(data);
     if (error) {
       console.error("Error fetching tasks:", error);
     } else {
@@ -115,10 +116,10 @@ function Tasks() {
       start_date: startDate,
       end_date: endDate,
       status: "Not Started",
-      assigned_to: assignedTo, // This is now a single user ID
+      assigned_to: assignedTo,
       assigned_by: session.user.id,
       assigned_at: new Date().toISOString(),
-      // description: taskDescription,
+      description: description,
     };
 
     const { error } = await supabase.from("Tasks").insert(newTask);
@@ -126,15 +127,14 @@ function Tasks() {
     if (error) {
       console.error("Error adding new task:", error);
     } else {
-      fetchTasks(); // Refresh tasks after adding
-      onClose(); // Close the add task popover
-      // Reset form fields
+      fetchTasks();
+      onClose();
       setTaskName("");
       setTaskType("Scheduled");
       setStartDate("");
       setEndDate("");
       setAssignedTo("");
-      // setTaskDescription("");
+      setDescription("");
     }
   };
 
@@ -251,8 +251,8 @@ function Tasks() {
                           borderWidth="2px"
                           borderColor="#A1A1AA"
                           placeholder="Description for this task"
-                          // value={taskDescription}
-                          // onChange={(e) => setTaskDescription(e.target.value)}
+                          value={description} // Add this line
+                          onChange={(e) => setDescription(e.target.value)}
                         />
                       </FormControl>
                     </PopoverBody>
