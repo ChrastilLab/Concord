@@ -1,6 +1,7 @@
 import React from "react";
 import Sidenav from "../components/Sidenav";
 import Header from "../components/Header";
+import CheckInForm from "../components/CheckInForm";
 import {
   Box,
   Button,
@@ -223,15 +224,7 @@ function PersonalSummary() {
                     </Flex>
                   </Card>
                   <Flex flexDirection={"row"} height={"10vh"} width={"100%"}>
-                    <Button
-                      height={"60%"}
-                      top={"40%"}
-                      width={"45%"}
-                      fontSize={20}
-                      color={"#5086ca"}
-                    >
-                      Weekly Check-In
-                    </Button>
+                    <CheckInForm />
                     <Spacer />
                     <Button
                       height={"60%"}
