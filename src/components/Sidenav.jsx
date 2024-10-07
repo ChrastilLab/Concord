@@ -22,27 +22,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../config/supabase";
 
-function Sidenav() {
+function Sidenav({organization}) {
   const navigate = useNavigate();
   const organization_id = useParams().organization_id;
-
-  const [organization, setOrganization] = useState("");
-
-  useEffect(() => {
-
-    const fetchOrganization = async () => {
-      const { data, error } = await supabase
-        .from("Organizations")
-        .select("*")
-        .eq("organization_id", organization_id);
-
-      if (!error) {
-        setOrganization(data[0]);
-      }
-    };
-    
-    fetchOrganization();
-  }, [organization_id]);
 
   let navOptions = [
     // "Studies",

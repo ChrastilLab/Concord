@@ -20,7 +20,7 @@ import {
   import { supabase } from "../config/supabase";
   import { useState, useEffect } from "react";
   
-  export default function NewOrgForm({organization_id}) {
+  export default function EditOrgForm({organization_id}) {
 
     const [orgData, setOrgData] = useState({});
     const [loading, setLoading] = useState(true);

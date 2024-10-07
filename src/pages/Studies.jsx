@@ -24,6 +24,23 @@ function Studies() {
 
   const [projects, setProjects] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [organization, setOrganization] = useState("");
+
+  useEffect(() => {
+    const fetchOrganization = async () => {
+      const { data, error } = await supabase
+        .from("Organizations")
+        .select("*")
+        .eq("organization_id", organization_id);
+      
+      if (!error) {
+        setOrganization(data[0]);
+      }
+    
+    };
+
+    fetchOrganization();
+  }, [organization_id]);
 
   function filterProjects(projects) {
     let wantedProjects = [];
@@ -74,6 +91,21 @@ function Studies() {
     )
     .subscribe();
 
+  const Organizations = supabase.channel('custom-update-channel')
+  .on(
+    'postgres_changes',
+    { event: 'UPDATE', schema: 'public', table: 'Organizations' },
+    (payload) => {
+      if (
+        payload.new.organization_id !== null &&
+        payload.new.organization_id === organization_id
+      ) {
+        setOrganization(payload.new);
+      }
+    }
+  )
+  .subscribe();
+
   // if (isLoading) {
   //     return <></>;
   // }
@@ -82,10 +114,10 @@ function Studies() {
       <Header />
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
-          <Sidenav/>
+          <Sidenav organization = {organization}/>
           <Flex flex={1} flexDirection={"column"} alignItems="center">
             <Box width="100%" px="68px">
-              <ProjectHeader projects={projects} organization_id={organization_id} />
+              <ProjectHeader projects={projects} organization_id={organization_id} organization = {organization}/>
             </Box>
             <Grid
               templateColumns="repeat(3, 1fr)"

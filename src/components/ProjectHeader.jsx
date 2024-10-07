@@ -18,7 +18,7 @@ import CreateNewStudy from "./CreateNewStudy";
 import { useState, useEffect } from "react";
 import { supabase } from "../config/supabase";
 
-function ProjectHeader({ projects, organization_id }) {
+function ProjectHeader({ projects, organization_id, organization }) {
   const [numberDone, setNumberDone] = useState(0);
   const [numberInProgress, setNumberInProgress] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
@@ -40,26 +40,6 @@ function ProjectHeader({ projects, organization_id }) {
     setTotalProjects(total);
   }, [projects]);
 
-  const [orgData, setOrgData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from("Organizations")
-        .select("organization_name, leader, description")
-        .eq("organization_id", organization_id);
-
-      if (!error) {
-        setOrgData(data);
-      }
-      setLoading(false);
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
 
   return (
     <Flex
@@ -84,13 +64,13 @@ function ProjectHeader({ projects, organization_id }) {
           alignItems="center"
         >
           <Stack ml={"2vh"} mb={3} w="45vh" spacing={3} marginTop={"10px"}>
-            <Heading size="lg">{orgData[0].organization_name}</Heading>
+            <Heading size="lg">{organization.organization_name}</Heading>
 
             <Text marginTop={"-15px"} color={"#808080"}>
-              Led By: {orgData[0].leader ? orgData[0].leader : "None"}
+              Led By: {organization.leader ? organization.leader : "None"}
             </Text>
 
-            <Text isTruncated>{orgData[0].description}</Text>
+            <Text isTruncated>{organization.description}</Text>
 
             <CreateNewStudy projects={projects} />
           </Stack>
