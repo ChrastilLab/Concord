@@ -18,7 +18,7 @@ import CreateNewStudy from "./CreateNewStudy";
 import { useState, useEffect } from "react";
 import { supabase } from "../config/supabase";
 
-function ProjectHeader({ projects, orgName }) {
+function ProjectHeader({ projects, organization_id }) {
   const [numberDone, setNumberDone] = useState(0);
   const [numberInProgress, setNumberInProgress] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
@@ -48,7 +48,7 @@ function ProjectHeader({ projects, orgName }) {
       const { data, error } = await supabase
         .from("Organizations")
         .select("organization_name, leader, description")
-        .eq("organization_name", orgName);
+        .eq("organization_id", organization_id);
 
       if (!error) {
         setOrgData(data);
@@ -150,7 +150,7 @@ function ProjectHeader({ projects, orgName }) {
             </Flex>
 
             <Flex marginLeft={"-35px"} marginTop={"-162px"}>
-              < EditOrgForm organization={orgName}/>
+              < EditOrgForm organization_id={organization_id}/>
             </Flex>
           </HStack>
         </CardBody>

@@ -30,7 +30,7 @@ import {
 } from "@supabase/auth-helpers-react";
 
 function IndividualProject() {
-  const { organization, project_name } = useParams();
+  const { organization_id, project_id } = useParams();
 //   const { isLoading } = useSessionContext();
 
   const [project, setProject] = useState({});
@@ -54,7 +54,7 @@ function IndividualProject() {
       const { data, error } = await supabase
         .from("Projects")
         .select("*, ProjectPinnedDocs(*)")
-        .eq("project_name", project_name);
+        .eq("project_id", project_id);
 
       if (!error) {
         setProject(data[0]);
@@ -65,7 +65,7 @@ function IndividualProject() {
     };
 
     fetchProject();
-  }, [organization, project_name]);
+  }, [organization_id, project_id]);
 
   const session = useSession();
 
@@ -75,8 +75,9 @@ function IndividualProject() {
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
           <IndividualProjectSidenav
-            organization={organization}
-            project_name={project_name}
+            organization_id={organization_id}
+            project_id={project_id}
+            project_name={project.project_name}
           />
           <Flex
             pl={"3.5%"}

@@ -20,7 +20,7 @@ import {
   import { supabase } from "../config/supabase";
   import { useState, useEffect } from "react";
   
-  export default function NewOrgForm({organization}) {
+  export default function NewOrgForm({organization_id}) {
 
     const [orgData, setOrgData] = useState({});
     const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ import {
         const { data, error } = await supabase
           .from("Organizations")
           .select("*")
-          .eq("organization_name", organization);
+          .eq("organization_id", organization_id);
   
         if (!error) {
           setOrgData(data[0]);
