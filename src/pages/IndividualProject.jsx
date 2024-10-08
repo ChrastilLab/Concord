@@ -22,6 +22,7 @@ import { useState, useEffect } from "react";
 import { ReactComponent as CheckEdit } from "../components/img/CkEdit.svg";
 import { ReactComponent as Pin } from "../components/img/AiOutlinePushpin.svg";
 import { ReactComponent as PinStar } from "../components/img/CkStar.svg";
+import EditProject from "../components/EditProject";
 
 import {
   useSession,
@@ -33,8 +34,14 @@ function IndividualProject() {
   const { organization_id, project_id } = useParams();
 //   const { isLoading } = useSessionContext();
 
-  const [project, setProject] = useState({});
+  const [project, setProject] = useState(null);
+  const [project_edit, setProjectEdit] = useState(null);
   const [detail, setDetail] = useState("GOAL");
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const triggerRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   function handleAspectClick(aspect) {
     setDetail(aspect);
@@ -58,21 +65,22 @@ function IndividualProject() {
 
       if (!error) {
         setProject(data[0]);
-        console.log(data[0]);
+        const {ProjectPinnedDocs, ...rest} = data[0];
+        setProjectEdit(rest);
       } else {
         console.error(error);
       }
     };
 
     fetchProject();
-  }, [organization_id, project_id]);
+  }, [organization_id, project_id, refreshTrigger]);
 
   const session = useSession();
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
       <IndividualProjectHeader />
-      {session ? (
+      {session && project && project_edit ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
           <IndividualProjectSidenav
             organization_id={organization_id}
@@ -102,9 +110,10 @@ function IndividualProject() {
                     display="flex"
                     justifyContent="flex-end"
                   >
-                    <Button bg="#F0F0F0">
+                    {/* <Button bg="#F0F0F0">
                       <CheckEdit />
-                    </Button>
+                    </Button> */}
+                    <EditProject project={project_edit} onProjectUpdate={triggerRefresh}/>
                   </CardHeader>
                   <CardBody
                     pl={"7%"}

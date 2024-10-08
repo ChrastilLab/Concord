@@ -59,6 +59,11 @@ function EditProject({ project, onProjectUpdate }) {
     fetchData();
   }, []);
 
+  const handleOpenEditClicked = (event) => {
+    event.stopPropagation();
+    onOpen();
+  }
+
   const handleSaveClicked = async () => {
     const { error } = await supabase
       .from("Projects")
@@ -81,7 +86,7 @@ function EditProject({ project, onProjectUpdate }) {
             minWidth="40px"
             minHeight="40px" 
             variant="ghost">
-     <EditIcon onClick={onOpen} />
+     <EditIcon onClick={handleOpenEditClicked} />
     </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="5xl">
         <ModalOverlay />
