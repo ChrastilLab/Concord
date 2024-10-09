@@ -24,29 +24,142 @@ import {
   Flex,
   Select,
   ButtonGroup,
+  Checkbox,
+  useToast,
 } from "@chakra-ui/react";
 
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { wrap } from "framer-motion";
 import { useState } from "react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+
+const dummy_hours = {
+  "task to do something": {
+    date: "04/10/2022",
+    duration: 18,
+  },
+  "task to do": {
+    date: "04/10/2022",
+    duration: 18,
+  },
+};
+const currentDate = new Date();
+const formattedDate = currentDate.toISOString().split("T")[0];
 
 export default function CheckInForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [ratings, setRating] = useState([1, 1, 1]); // 3 types of ratings
-  const ratingOptions = ["1", "2", "3", "4", "5"];
+  const [ratings, setRating] = useState([null, null, null]); // 3 types of ratings
+  const ratingOptions = [1, 2, 3, 4, 5];
   const ratingTypes = [
     "Guidance Received",
     "Previous Goals Completion",
     "Confidence Level",
   ];
+  const taskCheckedStatus = Object.keys(dummy_hours).reduce((acc, taskName) => {
+    acc[taskName] = false;
+    return acc;
+  }, {});
+  const [isTaskChecked, setIsTaskChecked] = useState(taskCheckedStatus);
+
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const toast = useToast();
+
+  const [checkInData, setCheckInData] = useState({
+    hours: {},
+    goals: null,
+    questions: null,
+    guidance_received_rating: null,
+    confidence_level: null,
+    prev_goal_completion: null,
+    updated_availabilities: null,
+  });
 
   function updateSpeficRating(typeIdx, newRating) {
     const updatedRatings = ratings.map((item, idx) =>
       idx === typeIdx ? newRating : item
     );
     setRating(updatedRatings);
+
+    // udpate data to post to db also
+    if (typeIdx === 0) {
+      setCheckInData({
+        ...checkInData,
+        guidance_received_rating: newRating,
+      });
+    } else if (typeIdx === 1) {
+      setCheckInData({
+        ...checkInData,
+        prev_goal_completion: newRating,
+      });
+    } else {
+      setCheckInData({
+        ...checkInData,
+        confidence_level: newRating,
+      });
+    }
   }
 
+  function handleTaskHoursChecked(event, task_name, task) {
+    console.log(event.target.checked);
+    if (event.target.checked && !(task_name in checkInData.hours)) {
+      setIsTaskChecked({ ...isTaskChecked, [task_name]: true });
+      setCheckInData({
+        ...checkInData,
+        hours: {
+          ...checkInData.hours,
+          [task_name]: {
+            date: task.date,
+            duration: parseInt(task.duration),
+          },
+        },
+      });
+    } else if (!event.target.checked) {
+      const updatedData = { ...checkInData };
+      delete updatedData.hours[task_name];
+      setCheckInData(updatedData);
+    }
+  }
+
+  async function handleSubmitClicked() {
+    const isAnyFieldNull = Object.values(checkInData).some(
+      (elem) =>
+        elem === null ||
+        (typeof elem === "object" && Object.keys(elem).length === 0)
+    );
+
+    if (isAnyFieldNull) {
+      toast({
+        title: "Cannot Created.",
+        description: "Please provide all information for weekly check-in.",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+    checkInData["user_id"] = session.user.id;
+    checkInData["date"] = formattedDate;
+    const { error } = await supabase
+      .from("CheckinResponses")
+      .insert(checkInData);
+
+    if (!error) {
+      setCheckInData({
+        hours: {},
+        goals: null,
+        questions: null,
+        guidance_received_rating: null,
+        confidence_level: null,
+        prev_goal_completion: null,
+        updated_availabilities: null,
+      }); // reset to default data
+    }
+
+    onClose();
+  }
+
+  console.log(checkInData);
   return (
     <>
       <Button
@@ -62,7 +175,7 @@ export default function CheckInForm() {
 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay bg={"blackAlpha.300"} backdropFilter={"blur(2px)"} />
-        <ModalContent minWidth={"700px"}>
+        <ModalContent minWidth={"800px"}>
           <ModalHeader
             textAlign={"center"}
             fontSize={"25px"}
@@ -78,13 +191,13 @@ export default function CheckInForm() {
                 border="1px solid"
                 borderColor="gray.200"
                 borderRadius="md"
-                maxWidth={"560px"}
+                maxWidth={"600px"}
               >
                 <Table
                   variant="simple"
                   marginLeft={"10px"}
                   marginRight={"10px"}
-                  maxWidth={"530px"}
+                  maxWidth={"560px"}
                 >
                   <Thead>
                     <Tr>
@@ -94,29 +207,59 @@ export default function CheckInForm() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    <Tr>
-                      <Td>task to do something</Td>
-                      <Td>08/12/2022</Td>
-                      <Td isNumeric>
-                        <Select placeholder="No. of Hours">
-                          <option value="option1">Option 1</option>
-                        </Select>
-                      </Td>
-                    </Tr>
-                    <Tr>
-                      <Td>task to do something</Td>
-                      <Td>08/12/2022</Td>
-                      <Td isNumeric>
-                        <Select placeholder="No. of Hours">
-                          <option value="option1">Option 1</option>
-                        </Select>
-                      </Td>
-                    </Tr>
+                    {Object.entries(dummy_hours).map(
+                      ([task_name, task], idx) => (
+                        <Tr key={idx}>
+                          <Td>
+                            <Flex marginLeft={"-10px"} gap={"10px"}>
+                              <Checkbox
+                                onChange={(e) =>
+                                  handleTaskHoursChecked(e, task_name, task)
+                                }
+                              ></Checkbox>
+                              <Text>{task_name}</Text>
+                            </Flex>
+                          </Td>
+                          <Td>{task.date}</Td>
+                          <Td isNumeric>
+                            <Select
+                              placeholder={"No. of Hours"}
+                              value={
+                                checkInData.hours[task_name]
+                                  ? checkInData.hours[task_name].duration
+                                  : null
+                              }
+                              onChange={
+                                isTaskChecked[task_name]
+                                  ? (e) =>
+                                      setCheckInData({
+                                        ...checkInData,
+                                        hours: {
+                                          ...checkInData.hours,
+                                          [task_name]: {
+                                            date: task.date,
+                                            duration: parseInt(e.target.value),
+                                          },
+                                        },
+                                      })
+                                  : null
+                              }
+                            >
+                              {Array.from({ length: 24 }, (_, h) => (
+                                <option key={h + 1} value={h + 1}>
+                                  {h + 1}
+                                </option>
+                              ))}
+                            </Select>
+                          </Td>
+                        </Tr>
+                      )
+                    )}
 
                     <Tfoot>
                       <Td>
                         <IconButton
-                          right={"-470px"}
+                          right={"-500px"}
                           isRound={true}
                           aria-label="add-task"
                           icon={<PlusCircleIcon />}
@@ -133,9 +276,27 @@ export default function CheckInForm() {
               <Text marginTop={"-10px"} fontSize={"13px"} color={"grey"}>
                 Seperate each goal with a new line
               </Text>
-              <Textarea maxWidth={"600px"}></Textarea>
+              <Textarea
+                maxWidth={"680px"}
+                value={checkInData.goals}
+                onChange={(e) =>
+                  setCheckInData({
+                    ...checkInData,
+                    goals: e.target.value,
+                  })
+                }
+              ></Textarea>
               <Text fontWeight={"bold"}>Questions or Concenrns?</Text>
-              <Textarea maxWidth={"600px"}></Textarea>
+              <Textarea
+                maxWidth={"680px"}
+                value={checkInData.questions}
+                onChange={(e) =>
+                  setCheckInData({
+                    ...checkInData,
+                    questions: e.target.value,
+                  })
+                }
+              ></Textarea>
 
               <Text fontSize={"15px"}>
                 Rate the following on a scale of 1 to 5 based on:
@@ -177,14 +338,25 @@ export default function CheckInForm() {
               <Text fontWeight={"bold"}>
                 Have you updated your RA availabilities on When2Meet/T2W?
               </Text>
-              <Select placeholder="Select" width={"200px"}>
-                <option value="option1">Option 1</option>
+              <Select
+                placeholder="Select"
+                onChange={(e) =>
+                  setCheckInData({
+                    ...checkInData,
+                    updated_availabilities: e.target.value,
+                  })
+                }
+                width={"200px"}
+                color={"grey"}
+              >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
               </Select>
             </Stack>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="green" mr={3} onClick={onClose}>
+            <Button colorScheme="green" mr={3} onClick={handleSubmitClicked}>
               Submit Check-in
             </Button>
           </ModalFooter>
