@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidenav from "../components/Sidenav";
 import Header from "../components/Header";
+import CheckInForm from "../components/CheckInForm";
 import {
   Box,
   Button,
@@ -16,12 +17,16 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useSession } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import { AddIcon } from "@chakra-ui/icons";
+import { useEffect } from "react";
 
 function PersonalSummary() {
   const session = useSession();
+  const supabase = useSupabaseClient();
+
+  const [loading, setLoading] = useState(true);
   const tag = [
     ["Admin", "blue"],
     ["Organization", "green"],
@@ -36,7 +41,7 @@ function PersonalSummary() {
     "Task 4: do something",
     "Task 5: do something again",
   ];
-  const hours = [10, 20, 13, 15, 17, 23, 19, 10, 20, 19];
+
   const userName = localStorage.getItem("username");
 
   function getNumberSuffix(day) {
@@ -52,6 +57,39 @@ function PersonalSummary() {
         return "th";
     }
   }
+
+  const [hours, setHours] = useState([]);
+  function processHours(checkInData) {
+    if (Array.isArray(checkInData)) {
+      checkInData.map((checkIn) => {
+        let weekHours = 0;
+        Object.values(checkIn.hours).forEach((task) => {
+          weekHours += task.duration;
+        });
+        setHours((prevHours) => [...prevHours, weekHours]);
+      });
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    const fetchCheckInData = async () => {
+      if (session) {
+        const { data, error } = await supabase
+          .from("CheckinResponses")
+          .select("date, hours")
+          .eq("user_id", session.user.id);
+
+        if (!error) {
+          if (hours.length === 0) {
+            processHours(data);
+          }
+        }
+      }
+    };
+
+    fetchCheckInData();
+  }, [supabase, session]);
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
@@ -193,45 +231,41 @@ function PersonalSummary() {
                       flexWrap={"wrap"}
                       overflowY={"scroll"}
                     >
-                      {hours.map((hours, index) => (
-                        <Flex
-                          width={"33%"}
-                          flexDirection={"row"}
-                          justifyContent={"space-evenly"}
-                        >
-                          <Text>
-                            <Text
-                              display={"inline"}
-                              fontWeight={"bold"}
-                              fontSize={25}
-                            >
-                              Wk{index + 1}:
+                      {loading ? (
+                        <Text>Loading...</Text>
+                      ) : (
+                        hours.map((hours, index) => (
+                          <Flex
+                            width={"33%"}
+                            flexDirection={"row"}
+                            justifyContent={"space-evenly"}
+                          >
+                            <Text>
+                              <Text
+                                display={"inline"}
+                                fontWeight={"bold"}
+                                fontSize={25}
+                              >
+                                Wk{index + 1}:
+                              </Text>
+                              <Text
+                                display={"inline"}
+                                marginLeft={2}
+                                fontSize={25}
+                              >
+                                {hours}
+                              </Text>
+                              <Text display={"inline"} marginLeft={1}>
+                                h
+                              </Text>
                             </Text>
-                            <Text
-                              display={"inline"}
-                              marginLeft={2}
-                              fontSize={25}
-                            >
-                              {hours}
-                            </Text>
-                            <Text display={"inline"} marginLeft={1}>
-                              h
-                            </Text>
-                          </Text>
-                        </Flex>
-                      ))}
+                          </Flex>
+                        ))
+                      )}
                     </Flex>
                   </Card>
                   <Flex flexDirection={"row"} height={"10vh"} width={"100%"}>
-                    <Button
-                      height={"60%"}
-                      top={"40%"}
-                      width={"45%"}
-                      fontSize={20}
-                      color={"#5086ca"}
-                    >
-                      Weekly Check-In
-                    </Button>
+                    <CheckInForm />
                     <Spacer />
                     <Button
                       height={"60%"}
