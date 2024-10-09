@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidenav from "../components/Sidenav";
 import Header from "../components/Header";
 import CheckInForm from "../components/CheckInForm";
@@ -17,12 +17,17 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useSession } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import { AddIcon } from "@chakra-ui/icons";
+import { useEffect } from "react";
 
 function PersonalSummary() {
   const session = useSession();
+  const supabase = useSupabaseClient();
+
+  const [checkInData, setCheckInData] = useState();
+
   const tag = [
     ["Admin", "blue"],
     ["Organization", "green"],
@@ -37,7 +42,19 @@ function PersonalSummary() {
     "Task 4: do something",
     "Task 5: do something again",
   ];
-  const hours = [10, 20, 13, 15, 17, 23, 19, 10, 20, 19];
+
+  const hours = [];
+  let weekHours = 0;
+  if (checkInData) {
+    checkInData.map((checkIn) => {
+      Object.values(checkIn.hours).forEach((task) => {
+        weekHours += task.duration;
+      });
+      hours.push(weekHours);
+      weekHours = 0;
+    });
+  }
+
   const userName = localStorage.getItem("username");
 
   function getNumberSuffix(day) {
@@ -53,6 +70,23 @@ function PersonalSummary() {
         return "th";
     }
   }
+
+  useEffect(() => {
+    const fetchCheckInData = async () => {
+      if (session) {
+        const { data, error } = await supabase
+          .from("CheckinResponses")
+          .select("date, hours")
+          .eq("user_id", session.user.id);
+
+        if (!error) {
+          setCheckInData(data);
+        }
+      }
+    };
+
+    fetchCheckInData();
+  }, []);
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>

@@ -100,7 +100,6 @@ export default function CheckInForm() {
   }
 
   function handleTaskHoursChecked(event, task_name, task) {
-    console.log(event.target.checked);
     if (event.target.checked && !(task_name in checkInData.hours)) {
       setIsTaskChecked({ ...isTaskChecked, [task_name]: true });
       setCheckInData({
@@ -159,7 +158,6 @@ export default function CheckInForm() {
     onClose();
   }
 
-  console.log(checkInData);
   return (
     <>
       <Button
