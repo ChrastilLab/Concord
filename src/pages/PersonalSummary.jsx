@@ -26,8 +26,7 @@ function PersonalSummary() {
   const session = useSession();
   const supabase = useSupabaseClient();
 
-  const [checkInData, setCheckInData] = useState();
-
+  const [loading, setLoading] = useState(true);
   const tag = [
     ["Admin", "blue"],
     ["Organization", "green"],
@@ -42,18 +41,6 @@ function PersonalSummary() {
     "Task 4: do something",
     "Task 5: do something again",
   ];
-
-  const hours = [];
-  let weekHours = 0;
-  if (checkInData) {
-    checkInData.map((checkIn) => {
-      Object.values(checkIn.hours).forEach((task) => {
-        weekHours += task.duration;
-      });
-      hours.push(weekHours);
-      weekHours = 0;
-    });
-  }
 
   const userName = localStorage.getItem("username");
 
@@ -71,6 +58,20 @@ function PersonalSummary() {
     }
   }
 
+  const [hours, setHours] = useState([]);
+  function processHours(checkInData) {
+    if (Array.isArray(checkInData)) {
+      checkInData.map((checkIn) => {
+        let weekHours = 0;
+        Object.values(checkIn.hours).forEach((task) => {
+          weekHours += task.duration;
+        });
+        setHours((prevHours) => [...prevHours, weekHours]);
+      });
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     const fetchCheckInData = async () => {
       if (session) {
@@ -80,13 +81,15 @@ function PersonalSummary() {
           .eq("user_id", session.user.id);
 
         if (!error) {
-          setCheckInData(data);
+          if (hours.length === 0) {
+            processHours(data);
+          }
         }
       }
     };
 
     fetchCheckInData();
-  }, []);
+  }, [supabase, session]);
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
@@ -228,33 +231,37 @@ function PersonalSummary() {
                       flexWrap={"wrap"}
                       overflowY={"scroll"}
                     >
-                      {hours.map((hours, index) => (
-                        <Flex
-                          width={"33%"}
-                          flexDirection={"row"}
-                          justifyContent={"space-evenly"}
-                        >
-                          <Text>
-                            <Text
-                              display={"inline"}
-                              fontWeight={"bold"}
-                              fontSize={25}
-                            >
-                              Wk{index + 1}:
+                      {loading ? (
+                        <Text>Loading...</Text>
+                      ) : (
+                        hours.map((hours, index) => (
+                          <Flex
+                            width={"33%"}
+                            flexDirection={"row"}
+                            justifyContent={"space-evenly"}
+                          >
+                            <Text>
+                              <Text
+                                display={"inline"}
+                                fontWeight={"bold"}
+                                fontSize={25}
+                              >
+                                Wk{index + 1}:
+                              </Text>
+                              <Text
+                                display={"inline"}
+                                marginLeft={2}
+                                fontSize={25}
+                              >
+                                {hours}
+                              </Text>
+                              <Text display={"inline"} marginLeft={1}>
+                                h
+                              </Text>
                             </Text>
-                            <Text
-                              display={"inline"}
-                              marginLeft={2}
-                              fontSize={25}
-                            >
-                              {hours}
-                            </Text>
-                            <Text display={"inline"} marginLeft={1}>
-                              h
-                            </Text>
-                          </Text>
-                        </Flex>
-                      ))}
+                          </Flex>
+                        ))
+                      )}
                     </Flex>
                   </Card>
                   <Flex flexDirection={"row"} height={"10vh"} width={"100%"}>

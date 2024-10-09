@@ -81,6 +81,8 @@ function AccountPopup() {
     setStatus(newData.status);
   };
 
+  const [hours, setHours] = useState([]);
+
   userData = {
     avatarImg: "",
     name: displayName,
@@ -91,16 +93,16 @@ function AccountPopup() {
     lastActive: session ? session.user.last_sign_in_at : "",
     hours: {
       // Hardcoded for now (Shows the hours worked by the user)
-      firstWeek: 6,
-      secondWeek: 3,
-      thirdWeek: 7,
-      fourthWeek: 6,
-      fifthWeek: 10,
-      sixthWeek: 8,
-      seventhWeek: 7,
-      eighthWeek: 10,
-      ninthWeek: 7,
-      tenthWeek: 8,
+      firstWeek: hours[0] || 0,
+      secondWeek: hours[1] || 0,
+      thirdWeek: hours[2] || 0,
+      fourthWeek: hours[3] || 0,
+      fifthWeek: hours[4] || 0,
+      sixthWeek: hours[5] || 0,
+      seventhWeek: hours[6] || 0,
+      eighthWeek: hours[7] || 0,
+      ninthWeek: hours[8] || 0,
+      tenthWeek: hours[9] || 0,
     },
   };
 
@@ -128,6 +130,31 @@ function AccountPopup() {
     }
     fetchUserDisplayName();
   }, []);
+
+  useEffect(() => {
+    async function fetchCheckInData() {
+      if (session) {
+        const { data, error } = await supabase
+          .from("CheckinResponses")
+          .select("date, hours")
+          .eq("user_id", session.user.id);
+
+        if (!error) {
+          if (hours.length === 0) {
+            data.map((checkIn) => {
+              let weekHours = 0;
+              Object.values(checkIn.hours).forEach((task) => {
+                weekHours += task.duration;
+              });
+              setHours((prevHours) => [...prevHours, weekHours]);
+            });
+          }
+        }
+      }
+    }
+
+    fetchCheckInData();
+  }, [supabase, session]);
 
   async function signOut() {
     await supabase.auth.signOut().then(() => {
