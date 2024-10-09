@@ -141,13 +141,14 @@ function AccountPopup() {
 
         if (!error) {
           if (hours.length === 0) {
-            data.map((checkIn) => {
+            const newHours = data.map((checkIn) => {
               let weekHours = 0;
               Object.values(checkIn.hours).forEach((task) => {
                 weekHours += task.duration;
               });
-              setHours((prevHours) => [...prevHours, weekHours]);
+              return weekHours;
             });
+            setHours(newHours);
           }
         }
       }
@@ -169,6 +170,7 @@ function AccountPopup() {
     hours,
   }));
 
+  console.log(hours);
   return session ? (
     <Popover>
       <PopoverTrigger>

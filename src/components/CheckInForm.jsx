@@ -153,6 +153,7 @@ export default function CheckInForm() {
         prev_goal_completion: null,
         updated_availabilities: null,
       }); // reset to default data
+      setRating([null, null, null]);
     }
 
     onClose();
