@@ -13,7 +13,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import EditProject from "./EditProject";
 import { useNavigate } from "react-router-dom";
 
-function ProjectCard({ project, organization, onProjectUpdate }) {
+function ProjectCard({ project, organization_id, onProjectUpdate }) {
   const navigate = useNavigate();
 
   function formatDate(dateString) {
@@ -39,7 +39,7 @@ function ProjectCard({ project, organization, onProjectUpdate }) {
         p={4}
         bg="#F0F0F0"
         onClick={() =>
-          navigate(`/studies/${organization}/${project.project_name}`)
+          navigate(`/studies/${organization_id}/${project.project_id}`)
         }
       >
         <CardHeader

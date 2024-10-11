@@ -45,10 +45,13 @@ function EditProject({ project, onProjectUpdate }) {
   useEffect(() => {
     const fetchData = async () => {
         const { user, error } = await fetchUser();
+        const { data, dat_error } = await supabase
+                    .from("Users")
+                    .select("user_id, display_name");
 
-        if (!error && user) {
+        if (!error && user && !dat_error) {
             setUserData(user);
-
+            setLeaderData(data);
             const isAdmin = await checkIfAdmin(user.id);
             if (isAdmin) {
                 setUserAdmin(true);
@@ -58,6 +61,11 @@ function EditProject({ project, onProjectUpdate }) {
 
     fetchData();
   }, []);
+
+  const handleOpenEditClicked = (event) => {
+    event.stopPropagation();
+    onOpen();
+  }
 
   const handleSaveClicked = async () => {
     const { error } = await supabase
@@ -81,7 +89,7 @@ function EditProject({ project, onProjectUpdate }) {
             minWidth="40px"
             minHeight="40px" 
             variant="ghost">
-     <EditIcon onClick={onOpen} />
+     <EditIcon onClick={handleOpenEditClicked} />
     </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="5xl">
         <ModalOverlay />
@@ -181,9 +189,8 @@ function EditProject({ project, onProjectUpdate }) {
                     setEditData({ ...editData, status: e.target.value })
                   }
                 >
-                  <option value="Not Started">Not Started</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
+                  <option value="Data Analysis">Data Analysis</option>
+                  <option value="Data Collection">Data Collection</option>
                 </Select>
                 <Spacer />
                 <Text>Preferred RA Commitment</Text>
