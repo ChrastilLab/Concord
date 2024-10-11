@@ -7,13 +7,17 @@ import FeedbackOutlined from "@mui/icons-material/FeedbackOutlined";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { SettingOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+
 import { supabase } from "../config/supabase";
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { ReactComponent as MdOutlineMapsHomeWork } from "./img/MdOutlineMapsHomeWork.svg";
 
 function IndividualProjectSidenav({ organization_id, project_id, project_name }) {
   const navigate = useNavigate();
+  const location = useLocation();
+
   let iconStyle = { height: "20px", width: "20px", marginRight: "3.5%" };
   let thinIconStyle = {
     height: "20px",
@@ -22,6 +26,7 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
     stroke: "#ffffff",
     strokeWidth: 0.5,
   };
+
 
   const [organization, setOrganization] = useState("");
 
@@ -39,6 +44,9 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
 
     fetchOrganization();
   }, []);
+
+  const isDocumentsPage = location.pathname.includes("/documents");
+
 
   return (
     <Flex
@@ -79,7 +87,7 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
           <Text overflow="hidden">Tasks</Text>
         </Button>
         <Button
-          onClick={() => navigate("/folder")}
+          onClick={() => navigate(`/studies/${organization}/${project_name}/documents`)}
           ml={"9%"}
           justifyContent={"left"}
           variant={"ghost"}
@@ -109,9 +117,11 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
           <Text overflow="hidden">Members</Text>
         </Button>
       </Stack>
-      <Button justifyContent={"left"} variant={"ghost"}>
-        {<SettingOutlined style={iconStyle} />} Settings
-      </Button>
+      {!isDocumentsPage && (
+        <Button justifyContent={"left"} variant={"ghost"}>
+          {<SettingOutlined style={iconStyle} />} Settings
+        </Button>
+      )}
     </Flex>
   );
 }

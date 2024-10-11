@@ -1,16 +1,17 @@
 import { useState } from "react";
-// import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Switch, FormControl, Flex, Text, Button } from "@chakra-ui/react";
 
-// No individual project page yet, will include folder inside project page in the future
-function Folder() {
-  // const session = useSession();
-  // const supabase = useSupabaseClient();
+function Folder({ folderId }) {
   const [isListView, setIsListView] = useState(false);
 
   const handleToggle = () => {
     setIsListView(!isListView);
   };
+
+  const driveUrl = `https://drive.google.com/drive/folders/${folderId}`;
+  const embedUrl = `https://drive.google.com/embeddedfolderview?id=${folderId}#${
+    isListView ? "list" : "grid"
+  }`;
 
   return (
     <div>
@@ -25,22 +26,21 @@ function Folder() {
           <Text ml={2} mr={4}>
             List View
           </Text>
-          <Button colorScheme="blue" variant="outline">
-            <a
-              href="https://drive.google.com/drive/folders/1ffv1lf5sB6cO9V9l_yN-WjxWfmh5-jic"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Go to Drive Folder
-            </a>
+          <Button
+            as="a"
+            colorScheme="blue"
+            variant="outline"
+            href={driveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Go to Drive Folder
           </Button>
         </FormControl>
       </Flex>
 
       <iframe
-        src={`https://drive.google.com/embeddedfolderview?id=1ffv1lf5sB6cO9V9l_yN-WjxWfmh5-jic#${
-          isListView ? "list" : "grid"
-        }`}
+        src={embedUrl}
         title="Google Drive View"
         width="100%"
         height="500"
