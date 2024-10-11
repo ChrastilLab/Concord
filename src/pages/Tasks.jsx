@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidenav from "../components/Sidenav";
 import Header from "../components/Header";
+import MemberSelect from "../components/MemberSelect";
 
 import {
   Box,
@@ -9,6 +10,7 @@ import {
   Tbody,
   Tr,
   Th,
+  Text,
   Td,
   TableContainer,
   Input,
@@ -33,84 +35,20 @@ import {
 
 import {
   useSession,
-  // useSupabaseClient,
-  // useSessionContext,
+  useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 function Tasks() {
-  const [tasks, setTasks] = useState([
-    {
-      name: "Research participant #1132 lab session 3",
-      type: "Scheduled",
-      startDate: "2024-07-10 13:30",
-      endDate: "2024-07-10 15:30",
-      status: "Not Started",
-    },
-    {
-      name: "Finish lab report 1",
-      type: "Deadline",
-      startDate: "-",
-      endDate: "2024-06-29 11:59",
-      status: "Completed",
-    },
-    {
-      name: "Finish lab report 2",
-      type: "Deadline",
-      startDate: "-",
-      endDate: "2024-07-15 11:59",
-      status: "Not Started",
-    },
-    {
-      name: "A very long title for some task just for ...",
-      type: "Scheduled",
-      startDate: "2024-07-11 14:20",
-      endDate: "2024-07-11 16:00",
-      status: "Not Started",
-    },
-    {
-      name: "Conduct MRI scan on participant #1022",
-      type: "Scheduled",
-      startDate: "2024-07-19 11:30",
-      endDate: "2024-07-19 13:30",
-      status: "Not Started",
-    },
-    {
-      name: "Research participant #1132 lab session 3",
-      type: "Scheduled",
-      startDate: "2024-07-10 13:30",
-      endDate: "2024-07-10 15:30",
-      status: "Not Started",
-    },
-    {
-      name: "Finish lab report 1",
-      type: "Deadline",
-      startDate: "-",
-      endDate: "2024-06-29 11:59",
-      status: "Completed",
-    },
-    {
-      name: "Finish lab report 2",
-      type: "Deadline",
-      startDate: "-",
-      endDate: "2024-07-15 11:59",
-      status: "Not Started",
-    },
-    {
-      name: "A very long title for some task just for ...",
-      type: "Scheduled",
-      startDate: "2024-07-11 14:20",
-      endDate: "2024-07-11 16:00",
-      status: "Not Started",
-    },
-  ]);
+  const supabase = useSupabaseClient();
+  const [tasks, setTasks] = useState([]);
 
   const [taskName, setTaskName] = useState("");
   const [taskType, setTaskType] = useState("Scheduled");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [members, setMembers] = useState("");
-  const [taskDescription, setTaskDescription] = useState("");
+  const [assignedTo, setAssignedTo] = useState("");
+  const [description, setDescription] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -121,24 +59,83 @@ function Tasks() {
     "Start Date",
     "End Date",
     "Status",
+    "Assigned To",
   ];
   const [visibleColumns, setVisibleColumns] = useState(allColumns);
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    const { data, error } = await supabase
+      .from("Tasks")
+      .select(`
+        *,
+        assigned_to:Users!Tasks_assigned_to_fkey(display_name)
+      `)
+      .order("start_date", { ascending: true });
+
+    console.log(data);
+    if (error) {
+      console.error("Error fetching tasks:", error);
+    } else {
+      setTasks(data.map(task => ({
+        ...task,
+        assigned_to: task.assigned_to ? task.assigned_to.display_name : null
+      })));
+    }
+  };
 
   const handleColumnChange = (column) => {
     setVisibleColumns((prev) => {
       const newColumns = prev.includes(column)
         ? prev.filter((c) => c !== column)
         : [...prev, column];
-      console.log("Visible columns:", newColumns);
       return newColumns;
     });
   };
 
-  const handleStatusChange = (index, newStatus) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].status = newStatus;
-    setTasks(updatedTasks);
-    console.log(`Task ${index} status changed to: ${newStatus}`);
+  const handleStatusChange = async (taskId, newStatus) => {
+    const { error } = await supabase
+      .from("Tasks")
+      .update({ status: newStatus })
+      .eq("task_id", taskId);
+
+    if (error) {
+      console.error("Error updating task status:", error);
+    } else {
+      fetchTasks(); // Refresh tasks after update
+    }
+  };
+
+  const handleAddTask = async () => {
+    const newTask = {
+      task_name: taskName,
+      task_type: taskType,
+      start_date: startDate,
+      end_date: endDate,
+      status: "Not Started",
+      assigned_to: assignedTo,
+      assigned_by: session.user.id,
+      assigned_at: new Date().toISOString(),
+      description: description,
+    };
+
+    const { error } = await supabase.from("Tasks").insert(newTask);
+
+    if (error) {
+      console.error("Error adding new task:", error);
+    } else {
+      fetchTasks();
+      onClose();
+      setTaskName("");
+      setTaskType("Scheduled");
+      setStartDate("");
+      setEndDate("");
+      setAssignedTo("");
+      setDescription("");
+    }
   };
 
   return (
@@ -157,7 +154,7 @@ function Tasks() {
                   boxShadow="0px 2px 4px rgba(0, 0, 0, 0.5)"
                   height="4.5vh"
                   width="35vh"
-                  borderWidth="2px"
+                  border="None"
                   placeholder="Search tasks..."
                   mr={2}
                 />
@@ -183,22 +180,25 @@ function Tasks() {
                     borderWidth="2px"
                     borderColor="#A1A1AA"
                     borderRadius="5px"
-                    width="5vhpx"
+                    width="670px"
+                    height="650px"
+                    padding={4}
                   >
                     <PopoverCloseButton />
                     <PopoverBody>
+                      <FormLabel fontWeight={"bold"}>Task Name</FormLabel>
                       <FormControl>
-                        <FormLabel fontWeight={"bold"}>Task Name</FormLabel>
                         <Input
                           borderWidth="2px"
+                          marginTop='0.2vh'
                           borderColor="#A1A1AA"
                           placeholder="Task Name..."
                           value={taskName}
                           onChange={(e) => setTaskName(e.target.value)}
                         />
                       </FormControl>
+                      <FormLabel marginTop='1.2vh' fontWeight={"bold"}>Task Type</FormLabel>
                       <FormControl mt={4}>
-                        <FormLabel fontWeight={"bold"}>Task Type</FormLabel>
                         <Select
                           borderWidth="2px"
                           borderColor="#A1A1AA"
@@ -210,67 +210,66 @@ function Tasks() {
                         </Select>
                       </FormControl>
                       <Grid templateColumns="repeat(2, 1fr)" gap={2} mt={4}>
-                        <FormControl>
-                          <FormLabel fontWeight={"bold"} fontSize="sm">
+                        <Box>
+                          <FormLabel marginTop='1.1vh' fontWeight={"bold"} fontSize="sm">
                             Start Date
                           </FormLabel>
-                          <Input
-                            borderWidth="2px"
-                            borderColor="#A1A1AA"
-                            type="datetime-local"
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
-                          />
-                        </FormControl>
-                        <FormControl>
-                          <FormLabel fontWeight={"bold"} fontSize="sm">
+                          <FormControl>
+                            <Input
+                              borderWidth="2px"
+                              borderColor="#A1A1AA"
+                              type="datetime-local"
+                              value={startDate}
+                              onChange={(e) => setStartDate(e.target.value)}
+                            />
+                          </FormControl>
+                        </Box>
+                        <Box>
+                          <FormLabel marginTop='1.1vh' fontWeight={"bold"} fontSize="sm">
                             End Date
                           </FormLabel>
-                          <Input
-                            borderWidth="2px"
-                            borderColor="#A1A1AA"
-                            type="datetime-local"
-                            value={endDate}
-                            onChange={(e) => setEndDate(e.target.value)}
-                          />
-                        </FormControl>
+                          <FormControl>
+                            <Input
+                              borderWidth="2px"
+                              borderColor="#A1A1AA"
+                              type="datetime-local"
+                              value={endDate}
+                              onChange={(e) => setEndDate(e.target.value)}
+                            />
+                          </FormControl>
+                        </Box>
                       </Grid>
                       <FormControl mt={4}>
-                        <FormLabel fontWeight={"bold"}>Member(s)</FormLabel>
-                        <Input
-                          borderWidth="2px"
-                          borderColor="#A1A1AA"
-                          placeholder="Select Members"
-                          value={members}
-                          onChange={(e) => setMembers(e.target.value)}
-                        />
+                        <FormLabel fontWeight={"bold"}>Assigned To</FormLabel>
+                        <MemberSelect onChange={(selectedUserId) => setAssignedTo(selectedUserId)} />
                       </FormControl>
+                      <FormLabel  marginTop='1.3vh'  fontWeight={"bold"} >
+                        Task Description
+                      </FormLabel>
                       <FormControl mt={4}>
-                        <FormLabel fontWeight={"bold"}>
-                          Task Description
-                        </FormLabel>
                         <Textarea
                           borderWidth="2px"
                           borderColor="#A1A1AA"
                           placeholder="Description for this task"
-                          value={taskDescription}
-                          onChange={(e) => setTaskDescription(e.target.value)}
+                          value={description} // Add this line
+                          onChange={(e) => setDescription(e.target.value)}
                         />
                       </FormControl>
                     </PopoverBody>
-                    <PopoverFooter
+                    <PopoverFooter 
+                      marginTop='1vh'
                       border="None"
                       display="flex"
                       justifyContent="flex-end"
                     >
-                      <Button bg="black" color={"white"} onClick={onClose}>
+                      <Button bg="black" color={"white"} onClick={handleAddTask}>
                         Save Task
                       </Button>
                     </PopoverFooter>
                   </PopoverContent>
                 </Popover>
               </Flex>
-              <Popover>
+              <Popover placement="bottom-end">
                 <PopoverTrigger>
                   <Button
                     boxShadow="0px 2px 4px rgba(0, 0, 0, 0.5)"
@@ -283,22 +282,18 @@ function Tasks() {
                     Columns
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent padding={4}>
                   <PopoverBody>
-                    <Stack spacing={2}>
-                      {[
-                        "Task Name",
-                        "Task Type",
-                        "Start Date",
-                        "End Date",
-                        "Status",
-                      ].map((column) => (
+                    <Stack spacing={3}>
+                      {allColumns.map((column) => (
                         <Checkbox
+                          size='bg'
                           key={column}
                           isChecked={visibleColumns.includes(column)}
                           onChange={() => handleColumnChange(column)}
+                          spacing={4}
                         >
-                          {column}
+                          <Text fontSize='1.2rem'>{column}</Text>
                         </Checkbox>
                       ))}
                     </Stack>
@@ -307,7 +302,7 @@ function Tasks() {
               </Popover>
             </Flex>
             <TableContainer
-              fontSize="lg"
+              fontSize="md"
               marginTop="2%"
               borderWidth="1.5px"
               borderRadius="md"
@@ -327,53 +322,33 @@ function Tasks() {
                 <Thead borderBottomWidth="1.5px" borderColor="#A1A1AA">
                   <Tr borderBottomWidth="1.5px" borderColor="#A1A1AA">
                     {visibleColumns.includes("Task Name") && (
-                      <Th
-                        fontSize="xl"
-                        textTransform="none"
-                        fontWeight="normal"
-                        py={4}
-                      >
+                      <Th fontSize="xl" textTransform="none" fontWeight="normal" py={4}>
                         Task name
                       </Th>
                     )}
                     {visibleColumns.includes("Task Type") && (
-                      <Th
-                        fontSize="xl"
-                        textTransform="none"
-                        fontWeight="normal"
-                        py={4}
-                      >
+                      <Th fontSize="xl" textTransform="none" fontWeight="normal" py={4}>
                         Task type
                       </Th>
                     )}
                     {visibleColumns.includes("Start Date") && (
-                      <Th
-                        fontSize="xl"
-                        textTransform="none"
-                        fontWeight="normal"
-                        py={4}
-                      >
+                      <Th fontSize="xl" textTransform="none" fontWeight="normal" py={4}>
                         Start date
                       </Th>
                     )}
                     {visibleColumns.includes("End Date") && (
-                      <Th
-                        fontSize="xl"
-                        textTransform="none"
-                        fontWeight="normal"
-                        py={4}
-                      >
+                      <Th fontSize="xl" textTransform="none" fontWeight="normal" py={4}>
                         End date
                       </Th>
                     )}
                     {visibleColumns.includes("Status") && (
-                      <Th
-                        fontSize="xl"
-                        textTransform="none"
-                        fontWeight="normal"
-                        py={4}
-                      >
+                      <Th fontSize="xl" textTransform="none" fontWeight="normal" py={4} width='25vh'>
                         Status
+                      </Th>
+                    )}
+                    {visibleColumns.includes("Assigned To") && (
+                      <Th fontSize="xl" textTransform="none" fontWeight="normal" py={4}>
+                        Assigned To
                       </Th>
                     )}
                     <Th></Th>
@@ -382,24 +357,14 @@ function Tasks() {
                 <Tbody>
                   {tasks.map((task, index) => (
                     <Tr
-                      borderBottomWidth={
-                        index === tasks.length - 1 ? "0" : "1.2px"
-                      }
+                      borderBottomWidth={index === tasks.length - 1 ? "0" : "1.2px"}
                       borderColor="#A1A1AA"
-                      key={index}
+                      key={task.task_id}
                     >
-                      {visibleColumns.includes("Task Name") && (
-                        <Td>{task.name}</Td>
-                      )}
-                      {visibleColumns.includes("Task Type") && (
-                        <Td>{task.type}</Td>
-                      )}
-                      {visibleColumns.includes("Start Date") && (
-                        <Td>{task.startDate}</Td>
-                      )}
-                      {visibleColumns.includes("End Date") && (
-                        <Td>{task.endDate}</Td>
-                      )}
+                      {visibleColumns.includes("Task Name") && <Td>{task.task_name}</Td>}
+                      {visibleColumns.includes("Task Type") && <Td>{task.task_type}</Td>}
+                      {visibleColumns.includes("Start Date") && <Td>{new Date(task.start_date).toLocaleString()}</Td>}
+                      {visibleColumns.includes("End Date") && <Td>{new Date(task.end_date).toLocaleString()}</Td>}
                       {visibleColumns.includes("Status") && (
                         <Td>
                           <Select
@@ -410,9 +375,7 @@ function Tasks() {
                             width="80%"
                             height="3vh"
                             size="sm"
-                            onChange={(e) =>
-                              handleStatusChange(index, e.target.value)
-                            }
+                            onChange={(e) => handleStatusChange(task.task_id, e.target.value)}
                           >
                             <option value="Not Started">Not Started</option>
                             <option value="In Progress">In Progress</option>
@@ -420,6 +383,7 @@ function Tasks() {
                           </Select>
                         </Td>
                       )}
+                      {visibleColumns.includes("Assigned To") && <Td>{task.assigned_to}</Td>}
                       <Td>...</Td>
                     </Tr>
                   ))}
