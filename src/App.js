@@ -13,6 +13,7 @@ import Tasks from './pages/Tasks';
 import RASummary from './pages/RASummary';
 import PersonalSummary from './pages/PersonalSummary';
 import ProjectDocuments from './pages/ProjectDocuments';
+import BioSummary from './pages/BioSummary';
 
 function App() {
   const theme = extendTheme({
@@ -38,6 +39,7 @@ function App() {
           <Route path="/ra-summary" element={<RASummary/>}/>
           <Route path="/studies/:organization_id/:project_id" element={<IndividualProject/>}/>
           <Route path="/personal-summary" element={<PersonalSummary />} />
+          <Route path="/bio-summary" element={<BioSummary/>} />
 
         </Routes>
       </Router>
