@@ -19,10 +19,12 @@ import ChatOutlined from "@mui/icons-material/ChatOutlined";
 import { SettingOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "../config/supabase";
 
-function Sidenav() {
+function Sidenav({organization}) {
   const navigate = useNavigate();
-  const organization = useParams().organization;
+  const organization_id = useParams().organization_id;
 
   let navOptions = [
     // "Studies",
@@ -35,10 +37,10 @@ function Sidenav() {
   let navRoutes = [
     // `/${organization}/studies`,
     // `/${organization}/tasks`,
-    `/${organization}/announcements`,
-    `/${organization}/discussions`,
-    `/${organization}/members`,
-    `/${organization}/labsheet`,
+    `/${organization_id}/announcements`,
+    `/${organization_id}/discussions`,
+    `/${organization_id}/members`,
+    `/${organization_id}/labsheet`,
   ];
   let iconStyle = { height: "20px", width: "20px", marginRight: "8px" };
   let thinIconStyle = {
@@ -85,7 +87,7 @@ function Sidenav() {
               <AccordionIcon marginRight={"10px"} marginLeft={"-10px"} />
 
               <Box as="span" flex="1" textAlign="left" fontWeight={"medium"}>
-                {organization}
+                {organization.organization_name}
               </Box>
             </AccordionButton>
 

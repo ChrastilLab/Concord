@@ -22,6 +22,7 @@ import { useState, useEffect } from "react";
 import { ReactComponent as CheckEdit } from "../components/img/CkEdit.svg";
 import { ReactComponent as Pin } from "../components/img/AiOutlinePushpin.svg";
 import { ReactComponent as PinStar } from "../components/img/CkStar.svg";
+import EditProject from "../components/EditProject";
 
 import {
   useSession,
@@ -30,11 +31,17 @@ import {
 } from "@supabase/auth-helpers-react";
 
 function IndividualProject() {
-  const { organization, project_name } = useParams();
+  const { organization_id, project_id } = useParams();
 //   const { isLoading } = useSessionContext();
 
-  const [project, setProject] = useState({});
+  const [project, setProject] = useState(null);
+  const [project_edit, setProjectEdit] = useState(null);
   const [detail, setDetail] = useState("GOAL");
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const triggerRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   function handleAspectClick(aspect) {
     setDetail(aspect);
@@ -54,29 +61,31 @@ function IndividualProject() {
       const { data, error } = await supabase
         .from("Projects")
         .select("*, ProjectPinnedDocs(*)")
-        .eq("project_name", project_name);
+        .eq("project_id", project_id);
 
       if (!error) {
         setProject(data[0]);
-        console.log(data[0]);
+        const {ProjectPinnedDocs, ...rest} = data[0];
+        setProjectEdit(rest);
       } else {
         console.error(error);
       }
     };
 
     fetchProject();
-  }, [organization, project_name]);
+  }, [organization_id, project_id, refreshTrigger]);
 
   const session = useSession();
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
       <IndividualProjectHeader />
-      {session ? (
+      {session && project && project_edit ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
           <IndividualProjectSidenav
-            organization={organization}
-            project_name={project_name}
+            organization_id={organization_id}
+            project_id={project_id}
+            project_name={project.project_name}
           />
           <Flex
             pl={"3.5%"}
@@ -101,9 +110,10 @@ function IndividualProject() {
                     display="flex"
                     justifyContent="flex-end"
                   >
-                    <Button bg="#F0F0F0">
+                    {/* <Button bg="#F0F0F0">
                       <CheckEdit />
-                    </Button>
+                    </Button> */}
+                    <EditProject project={project_edit} onProjectUpdate={triggerRefresh}/>
                   </CardHeader>
                   <CardBody
                     pl={"7%"}

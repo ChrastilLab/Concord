@@ -17,20 +17,37 @@ import {
 } from "@supabase/auth-helpers-react";
 
 function Studies() {
-  const { organization } = useParams();
+  const { organization_id } = useParams();
   //   const { isLoading } = useSessionContext();
 
   const session = useSession();
 
   const [projects, setProjects] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [organization, setOrganization] = useState("");
+
+  useEffect(() => {
+    const fetchOrganization = async () => {
+      const { data, error } = await supabase
+        .from("Organizations")
+        .select("*")
+        .eq("organization_id", organization_id);
+      
+      if (!error) {
+        setOrganization(data[0]);
+      }
+    
+    };
+
+    fetchOrganization();
+  }, [organization_id]);
 
   function filterProjects(projects) {
     let wantedProjects = [];
     projects.map((project) => {
       if (
         project.Organizations !== null &&
-        project.Organizations.organization_name === organization
+        project.Organizations.organization_id === organization_id
       ) {
         wantedProjects.push(project);
       }
@@ -52,7 +69,7 @@ function Studies() {
     };
 
     fetchProjects();
-  }, [organization, refreshTrigger]);
+  }, [organization_id, refreshTrigger]);
 
   const triggerRefresh = () => {
     setRefreshTrigger(prev => prev + 1);
@@ -66,14 +83,28 @@ function Studies() {
       (payload) => {
         if (
           payload.new.organization_id !== null &&
-          payload.new.organization_id ===
-            projects[0].Organizations.organization_id
+          payload.new.organization_id === organization_id
         ) {
           setProjects((prevData) => [...prevData, payload.new]);
         }
       }
     )
     .subscribe();
+
+  const Organizations = supabase.channel('custom-update-channel')
+  .on(
+    'postgres_changes',
+    { event: 'UPDATE', schema: 'public', table: 'Organizations' },
+    (payload) => {
+      if (
+        payload.new.organization_id !== null &&
+        payload.new.organization_id === organization_id
+      ) {
+        setOrganization(payload.new);
+      }
+    }
+  )
+  .subscribe();
 
   // if (isLoading) {
   //     return <></>;
@@ -83,10 +114,10 @@ function Studies() {
       <Header />
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
-          <Sidenav />
+          <Sidenav organization = {organization}/>
           <Flex flex={1} flexDirection={"column"} alignItems="center">
             <Box width="100%" px="68px">
-              <ProjectHeader projects={projects} orgName={organization} />
+              <ProjectHeader projects={projects} organization_id={organization_id} organization = {organization}/>
             </Box>
             <Grid
               templateColumns="repeat(3, 1fr)"
@@ -97,7 +128,7 @@ function Studies() {
             >
               {projects.map((project) => (
                 <GridItem key={project.project_id}>
-                  <ProjectCard project={project} organization={organization} onProjectUpdate={triggerRefresh} gap={"20px"} />
+                  <ProjectCard project={project} organization_id={organization_id} onProjectUpdate={triggerRefresh} gap={"20px"} />
                 </GridItem>
               ))}
             </Grid>

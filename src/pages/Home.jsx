@@ -30,7 +30,7 @@ function Home() {
       const { data, error } = await supabase
         .from("Organizations")
         .select(
-          "organization_name, leader, description, lab_sheet, color_scheme"
+          "organization_id, organization_name, leader, description, lab_sheet, color_scheme"
         );
 
       if (!error) {
@@ -139,6 +139,7 @@ function Home() {
                   description={org.description}
                   color_scheme={org.color_scheme}
                   labSheetUrl={org.lab_sheet}
+                  organization_id={org.organization_id}
                 />
               ))}
             </Flex>

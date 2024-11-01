@@ -38,6 +38,7 @@ function OrganizationCard({
   description,
   color_scheme,
   labSheetUrl,
+  organization_id,
 }) {
   const toast = useToast();
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ function OrganizationCard({
     const { error } = await supabase
       .from("Organizations")
       .update({ color_scheme: color })
-      .eq("organization_name", organization);
+      .eq("organization_id", organization_id);
   }
 
   return (
@@ -93,7 +94,7 @@ function OrganizationCard({
         transition: "transform .3s",
         zIndex: 10,
       }}
-      onClick={() => navigate(`/studies/${organization}`)}
+      onClick={() => navigate(`/studies/${organization_id}`)}
     >
       <Box bgColor={color} height={"135px"} padding={"0px"} margin={"0px"}>
         <Popover>
