@@ -37,7 +37,7 @@ function App() {
             element={<IndividualProject />}
           />
           <Route
-            path="/studies/:organization/:project_name/documents"
+            path="/:organization/studies/:project_id/documents"
             element={<ProjectDocuments />}
           />
           
