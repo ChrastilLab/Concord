@@ -31,9 +31,9 @@ function App() {
           <Route path="/home" element={<Home />} />
 
           {/* PROJECT PAGES */}
-          <Route path="/studies/:organization_id" element={<Studies />} />
+          <Route path="/:organization_id/studies" element={<Studies />} />
           <Route
-            path="/studies/:organization_id/:project_id"
+            path="/:organization_id/studies/:project_id"
             element={<IndividualProject />}
           />
           <Route
@@ -46,6 +46,7 @@ function App() {
           <Route path="/:organization_id/labsheet" element={<LabSheets />} />
           <Route path="/:organization_id/members" element={<Members />} />
           {/* <Route path="/announcements" element={}/> */}
+
 
           {/* SUMMARY PAGES */}
           <Route path="/ra-summary" element={<RASummary />} />

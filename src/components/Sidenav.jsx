@@ -27,18 +27,19 @@ function Sidenav({organization}) {
   const organization_id = useParams().organization_id;
 
   let navOptions = [
-    // "Studies",
-    // "Tasks",
-    "Announcements",
-    "Discussions",
+    "Studies",
+    "Tasks",
+    // "Announcements",
+    // "Discussions",
     "Members",
     "Lab Sheet",
   ];
+
   let navRoutes = [
-    // `/${organization}/studies`,
-    // `/${organization}/tasks`,
-    `/${organization_id}/announcements`,
-    `/${organization_id}/discussions`,
+    `/${organization_id}/studies`,
+    `/${organization_id}/tasks`,
+    // `/${organization_id}/announcements`,
+    // `/${organization_id}/discussions`,
     `/${organization_id}/members`,
     `/${organization_id}/labsheet`,
   ];
