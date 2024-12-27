@@ -38,8 +38,10 @@ import {
   useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {useParams} from "react-router-dom";
 
 function Tasks() {
+  const { organization_id } = useParams();
   const supabase = useSupabaseClient();
   const [tasks, setTasks] = useState([]);
 
