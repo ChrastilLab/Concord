@@ -39,6 +39,7 @@ import {
 } from "@supabase/auth-helpers-react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {useParams} from "react-router-dom";
+import {supabase} from "../config/supabase";
 
 function Tasks() {
   const { organization_id } = useParams();
@@ -64,6 +65,24 @@ function Tasks() {
     "Assigned To",
   ];
   const [visibleColumns, setVisibleColumns] = useState(allColumns);
+
+  const [organization, setOrganization] = useState("");
+
+  useEffect(() => {
+    const fetchOrganization = async () => {
+      const { data, error } = await supabase
+          .from("Organizations")
+          .select("*")
+          .eq("organization_id", organization_id);
+
+      if (!error) {
+        setOrganization(data[0]);
+      }
+
+    };
+
+    fetchOrganization();
+  }, [organization_id]);
 
   useEffect(() => {
     fetchTasks();
@@ -145,7 +164,7 @@ function Tasks() {
       <Header />
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
-          <Sidenav />
+          <Sidenav organization = {organization}/>
           <Box width="98%" marginLeft="1%" marginRight="1%" p={10}>
             <Heading fontSize="3.2rem" mb={4}>
               Tasks
