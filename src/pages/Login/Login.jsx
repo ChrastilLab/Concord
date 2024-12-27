@@ -1,11 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, Button, Flex, Stack } from "@chakra-ui/react";
 import "./Login.css";
-import { handleGoogleSignIn } from "../../config/supabase";
+import { useNavigate } from "react-router-dom";
+import { supabase, handleGoogleSignIn } from "../../config/supabase";
 
 import Header from "../../components/Header";
 
 function Login() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (error) {
+        console.error("Error fetching user: ", error);
+        return;
+      }
+
+      if (user) {
+        console.log("User logged in: ", user);
+        navigate("/home");
+      }
+    };
+    fetchUser();
+  }, [navigate]);
+
+  const handleLogin = async () => {
+    try {
+      await handleGoogleSignIn();
+    } catch (err) {
+      console.error("Unexpected error during login: ", err);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -42,7 +73,7 @@ function Login() {
               visibility.
             </Text>
             <Button
-              onClick={handleGoogleSignIn}
+              onClick={handleLogin}
               width="18vh"
               mt="3vh"
               color="white"
