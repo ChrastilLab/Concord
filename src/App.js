@@ -31,9 +31,9 @@ function App() {
           <Route path="/home" element={<Home />} />
 
           {/* PROJECT PAGES */}
-          <Route path="/studies/:organization_id" element={<Studies />} />
+          <Route path="/:organization_id/studies" element={<Studies />} />
           <Route
-            path="/studies/:organization_id/:project_id"
+            path="/:organization_id/studies/:project_id"
             element={<IndividualProject />}
           />
           <Route
