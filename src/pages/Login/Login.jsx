@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Text, Button, Flex, Stack } from "@chakra-ui/react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
@@ -9,29 +9,29 @@ import Header from "../../components/Header";
 function Login() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
+  const fetchUser = async () => {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
-      if (error) {
-        console.error("Error fetching user: ", error);
-        return;
-      }
+    if (error) {
+      console.error("Error fetching user: ", error);
+      return;
+    }
 
-      if (user) {
-        console.log("User logged in: ", user);
-        navigate("/home");
-      }
-    };
-    fetchUser();
-  }, [navigate]);
+    if (user) {
+      console.log("User logged in: ", user);
+      navigate("/home");
+    }
+  };
 
   const handleLogin = async () => {
     try {
+      console.log("awaiting login");
       await handleGoogleSignIn();
+      console.log("fetching");
+      fetchUser();
     } catch (err) {
       console.error("Unexpected error during login: ", err);
     }

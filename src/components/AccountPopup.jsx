@@ -129,11 +129,11 @@ function AccountPopup() {
     fetchUserDisplayName();
   }, []);
 
-  async function signOut() {
+  const signOut = async () => {
     await supabase.auth.signOut().then(() => {
-      navigate("/Login");
+      navigate("/");
     });
-  }
+  };
 
   const data = Object.entries(userData.hours).map(([week, hours]) => ({
     week: week
