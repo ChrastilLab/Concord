@@ -35,9 +35,9 @@ function App() {
           <Route path="/:organization_id/members" element={<Members />} />
           {/* <Route path="/announcements" element={}/> */}
           <Route path="/studies/:organization/:project_name/documents" element={<ProjectDocuments />}/>
-          <Route path="/ra-summary" element={<RASummary/>}/>
+          <Route path="/ra-summary/:admin_id" element={<RASummary/>}/>
           <Route path="/studies/:organization_id/:project_id" element={<IndividualProject/>}/>
-          <Route path="/personal-summary" element={<PersonalSummary />} />
+          <Route path="/personal-summary/:user_id" element={<PersonalSummary />} />
 
         </Routes>
       </Router>

@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
+import OrgSideNav from "../components/OrgSideNav";
 
 import { Center, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import {
@@ -11,10 +11,36 @@ import {
   Th,
   Td,
 } from "@chakra-ui/react";
-import { useSession } from "@supabase/auth-helpers-react";
+
+
+import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+
 
 function RASummary() {
   const session = useSession();
+  const supabase = useSupabaseClient();
+
+  const { admin_id } = useParams();
+  const [ organizations, setOrganizations ] = useState([]);
+
+  useEffect(() => {
+    const fetchOrganization = async () => {
+      const { data, error } = await supabase
+        .from("OrganizationAdmins")
+        .select("Organizations(*)")
+        .eq("user_id", admin_id);
+      
+      if (!error) {
+        const org_data = data.map((org) => org.Organizations);
+        setOrganizations(org_data);
+      }
+    };
+
+    fetchOrganization();
+  }, [session, supabase, admin_id]);
+
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
@@ -22,7 +48,7 @@ function RASummary() {
       <Flex flexDirection={"row"} height={"100%"}>
         {session ? (
           <>
-            <Sidenav></Sidenav>
+            <OrgSideNav organizations={organizations}></OrgSideNav>
             <Flex
               flexDirection={"column"}
               height={"100%"}
@@ -209,7 +235,6 @@ function RASummary() {
           <div>Not logged in.</div>
         )}
       </Flex>
-      x
     </Flex>
   );
 }

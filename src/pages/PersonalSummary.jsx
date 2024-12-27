@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import Sidenav from "../components/Sidenav";
+import { useParams } from "react-router-dom";
+import OrgSideNav from "../components/OrgSideNav";
 import Header from "../components/Header";
 import CheckInForm from "../components/CheckInForm";
 import {
@@ -232,12 +233,32 @@ function PersonalSummary() {
     fetchCheckInData();
   }, [supabase, session]);
 
+  const { user_id } = useParams();
+  const [ organizations, setOrganizations ] = useState([]);
+
+  useEffect(() => {
+    const fetchOrganization = async () => {
+      const { data, error } = await supabase
+        .from("UsersInOrganizations")
+        .select("Organizations(*)")
+        .eq("user_id", user_id);
+      
+      if (!error) {
+        const org_data = data.map((org) => org.Organizations);
+        console.log(org_data);
+        setOrganizations(org_data);
+      }
+    };
+
+    fetchOrganization();
+  }, [session, supabase, user_id]);
+
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
       <Header />
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
-          <Sidenav />
+          <OrgSideNav organizations={organizations}></OrgSideNav>
           <Box width="98%" marginLeft="1%" marginRight="1%" p={10}>
             <Flex flexDirection={"column"}>
               <Heading fontSize="3.2rem" mb={4}>

@@ -170,7 +170,7 @@ function AccountPopup() {
     hours,
   }));
 
-  console.log(hours);
+  // console.log(hours);
   return session ? (
     <Popover>
       <PopoverTrigger>
@@ -313,8 +313,8 @@ function AccountPopup() {
             <Button
               onClick={() =>
                 userData.userType
-                  ? navigate("/ra-summary")
-                  : navigate("/personal-summary")
+                  ? navigate(`/ra-summary/${session.user.id}`)
+                  : navigate(`/personal-summary/${session.user.id}`)
               }
               width={"40%"}
               backgroundColor={"white"}
