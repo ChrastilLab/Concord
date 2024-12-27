@@ -39,7 +39,7 @@ function ProjectCard({ project, organization_id, onProjectUpdate }) {
         p={4}
         bg="#F0F0F0"
         onClick={() =>
-          navigate(`/studies/${organization_id}/${project.project_id}`)
+          navigate(`/${organization_id}/studies/${project.project_id}`)
         }
       >
         <CardHeader

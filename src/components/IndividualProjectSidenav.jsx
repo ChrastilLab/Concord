@@ -59,7 +59,7 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
       <Stack spacing={2} marginTop={"10%"}>
         {/* Todo: the navigation to member, tasks, documents, calendar pages should be specific to this project */}
         <Button
-          onClick={() => navigate(`/studies/${organization_id}`)}
+          onClick={() => navigate(`/${organization_id}/studies`)}
           justifyContent={"left"}
           variant={"ghost"}
           _hover={{ bg: "#D0EAF9" }}
