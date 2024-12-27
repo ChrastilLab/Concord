@@ -6,7 +6,7 @@ const supabaseKey = process.env.REACT_APP_SUPABASE_API_KEY || "";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function handleGoogleSignIn() {
-  const { error } = await supabase.auth.signInWithOAuth({
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
       scopes:
@@ -16,7 +16,11 @@ async function handleGoogleSignIn() {
 
   if (error) {
     console.error(error);
+    return { user: null, error };
   }
+  
+  console.log("Google sign-in successful:", data);
+  return { user: data.user, error: null };
 }
 
 export { supabase, handleGoogleSignIn };
