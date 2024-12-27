@@ -94,7 +94,7 @@ function OrganizationCard({
         transition: "transform .3s",
         zIndex: 10,
       }}
-      onClick={() => navigate(`/studies/${organization_id}`)}
+      onClick={() => navigate(`/${organization_id}/studies`)}
     >
       <Box bgColor={color} height={"135px"} padding={"0px"} margin={"0px"}>
         <Popover>
