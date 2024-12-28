@@ -53,14 +53,30 @@ function Organization() {
   )
   .subscribe();
 
+  const [selectedComponent, setSelectedComponent] = useState("Projects");
+
+  const renderComponent = () => {
+    switch (selectedComponent) {
+        case "Projects":
+            return <Projects organization={organization}/>;
+        case "Tasks":
+            return <h1>Tasks</h1>;
+        case "Members":
+            return <h1>Members</h1>;
+        case "Lab Sheet":
+            return <h1>Lab Sheet</h1>
+        default:
+            return <h1>404: Component Not Found</h1>;
+    }
+  };
 
   return (
     <Flex flexDirection={"column"} height={"100vh"}>
       <Header />
       {session ? (
         <Box flex={1} display={"flex"} flexDirection={"row"} zIndex={1}>
-          <Sidenav organization = {organization}/>
-          <Projects organization={organization}/>
+          <Sidenav organization = {organization} onSelect={setSelectedComponent}/>
+          <div>{renderComponent()}</div>
         </Box>
       ) : (
         <div>Not logged in</div>

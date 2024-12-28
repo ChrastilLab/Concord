@@ -19,7 +19,7 @@ import ChatOutlined from "@mui/icons-material/ChatOutlined";
 import { SettingOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
-function Sidenav({organization}) {
+function Sidenav({organization, onSelect}) {
   const navigate = useNavigate();
   const organization_id = organization.organization_id;
 
@@ -32,14 +32,6 @@ function Sidenav({organization}) {
     "Lab Sheet",
   ];
 
-  let navRoutes = [
-    `/${organization_id}/studies`,
-    `/${organization_id}/tasks/${-1}`,
-    // `/${organization_id}/announcements`,
-    // `/${organization_id}/discussions`,
-    `/${organization_id}/members`,
-    `/${organization_id}/labsheet`,
-  ];
   let iconStyle = { height: "20px", width: "20px", marginRight: "8px" };
   let thinIconStyle = {
     height: "20px",
@@ -94,7 +86,7 @@ function Sidenav({organization}) {
                 {navOptions.map((item, index) => (
                   <Button
                     key={index}
-                    onClick={() => navigate(navRoutes[index])}
+                    onClick={() => onSelect(navOptions[index])}
                     justifyContent={"left"}
                     variant={"ghost"}
                     _hover={{ bg: "#D0EAF9" }}
