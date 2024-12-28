@@ -42,7 +42,7 @@ function App() {
           />
           
           {/* ORGANIZATION TABS */}
-          <Route path="/:organization_id/tasks" element={<Tasks />} />
+          <Route path="/:organization_id/tasks/:project_id" element={<Tasks />} />
           <Route path="/:organization_id/labsheet" element={<LabSheets />} />
           <Route path="/:organization_id/members" element={<Members />} />
           {/* <Route path="/announcements" element={}/> */}

@@ -42,7 +42,7 @@ import {useParams} from "react-router-dom";
 import {supabase} from "../config/supabase";
 
 function Tasks() {
-  const { organization_id } = useParams();
+  const { organization_id, project_id } = useParams();
   const supabase = useSupabaseClient();
   const [tasks, setTasks] = useState([]);
 
@@ -86,18 +86,32 @@ function Tasks() {
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [project_id]);
 
   const fetchTasks = async () => {
-    const { data, error } = await supabase
+    let query;
+    if (project_id == -1){
+      query = supabase
       .from("Tasks")
       .select(`
         *,
         assigned_to:Users!Tasks_assigned_to_fkey(display_name)
       `)
       .order("start_date", { ascending: true });
+    }
+    else{
+      query = supabase
+      .from("Tasks")
+      .select(`
+        *,
+        assigned_to:Users!Tasks_assigned_to_fkey(display_name)
+      `)
+      .eq("project_id", project_id)
+      .order("start_date", { ascending: true });
+    }
 
-    console.log(data);
+    const {data, error} = await query;
+    // console.log(data);
     if (error) {
       console.error("Error fetching tasks:", error);
     } else {

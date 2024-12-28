@@ -68,7 +68,7 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
           <Text overflow="hidden">{organization.organization_name}</Text>{" "}
         </Button>
         <Button
-          onClick={() => navigate(`/studies/${organization_id}/${project_id}`)}
+          onClick={() => navigate(`/${organization_id}/studies/${project_id}`)}
           justifyContent={"left"}
           variant={"ghost"}
           _hover={{ bg: "#D0EAF9" }}
@@ -77,7 +77,7 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
           <Text overflow="hidden">{project_name}</Text>
         </Button>
         <Button
-          onClick={() => navigate("/tasks")}
+          onClick={() => navigate(`/${organization_id}/tasks/${project_id}`)}
           ml={"9%"}
           justifyContent={"left"}
           variant={"ghost"}

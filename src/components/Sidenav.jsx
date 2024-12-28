@@ -37,7 +37,7 @@ function Sidenav({organization}) {
 
   let navRoutes = [
     `/${organization_id}/studies`,
-    `/${organization_id}/tasks`,
+    `/${organization_id}/tasks/${-1}`,
     // `/${organization_id}/announcements`,
     // `/${organization_id}/discussions`,
     `/${organization_id}/members`,
