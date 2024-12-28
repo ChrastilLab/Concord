@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { handleGoogleSignIn } from "../config/supabase";
 
 import {
   Popover,
@@ -141,7 +142,7 @@ function AccountPopup() {
     hours,
   }));
 
-  return (
+  return session ? (
     <Popover>
       <PopoverTrigger>
         <Button background={"inherit"}>
@@ -308,6 +309,8 @@ function AccountPopup() {
         </Button>
       </PopoverContent>
     </Popover>
+  ) : (
+    null
   );
 }
 
