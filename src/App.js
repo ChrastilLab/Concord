@@ -4,7 +4,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
-import Studies from "./pages/Studies";
 import IndividualProject from "./pages/IndividualProject";
 import LabSheets from "./pages/LabSheet";
 import Members from "./pages/Members";
@@ -13,6 +12,7 @@ import Tasks from "./pages/Tasks";
 import RASummary from "./pages/RASummary";
 import PersonalSummary from "./pages/PersonalSummary";
 import ProjectDocuments from "./pages/ProjectDocuments";
+import Organization from "./pages/Organization";
 
 function App() {
   const theme = extendTheme({
@@ -31,7 +31,7 @@ function App() {
           <Route path="/home" element={<Home />} />
 
           {/* PROJECT PAGES */}
-          <Route path="/:organization_id/studies" element={<Studies />} />
+          <Route path="/Organization/:organization_id" element={<Organization />} />
           <Route
             path="/:organization_id/studies/:project_id"
             element={<IndividualProject />}

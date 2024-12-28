@@ -18,16 +18,13 @@ import FeedbackOutlined from "@mui/icons-material/FeedbackOutlined";
 import ChatOutlined from "@mui/icons-material/ChatOutlined";
 import { SettingOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { supabase } from "../config/supabase";
 
 function Sidenav({organization}) {
   const navigate = useNavigate();
-  const organization_id = useParams().organization_id;
+  const organization_id = organization.organization_id;
 
   let navOptions = [
-    "Studies",
+    "Projects",
     "Tasks",
     // "Announcements",
     // "Discussions",
