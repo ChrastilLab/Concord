@@ -29,19 +29,9 @@ import {
 } from "@chakra-ui/react";
 
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
-const dummy_hours = {
-  "task to do something": {
-    date: "04/10/2022",
-    duration: 18,
-  },
-  "task to do": {
-    date: "04/10/2022",
-    duration: 18,
-  },
-};
 const currentDate = new Date();
 const formattedDate = currentDate.toISOString().split("T")[0];
 
@@ -54,11 +44,9 @@ export default function CheckInForm() {
     "Previous Goals Completion",
     "Confidence Level",
   ];
-  const taskCheckedStatus = Object.keys(dummy_hours).reduce((acc, taskName) => {
-    acc[taskName] = false;
-    return acc;
-  }, {});
+  const taskCheckedStatus = {};
   const [isTaskChecked, setIsTaskChecked] = useState(taskCheckedStatus);
+  const [tasks, setTasks] = useState([]);
 
   const supabase = useSupabaseClient();
   const session = useSession();
@@ -73,6 +61,32 @@ export default function CheckInForm() {
     prev_goal_completion: null,
     updated_availabilities: null,
   });
+
+  const fetchTasksAssigned = async () => {
+    if (session) {
+      const { data, error } = await supabase
+        .from("Tasks")
+        .select("task_name, start_date")
+        .eq("assigned_to", session.user.id);
+
+      if (!error && data) {
+        console.log("tasks fetched: ", data);
+        setTasks(data);
+
+        const taskCheckedState = data.reduce((acc, task) => {
+          acc[task.task_name] = false; // Initialize checked state for each task
+          return acc;
+        }, {});
+
+        setIsTaskChecked(taskCheckedState); // Set initial task checked state
+      }
+    }
+  };
+
+  // Fetch tasks when the component mounts
+  useEffect(() => {
+    fetchTasksAssigned();
+  }, [session]);
 
   function updateSpeficRating(typeIdx, newRating) {
     const updatedRatings = ratings.map((item, idx) =>
@@ -206,54 +220,54 @@ export default function CheckInForm() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {Object.entries(dummy_hours).map(
-                      ([task_name, task], idx) => (
-                        <Tr key={idx}>
-                          <Td>
-                            <Flex marginLeft={"-10px"} gap={"10px"}>
-                              <Checkbox
-                                onChange={(e) =>
-                                  handleTaskHoursChecked(e, task_name, task)
-                                }
-                              ></Checkbox>
-                              <Text>{task_name}</Text>
-                            </Flex>
-                          </Td>
-                          <Td>{task.date}</Td>
-                          <Td isNumeric>
-                            <Select
-                              placeholder={"No. of Hours"}
-                              value={
-                                checkInData.hours[task_name]
-                                  ? checkInData.hours[task_name].duration
-                                  : null
+                    {tasks.map((task, idx) => (
+                      <Tr key={idx}>
+                        <Td>
+                          <Flex marginLeft={"-10px"} gap={"10px"}>
+                            <Checkbox
+                              onChange={(e) =>
+                                handleTaskHoursChecked(e, task.task_name, task)
                               }
-                              onChange={
-                                isTaskChecked[task_name]
-                                  ? (e) =>
-                                      setCheckInData({
-                                        ...checkInData,
-                                        hours: {
-                                          ...checkInData.hours,
-                                          [task_name]: {
-                                            date: task.date,
-                                            duration: parseInt(e.target.value),
-                                          },
+                            ></Checkbox>
+                            <Text>{task.task_name}</Text>
+                          </Flex>
+                        </Td>
+                        <Td>
+                          {new Date(task.start_date).toLocaleDateString()}
+                        </Td>
+                        <Td isNumeric>
+                          <Select
+                            placeholder={"No. of Hours"}
+                            value={
+                              checkInData.hours[task.task_name]
+                                ? checkInData.hours[task.task_name].duration
+                                : null
+                            }
+                            onChange={
+                              isTaskChecked[task.task_name]
+                                ? (e) =>
+                                    setCheckInData({
+                                      ...checkInData,
+                                      hours: {
+                                        ...checkInData.hours,
+                                        [task.task_name]: {
+                                          date: task.date,
+                                          duration: parseInt(e.target.value),
                                         },
-                                      })
-                                  : null
-                              }
-                            >
-                              {Array.from({ length: 24 }, (_, h) => (
-                                <option key={h + 1} value={h + 1}>
-                                  {h + 1}
-                                </option>
-                              ))}
-                            </Select>
-                          </Td>
-                        </Tr>
-                      )
-                    )}
+                                      },
+                                    })
+                                : null
+                            }
+                          >
+                            {Array.from({ length: 24 }, (_, h) => (
+                              <option key={h + 1} value={h + 1}>
+                                {h + 1}
+                              </option>
+                            ))}
+                          </Select>
+                        </Td>
+                      </Tr>
+                    ))}
 
                     <Tfoot>
                       <Td>
@@ -285,7 +299,7 @@ export default function CheckInForm() {
                   })
                 }
               ></Textarea>
-              <Text fontWeight={"bold"}>Questions or Concenrns?</Text>
+              <Text fontWeight={"bold"}>Questions or Concerns?</Text>
               <Textarea
                 maxWidth={"680px"}
                 value={checkInData.questions}

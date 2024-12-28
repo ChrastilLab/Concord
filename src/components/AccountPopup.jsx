@@ -138,7 +138,7 @@ function AccountPopup() {
           .from("CheckinResponses")
           .select("date, hours")
           .eq("user_id", session.user.id);
-
+          
         if (!error) {
           if (hours.length === 0) {
             const newHours = data.map((checkIn) => {

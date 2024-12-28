@@ -1,24 +1,26 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import OrgSideNav from "../components/OrgSideNav";
 import Header from "../components/Header";
 import CheckInForm from "../components/CheckInForm";
 import {
-    Box,
-    Button,
-    Card,
-    Checkbox,
-    Divider,
-    Flex,
-    Heading,
-    Spacer,
-    Tag,
-    TagCloseButton,
-    TagLabel,
-    Text,
-    VStack,
-    Editable, EditablePreview, EditableTextarea,
-    useToast,
+  Box,
+  Button,
+  Card,
+  Checkbox,
+  Divider,
+  Flex,
+  Heading,
+  Spacer,
+  Tag,
+  TagCloseButton,
+  TagLabel,
+  Text,
+  VStack,
+  Editable,
+  EditablePreview,
+  EditableTextarea,
+  useToast,
 } from "@chakra-ui/react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import AddTodoModal from "../components/AddTodoModal";
@@ -40,178 +42,177 @@ function PersonalSummary() {
   const [taskAmount, setTaskAmount] = useState(0);
   const [notes, setNotes] = useState("Add your notes here...");
 
-    async function fetchUserTodosAndNotes() {
-        if (session) {
-            const {data: TASKS, error: taskError} = await supabase
-                .from("Tasks")
-                .select("task_name, task_id")
-                .eq("assigned_to", session.user.id)
-                .in("status", ["NotStarted", "InProgress"]);
+  async function fetchUserTodosAndNotes() {
+    if (session) {
+      const { data: TASKS, error: taskError } = await supabase
+        .from("Tasks")
+        .select("task_name, task_id")
+        .eq("assigned_to", session.user.id)
+        .in("status", ["NotStarted", "InProgress"]);
 
-            const { data: TODOS, error: todoError } = await supabase
-                .from("ToDos")
-                .select("to_do, entry_id")
-                .eq("user_id", session.user.id)
-                .eq("completed", false);
+      const { data: TODOS, error: todoError } = await supabase
+        .from("ToDos")
+        .select("to_do, entry_id")
+        .eq("user_id", session.user.id)
+        .eq("completed", false);
 
-            const { data: NOTES, error: noteError } = await supabase
-                .from("Notes")
-                .select("notes, entry_id")
-                .eq("user_id", session.user.id)
+      const { data: NOTES, error: noteError } = await supabase
+        .from("Notes")
+        .select("notes, entry_id")
+        .eq("user_id", session.user.id);
 
-            if (taskError) {
-                console.error("Error fetching user's task: ", taskError);
-            } else if (todoError) {
-                console.error("Error fetching user's todos: ", todoError);
-            } else if (noteError) {
-                console.error("Error fetching user's notes: ", noteError);
-            } else {
-                const tasksWithCompletionStatus = TASKS.map(task => ({
-                    ...task,
-                    isCompleted: false,
-                    isHidden: false,
-                    isTask: true,
-                }));
-                const todosWithCompletionStatus = TODOS.map(todo => ({
-                    ...todo,
-                    isCompleted: false,
-                    isHidden: false,
-                    isTask: false,
-                }));
-                const combinedTasksAndTodos = [...tasksWithCompletionStatus, ...todosWithCompletionStatus];
+      if (taskError) {
+        console.error("Error fetching user's task: ", taskError);
+      } else if (todoError) {
+        console.error("Error fetching user's todos: ", todoError);
+      } else if (noteError) {
+        console.error("Error fetching user's notes: ", noteError);
+      } else {
+        const tasksWithCompletionStatus = TASKS.map((task) => ({
+          ...task,
+          isCompleted: false,
+          isHidden: false,
+          isTask: true,
+        }));
+        const todosWithCompletionStatus = TODOS.map((todo) => ({
+          ...todo,
+          isCompleted: false,
+          isHidden: false,
+          isTask: false,
+        }));
+        const combinedTasksAndTodos = [
+          ...tasksWithCompletionStatus,
+          ...todosWithCompletionStatus,
+        ];
 
-                setTasks(combinedTasksAndTodos);
-                setTaskAmount(combinedTasksAndTodos.length);
-                setNotes(NOTES[0]?.notes? NOTES[0].notes : "Add your notes here...");
-            }
-        }
+        setTasks(combinedTasksAndTodos);
+        setTaskAmount(combinedTasksAndTodos.length);
+        setNotes(NOTES[0]?.notes ? NOTES[0].notes : "Add your notes here...");
+      }
     }
+  }
 
   useEffect(() => {
-      fetchUserTodosAndNotes();
+    fetchUserTodosAndNotes();
   }, [session, supabase]);
 
   const handleTodoUpdate = () => {
-      fetchUserTodosAndNotes();
+    fetchUserTodosAndNotes();
   };
 
   const handleNotesSubmit = async (newNotes) => {
-      try {
-          const { error } = await supabase
-              .from("Notes")
-              .upsert({
-                  user_id: session.user.id,
-                  notes: newNotes,
-              }, { onConflict: ['user_id'] });
+    try {
+      const { error } = await supabase.from("Notes").upsert(
+        {
+          user_id: session.user.id,
+          notes: newNotes,
+        },
+        { onConflict: ["user_id"] }
+      );
 
-          if (error) {
-              console.error("Error updating notes: ", error);
-          } else {
-              setNotes(newNotes);
-              toast({
-                  title: "Success!",
-                  description:
-                      "You have successfully updated your notes!",
-                  status: "success",
-                  duration: 2000,
-                  isClosable: true,
-              });
-          }
-      } catch (err) {
-          console.error("Error submitting notes: ", err);
+      if (error) {
+        console.error("Error updating notes: ", error);
+      } else {
+        setNotes(newNotes);
+        toast({
+          title: "Success!",
+          description: "You have successfully updated your notes!",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
       }
+    } catch (err) {
+      console.error("Error submitting notes: ", err);
+    }
   };
 
   const handleTaskCompletion = async (isTask, taskId) => {
-      try {
-          if (isTask) {
-              const {error} = await supabase
-                  .from("Tasks")
-                  .update({status: "Completed"})
-                  .eq("task_id", taskId);
+    try {
+      if (isTask) {
+        const { error } = await supabase
+          .from("Tasks")
+          .update({ status: "Completed" })
+          .eq("task_id", taskId);
 
-              if (error) {
-                  console.error("Error updating task status: ", error);
-                  return;
-              }
+        if (error) {
+          console.error("Error updating task status: ", error);
+          return;
+        }
 
-              setTasks((prevTasks) =>
-                  prevTasks.map((task) =>
-                      task.task_id === taskId
-                          ? {...task, isCompleted: true}
-                          : task
-                  )
-              );
-              setTaskAmount(taskAmount-1);
-              setTimeout(() => {
-                  setTasks((prevTasks) =>
-                      prevTasks.map((task) =>
-                          task.task_id === taskId
-                              ? {...task, isHidden: true}
-                              : task
-                      )
-                  );
-              }, 1000);
-          } else {
-              const {error} = await supabase
-                  .from("ToDos")
-                  .update({completed: true})
-                  .eq("entry_id", taskId);
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.task_id === taskId ? { ...task, isCompleted: true } : task
+          )
+        );
+        setTaskAmount(taskAmount - 1);
+        setTimeout(() => {
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task.task_id === taskId ? { ...task, isHidden: true } : task
+            )
+          );
+        }, 1000);
+      } else {
+        const { error } = await supabase
+          .from("ToDos")
+          .update({ completed: true })
+          .eq("entry_id", taskId);
 
-              if (error) {
-                  console.error("Error updating todo status: ", error);
-                  return;
-              }
+        if (error) {
+          console.error("Error updating todo status: ", error);
+          return;
+        }
 
-              setTasks((prevTasks) =>
-                  prevTasks.map((task) =>
-                      task.entry_id === taskId
-                          ? {...task, isCompleted: true}
-                          : task
-                  )
-              );
-              setTaskAmount(taskAmount-1);
-              setTimeout(() => {
-                  setTasks((prevTasks) =>
-                      prevTasks.map((task) =>
-                          task.entry_id === taskId
-                              ? {...task, isHidden: true}
-                              : task
-                      )
-                  );
-              }, 1000);
-          }
-      } catch (err) {
-          console.error("Error completing task: ", err);
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.entry_id === taskId ? { ...task, isCompleted: true } : task
+          )
+        );
+        setTaskAmount(taskAmount - 1);
+        setTimeout(() => {
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task.entry_id === taskId ? { ...task, isHidden: true } : task
+            )
+          );
+        }, 1000);
       }
+    } catch (err) {
+      console.error("Error completing task: ", err);
+    }
   };
 
   function getNumberSuffix(day) {
-      if (day > 3 && day < 21) return "th";
-      switch (day % 10) {
-          case 1:
-              return "st";
-          case 2:
-              return "nd";
-          case 3:
-              return "rd";
-          default:
-              return "th";
-      }
+    if (day > 3 && day < 21) return "th";
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
   }
 
   const [hours, setHours] = useState([]);
+  // console.log("hours: ", hours);
+
   function processHours(checkInData) {
     if (Array.isArray(checkInData)) {
-      checkInData.map((checkIn) => {
+      const newHours = checkInData.map((checkIn) => {
         let weekHours = 0;
         Object.values(checkIn.hours).forEach((task) => {
           weekHours += task.duration;
         });
-        setHours((prevHours) => [...prevHours, weekHours]);
+        return weekHours;
       });
-      setLoading(false);
+
+      setHours(newHours);
     }
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -231,10 +232,10 @@ function PersonalSummary() {
     };
 
     fetchCheckInData();
-  }, [supabase, session]);
+  }, [supabase, session, tasks, hours]);
 
   const { user_id } = useParams();
-  const [ organizations, setOrganizations ] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
 
   useEffect(() => {
     const fetchOrganization = async () => {
@@ -242,10 +243,10 @@ function PersonalSummary() {
         .from("UsersInOrganizations")
         .select("Organizations(*)")
         .eq("user_id", user_id);
-      
+
       if (!error) {
         const org_data = data.map((org) => org.Organizations);
-        console.log(org_data);
+        console.log('org data: ', org_data);
         setOrganizations(org_data);
       }
     };
@@ -313,40 +314,48 @@ function PersonalSummary() {
                     <Text margin={5}>{taskAmount} Tasks</Text>
                   </Flex>
                   <Divider />
-                  <AddTodoModal  onUpdate={handleTodoUpdate}/>
+                  <AddTodoModal onUpdate={handleTodoUpdate} />
                   <VStack align="left" marginTop={5} overflowY={"scroll"}>
-                    {tasks.filter((task) => !task.isHidden).map((task, index) => (
+                    {tasks
+                      .filter((task) => !task.isHidden)
+                      .map((task, index) => (
                         <Box key={task.task_id}>
-                            <Checkbox
-                                key={index}
-                                padding={"2px"}
-                                borderRadius={"5px"}
-                                paddingLeft={"15px"}
-                                marginTop={"5px"}
-                                isChecked={task.isCompleted}
-                                onChange={() => handleTaskCompletion(task.isTask, task.isTask?task.task_id:task.entry_id)}
+                          <Checkbox
+                            key={index}
+                            padding={"2px"}
+                            borderRadius={"5px"}
+                            paddingLeft={"15px"}
+                            marginTop={"5px"}
+                            isChecked={task.isCompleted}
+                            onChange={() =>
+                              handleTaskCompletion(
+                                task.isTask,
+                                task.isTask ? task.task_id : task.entry_id
+                              )
+                            }
+                          >
+                            <Text
+                              marginLeft={5}
+                              _after={{
+                                content: '""',
+                                position: "absolute",
+                                left: 0,
+                                top: "50%",
+                                height: "2px",
+                                width: task.isCompleted ? "100%" : "0",
+                                backgroundColor: "black",
+                                transition: "width 0.5s ease-in-out",
+                              }}
+                              opacity={task.isCompleted ? 0 : 1}
+                              transition="opacity 1s ease-in-out"
                             >
-                                <Text marginLeft={5}
-                                      _after={{
-                                          content: '""',
-                                          position: "absolute",
-                                          left: 0,
-                                          top: "50%",
-                                          height: "2px",
-                                          width: task.isCompleted ? "100%" : "0",
-                                          backgroundColor: "black",
-                                          transition: "width 0.5s ease-in-out",
-                                      }}
-                                      opacity={task.isCompleted ? 0 : 1}
-                                      transition="opacity 1s ease-in-out"
-                                >
-                                    {task.isTask?task.task_name:task.to_do}
-                                </Text>
-                            </Checkbox>
+                              {task.isTask ? task.task_name : task.to_do}
+                            </Text>
+                          </Checkbox>
                         </Box>
-                    ))}
+                      ))}
                     <Box></Box>
-                </VStack>
+                  </VStack>
                 </Card>
                 <Card backgroundColor={"#F4F4F4"} width={"55%"} height={"30vh"}>
                   <Text
@@ -377,14 +386,14 @@ function PersonalSummary() {
                     Notes
                   </Text>
                   <Editable
-                      value={notes}
-                      onChange={(newNotes) => setNotes(newNotes)}
-                      onSubmit={handleNotesSubmit}
-                      margin={2}
-                      marginLeft={4}
+                    value={notes}
+                    onChange={(newNotes) => setNotes(newNotes)}
+                    onSubmit={handleNotesSubmit}
+                    margin={2}
+                    marginLeft={4}
                   >
-                      <EditablePreview />
-                      <EditableTextarea />
+                    <EditablePreview />
+                    <EditableTextarea />
                   </Editable>
                 </Card>
                 <Flex flexDirection={"column"} width={"55%"}>
