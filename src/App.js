@@ -49,8 +49,8 @@ function App() {
 
 
           {/* SUMMARY PAGES */}
-          <Route path="/ra-summary" element={<RASummary />} />
-          <Route path="/personal-summary" element={<PersonalSummary />} />
+          <Route path="/ra-summary/:admin_id" element={<RASummary />} />
+          <Route path="/personal-summary/:user_id" element={<PersonalSummary />} />
         </Routes>
       </Router>
     </ChakraProvider>

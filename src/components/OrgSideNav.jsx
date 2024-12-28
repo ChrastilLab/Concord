@@ -22,7 +22,7 @@ export default function OrgSideNav({ organizations }) {
             justifyContent={"left"}
             variant={"ghost"}
             _hover={{ bg: "#D0EAF9" }}
-            onClick={() => navigate(`/studies/${org.organization_id}`)}
+            onClick={() => navigate(`/${org.organization_id}/studies/`)}
           >
             <Text fontWeight={"normal"} isTruncated>
               {org.organization_name}
