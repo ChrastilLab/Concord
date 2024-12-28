@@ -19,22 +19,16 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { supabase } from "../config/supabase";
+import { isAdmin} from "../utils/utils";
 
 const fetchUser = async () => {
   const { data, error } = await supabase.auth.getUser();
   return { user: data?.user, error };
 };
 
-const checkIfAdmin = async (userId) => {
-  const { data, error } = await supabase
-    .from("Users")
-    .select("user_type")
-    .eq("user_id", userId);
-  const isAdmin = !error && data.length > 0 && data[0].user_type;
-  return isAdmin;
-};
 
-function EditProject({ project, onProjectUpdate }) {
+
+function EditProject({ project, onProjectUpdate, organization_id }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userData, setUserData] = useState({});
   const [userAdmin, setUserAdmin] = useState(false);
@@ -42,25 +36,7 @@ function EditProject({ project, onProjectUpdate }) {
   const { Organizations, ...filteredProject } = project; 
   const [editData, setEditData] = useState({ ...filteredProject });
 
-  useEffect(() => {
-    const fetchData = async () => {
-        const { user, error } = await fetchUser();
-        const { data, dat_error } = await supabase
-                    .from("Users")
-                    .select("user_id, display_name");
 
-        if (!error && user && !dat_error) {
-            setUserData(user);
-            setLeaderData(data);
-            const isAdmin = await checkIfAdmin(user.id);
-            if (isAdmin) {
-                setUserAdmin(true);
-            }
-        }
-    };
-
-    fetchData();
-  }, []);
 
   const handleOpenEditClicked = (event) => {
     event.stopPropagation();

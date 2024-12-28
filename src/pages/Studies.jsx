@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import { Box, Grid, GridItem, Flex } from "@chakra-ui/react";
 
-
+import { isAdmin } from "../utils/utils";
 import { useParams } from "react-router-dom";
 import { supabase } from "../config/supabase";
 
@@ -22,6 +22,7 @@ function Studies() {
   const [projects, setProjects] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [organization, setOrganization] = useState("");
+  const [userIsAdmin, setUserIsAdmin] = useState(false)
 
   useEffect(() => {
     const fetchOrganization = async () => {
@@ -103,6 +104,23 @@ function Studies() {
   )
   .subscribe();
 
+
+  const fetchUser = async () => {
+    const { data, error } = await supabase.auth.getUser();
+    return { user: data?.user, error };
+  };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const { user, error } = await fetchUser();
+        const admin = await isAdmin(user.id, organization_id)
+        setUserIsAdmin(admin)
+    };
+
+    fetchData();
+  }, []);
+
   // if (isLoading) {
   //     return <></>;
   // }
@@ -125,7 +143,7 @@ function Studies() {
             >
               {projects.map((project) => (
                 <GridItem key={project.project_id}>
-                  <ProjectCard project={project} organization_id={organization_id} onProjectUpdate={triggerRefresh} gap={"20px"} />
+                  <ProjectCard project={project} organization_id={organization_id} onProjectUpdate={triggerRefresh} gap={"20px"} editable={userIsAdmin} />
                 </GridItem>
               ))}
             </Grid>

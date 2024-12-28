@@ -13,7 +13,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import EditProject from "./EditProject";
 import { useNavigate } from "react-router-dom";
 
-function ProjectCard({ project, organization_id, onProjectUpdate }) {
+function ProjectCard({ project, organization_id, onProjectUpdate, editable }) {
   const navigate = useNavigate();
 
   function formatDate(dateString) {
@@ -96,7 +96,7 @@ function ProjectCard({ project, organization_id, onProjectUpdate }) {
           marginTop={"-25px"}
           marginRight={"-4px"}
         >
-          <EditProject project={project} onProjectUpdate={onProjectUpdate} />
+           {editable ? <EditProject project={project} onProjectUpdate={onProjectUpdate} organization_id={organization_id} /> : <></>}
         </Flex>
       </Card>
     </Flex>
