@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import { Text, Button, Flex, Stack } from "@chakra-ui/react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
@@ -15,12 +15,10 @@ function Login() {
         data: { user },
         error,
       } = await supabase.auth.getUser();
-
       if (error) {
         console.error("Error fetching user: ", error);
         return;
       }
-
       if (user) {
         console.log("User logged in: ", user);
         navigate("/home");
@@ -28,7 +26,6 @@ function Login() {
     };
     fetchUser();
   }, [navigate]);
-
   const handleLogin = async () => {
     try {
       await handleGoogleSignIn();
