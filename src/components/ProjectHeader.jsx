@@ -18,7 +18,7 @@ import CreateNewStudy from "./CreateNewStudy";
 import { useState, useEffect } from "react";
 import { supabase } from "../config/supabase";
 
-function ProjectHeader({ projects, organization_id, organization }) {
+function ProjectHeader({ projects, organization_id, organization, editable }) {
   const [numberDone, setNumberDone] = useState(0);
   const [numberInProgress, setNumberInProgress] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
@@ -130,7 +130,7 @@ function ProjectHeader({ projects, organization_id, organization }) {
             </Flex>
 
             <Flex marginLeft={"-35px"} marginTop={"-162px"}>
-              < EditOrgForm organization_id={organization_id}/>
+              {editable ? < EditOrgForm organization_id={organization_id}/> : <></>}
             </Flex>
           </HStack>
         </CardBody>
