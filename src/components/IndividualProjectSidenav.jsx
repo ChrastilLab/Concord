@@ -87,7 +87,7 @@ function IndividualProjectSidenav({ organization_id, project_id, project_name })
           <Text overflow="hidden">Tasks</Text>
         </Button>
         <Button
-          onClick={() => navigate(`/studies/${organization}/${project_name}/documents`)}
+          onClick={() => navigate(`/${organization_id}/studies/${project_id}/documents`)}
           ml={"9%"}
           justifyContent={"left"}
           variant={"ghost"}
