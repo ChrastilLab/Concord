@@ -132,7 +132,7 @@ function Studies() {
           <Sidenav organization = {organization}/>
           <Flex flex={1} flexDirection={"column"} alignItems="center">
             <Box width="100%" px="68px">
-              <ProjectHeader projects={projects} organization_id={organization_id} organization = {organization}/>
+              <ProjectHeader projects={projects} organization_id={organization_id} organization={organization} editable={userIsAdmin}/>
             </Box>
             <Grid
               templateColumns="repeat(3, 1fr)"
